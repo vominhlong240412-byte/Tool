@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-black text-purple-400 p-6 font-mono flex items-center justify-center min-h-screen">
+    <div id="login-box" class="border-2 border-purple-900 p-6 rounded-xl bg-zinc-900/50 w-full max-w-sm shadow-[0_0_20px_rgba(147,51,234,0.3)]">
+        <h2 class="text-2xl font-bold text-center mb-6 text-white tracking-tighter">NEKO HUB LOGIN</h2>
+        <input type="text" id="k" placeholder="Dán Key vào đây..." class="w-full bg-black border border-purple-800 p-3 rounded mb-4 outline-none focus:border-purple-400 text-white">
+        <button onclick="check()" class="w-full bg-purple-800 text-white py-3 rounded font-bold hover:bg-purple-700">KÍCH HOẠT</button>
+        <p class="text-[10px] mt-4 text-center text-zinc-600">Lấy key tại: Link-GitHub-Của-Bạn</p>
+    </div>
+
+    <div id="tool" class="hidden border-2 border-green-900 p-6 rounded-xl bg-zinc-900/50 w-full max-w-sm shadow-[0_0_20px_rgba(34,197,94,0.3)]">
+        <h2 class="text-xl font-bold text-green-500 mb-4 text-center underline">MENU HACK READY</h2>
+        <button class="w-full bg-zinc-800 p-3 mb-2 border border-zinc-700 rounded text-left">>> Bật Auto Farm</button>
+        <button class="w-full bg-zinc-800 p-3 border border-zinc-700 rounded text-left">>> Bật Speed Hack</button>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDSMZ31Uh5gauvC2CxdxQ32KltPEnPvUL0",
+            databaseURL: "https://keysytem-4af25-default-rtdb.firebaseio.com/", // Link của bạn
+            projectId: "keysytem-4af25"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        window.check = async function() {
+            const val = document.getElementById('k').value;
+            if(!val) return alert("Nhập key đã em!");
+            
+            const snap = await get(ref(db, 'ActiveKeys/' + val));
+            if(snap.exists()) {
+                document.getElementById('login-box').style.display = 'none';
+                document.getElementById('tool').style.display = 'block';
+            } else {
+                alert("Key lỏ hoặc Admin đã xóa!");
+            }
+        }
+    </script>
+</body>
+</html>
