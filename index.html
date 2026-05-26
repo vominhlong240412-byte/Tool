@@ -2,44 +2,50 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>System Service</title>
     <style>
-        body { background: #121212; color: #e0e0e0; font-family: sans-serif; padding: 20px; }
-        .container { max-width: 400px; margin: auto; }
-        input, button, select { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #333; background: #1e1e1e; color: #fff; border-radius: 4px; }
+        /* Reset để app tràn toàn màn hình */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #000; color: #fff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto; height: 100vh; display: flex; flex-direction: column; }
+        
+        .screen { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 20px; }
+        input, select, button { width: 100%; padding: 15px; margin: 10px 0; background: #1c1c1e; border: none; color: #fff; border-radius: 12px; font-size: 16px; }
+        button { background: #0a84ff; font-weight: bold; }
+        
+        .header { text-align: center; margin-bottom: 30px; font-weight: bold; font-size: 20px; }
         .hidden { display: none; }
-        #log { font-size: 11px; color: #ff5252; margin-top: 10px; }
+        #log { color: #ff3b30; font-size: 14px; text-align: center; margin-top: 20px; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div id="scr-key">
-        <input type="text" id="k-in" placeholder="Nhập key...">
-        <button onclick="authKey()">Xác nhận</button>
-        <p style="font-size:9px; text-align:center" onclick="showAdmin()">v1.0.4</p>
-    </div>
+<div id="scr-key" class="screen">
+    <div class="header">XÁC THỰC HỆ THỐNG</div>
+    <input type="text" id="k-in" placeholder="Nhập Key...">
+    <select id="os">
+        <option value="android">Android</option>
+        <option value="ios">iOS</option>
+    </select>
+    <button onclick="authKey()">Đăng Nhập</button>
+    <p style="text-align:center; color:#333; font-size:10px" onclick="showAdmin()">v1.0.4</p>
+</div>
 
-    <div id="scr-admin" class="hidden">
-        <input type="text" id="k-gen" placeholder="Tạo key 12h">
-        <button onclick="genKey()">Khởi tạo</button>
-        <button onclick="hide('scr-admin')">Đóng</button>
-    </div>
+<div id="scr-login" class="screen hidden">
+    <div class="header">VIETSCHOOL SYNC</div>
+    <input type="text" id="fullname" placeholder="Họ và tên">
+    <select id="school"><option>Đông Thạnh</option><option>Đặng Thúc Vịnh</option></select>
+    <select id="class"><option>6</option><option>7</option><option>8</option><option>9</option></select>
+    <button onclick="submitInfo()">Tiếp tục</button>
+</div>
 
-    <div id="scr-login" class="hidden">
-        <input type="text" id="fullname" placeholder="Họ và tên">
-        <select id="school"><option>Đông Thạnh</option><option>Đặng Thúc Vịnh</option></select>
-        <select id="class"><option>6</option><option>7</option><option>8</option><option>9</option></select>
-        <button onclick="submitInfo()">Gửi & Vô Tool</button>
-    </div>
-
-    <div id="scr-tool" class="hidden">
-        <select id="mon"><option>Toán</option><option>Tiếng Anh</option><option>Văn</option></select>
-        <select id="ky"><option>Giữa kì 1</option><option>Cuối kì 1</option></select>
-        <input type="number" id="diem" placeholder="Điểm (1-10)">
-        <button onclick="runTool()">Thay đổi</button>
-        <div id="log"></div>
-    </div>
+<div id="scr-tool" class="screen hidden">
+    <div class="header">CẤU HÌNH DỮ LIỆU</div>
+    <select id="mon"><option>Toán</option><option>Anh</option><option>Văn</option></select>
+    <select id="ky"><option>Giữa kì 1</option><option>Cuối kì 1</option></select>
+    <input type="number" id="diem" placeholder="Điểm mục tiêu (1-10)">
+    <button onclick="runTool()">Thay đổi dữ liệu</button>
+    <div id="log"></div>
 </div>
 
 <script>
@@ -54,28 +60,23 @@
         } else { alert("Key không hợp lệ"); }
     }
 
-    function genKey() {
-        let k = document.getElementById('k-gen').value;
-        localStorage.setItem(k, new Date().getTime() + 43200000); // 12h
-        alert("Đã tạo: " + k);
-    }
-
-    function submitInfo() {
-        // Giả lập gửi dữ liệu cho admin
-        console.log("Data sent: " + document.getElementById('fullname').value);
-        hide('scr-login'); show('scr-tool');
-    }
+    function submitInfo() { hide('scr-login'); show('scr-tool'); }
 
     function runTool() {
         let log = document.getElementById('log');
         log.innerText = "Đang kết nối server (15p)...";
-        // Giả lập 15 phút
         setTimeout(() => {
-            log.innerText = "Vui lòng ẩn root cho vietschool Va chay tren may ao   ";
-        }, 3000); // Đổi 3000 thành 900000 để đợi đúng 15p
+            log.innerText = "LỖI: Vui lòng ẩn root cho vietschool";
+        }, 3000); // Đổi 3000 thành 900000 cho đúng 15p
     }
 
-    function showAdmin() { if(prompt("Admin Pass:") === "admin123") show('scr-admin'); }
+    function showAdmin() { 
+        if(prompt("Admin Pass:") === "admin123") {
+            let k = prompt("Tạo key:");
+            localStorage.setItem(k, new Date().getTime() + 43200000);
+            alert("Đã tạo key");
+        }
+    }
 </script>
 </body>
 </html>
