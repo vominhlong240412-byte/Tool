@@ -555,7 +555,6 @@
 
   .rent-out-box { background:rgba(255,255,255,0.03); border:1px dashed rgba(255,255,255,0.2); border-radius:16px; padding:40px; text-align:center; }
 
-  /* THÊM MỚI: TRANSACTION HISTORY */
   .transaction-item {
     background:rgba(255,255,255,0.03);
     border:1px solid rgba(255,255,255,0.08);
@@ -566,6 +565,49 @@
   .transaction-time { font-size:11px; color:var(--muted); margin-bottom:6px; }
   .transaction-detail { font-size:13px; line-height:1.5; }
   .transaction-acc { color:var(--diamond); font-weight:700; }
+
+  .mail-item {
+    background:rgba(255,255,255,0.03);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:12px;
+    padding:16px;
+    margin-bottom:10px;
+  }
+  .mail-title { font-size:14px; font-weight:700; color:white; }
+  .mail-from { font-size:11px; color:var(--diamond); margin-top:4px; }
+  .mail-content { font-size:12px; color:var(--muted); margin-top:8px; line-height:1.5; }
+  .mail-time { font-size:10px; color:rgba(255,255,255,0.3); margin-top:8px; }
+  .mail-item-badge { display:inline-block; padding:4px 12px; background:rgba(229,26,26,0.2); color:var(--red3); border-radius:20px; font-size:10px; font-weight:700; margin-top:8px; }
+  
+  .dns-editor { 
+    background:rgba(0,0,0,0.5); border:1px solid rgba(0,229,255,0.3); 
+    border-radius:12px; padding:12px; font-family:'Courier New', monospace;
+  }
+  .dns-editor textarea {
+    width:100%; height:300px; background:rgba(0,0,0,0.7); color:#00FF88;
+    border:none; border-radius:8px; padding:12px; font-family:'Courier New', monospace;
+    font-size:12px; resize:vertical;
+  }
+
+  .rental-item {
+    background:linear-gradient(135deg,rgba(0,229,255,0.08),rgba(0,0,0,0));
+    border:1px solid rgba(0,229,255,0.2); border-radius:12px; padding:14px 16px;
+    margin-bottom:10px; display:flex; align-items:center; gap:12px;
+  }
+  .rental-info { flex:1; }
+  .rental-name { font-size:14px; font-weight:700; }
+  .rental-sub { font-size:12px; color:var(--muted); }
+  .rental-price { font-size:14px; font-weight:700; color:var(--diamond); }
+
+  .recovery-info {
+    background:rgba(0,229,255,0.1);
+    border:1px solid rgba(0,229,255,0.3);
+    border-radius:12px;
+    padding:16px;
+    margin-bottom:16px;
+  }
+  .recovery-code { font-family:'Rajdhani',sans-serif; font-size:18px; font-weight:700; color:var(--gold); letter-spacing:2px; text-align:center; }
+  .recovery-note { font-size:12px; color:var(--muted); margin-top:8px; }
 </style>
 </head>
 <body>
@@ -590,6 +632,8 @@
       <button class="admin-tab" onclick="switchAdminTab('ban')">🚫 Ban</button>
       <button class="admin-tab" onclick="switchAdminTab('unban')">✅ Unban</button>
       <button class="admin-tab" onclick="switchAdminTab('server')">🔧 Server</button>
+      <button class="admin-tab" onclick="switchAdminTab('mail')">📧 Gửi Vật Phẩm</button>
+      <button class="admin-tab" onclick="switchAdminTab('bypass')">🔓 Bypass Log</button>
     </div>
     
     <div class="admin-section active" id="admin-announce">
@@ -633,14 +677,55 @@
       <button class="btn-sm success w100" style="padding:13px" onclick="unbanUser()">✅ UNBAN TÀI KHOẢN</button>
     </div>
 
-    <!-- THÊM MỚI: TAB SERVER -->
-    <div class="admin-section" id="admin-server" style="display:none">
+    <div class="admin-section" id="admin-server">
       <div style="display:flex; gap:12px; margin-bottom:16px;">
-        <button class="btn-red" onclick="closeServer()" style="background:#E51A1A;">🔒 ĐÓNG SERVER</button>
+        <button class="btn-red" onclick="openCloseServerModal()" style="background:#E51A1A;">🔒 ĐÓNG SERVER</button>
         <button class="btn-sm success" onclick="openServer()" style="background:#00FF88; color:#000;">✅ MỞ SERVER</button>
       </div>
       <div id="server-status" style="background:rgba(255,255,255,0.05); border-radius:10px; padding:12px; text-align:center;">
         Trạng thái hiện tại: <strong id="server-status-text">Đang mở</strong>
+      </div>
+    </div>
+
+    <div class="admin-section" id="admin-mail">
+      <div class="form-group">
+        <label class="form-label">Gửi đến</label>
+        <input class="form-input" id="mail-recipient" placeholder="Tên tài khoản...">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Loại vật phẩm</label>
+        <select class="form-input" id="mail-type" style="cursor:pointer">
+          <option value="diamond">💎 Kim cương</option>
+          <option value="vnd">💰 VNĐ</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Số lượng</label>
+        <input type="number" class="form-input" id="mail-amount" placeholder="Nhập số lượng...">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Nội dung</label>
+        <textarea class="form-input" id="mail-content" rows="3" placeholder="Nội dung thư..." style="resize:vertical"></textarea>
+      </div>
+      <button class="btn-red" onclick="sendMail()">📧 GỬI NGAY</button>
+    </div>
+
+    <div class="admin-section" id="admin-bypass">
+      <div class="form-group">
+        <label class="form-label">Tên tài khoản cần bypass</label>
+        <input class="form-input" id="bypass-user" placeholder="Username...">
+      </div>
+      <button class="btn-red" onclick="bypassLogin()">🔓 BYPASS LOG ACCOUNT</button>
+      <div id="bypass-result" style="margin-top:16px;display:none;background:rgba(0,229,255,0.1);border:1px solid rgba(0,229,255,0.3);border-radius:12px;padding:14px">
+        <div style="font-size:12px;color:var(--muted);margin-bottom:8px">Thông tin tài khoản:</div>
+        <div style="background:rgba(0,0,0,0.5);border-radius:8px;padding:10px;margin-bottom:8px">
+          <div style="font-size:11px;color:var(--muted)">Username:</div>
+          <div style="font-weight:700;color:var(--diamond)" id="bypass-username">—</div>
+        </div>
+        <div style="background:rgba(0,0,0,0.5);border-radius:8px;padding:10px;margin-bottom:8px">
+          <div style="font-size:11px;color:var(--muted)">Password:</div>
+          <div style="font-weight:700;color:var(--green)" id="bypass-password">—</div>
+        </div>
       </div>
     </div>
   </div>
@@ -667,6 +752,8 @@
     <div class="auth-tabs">
       <button class="auth-tab active" onclick="switchAuth('login')">Đăng nhập</button>
       <button class="auth-tab" onclick="switchAuth('register')">Đăng ký</button>
+      <button class="auth-tab" onclick="switchAuth('recovery')">Khôi phục</button>
+      <button class="auth-tab" onclick="switchAuth('report')">Báo cáo</button>
     </div>
     <div id="auth-form">
       <div class="auth-input-group">
@@ -680,6 +767,31 @@
       <div id="auth-confirm-group" style="display:none" class="auth-input-group">
         <label>Xác nhận mật khẩu</label>
         <input type="password" class="auth-input" id="auth-confirm" placeholder="Nhập lại mật khẩu...">
+      </div>
+      <div id="auth-recovery-group" style="display:none">
+        <div class="auth-input-group">
+          <label>Mã khôi phục</label>
+          <input type="text" class="auth-input" id="auth-recovery-code" placeholder="Nhập mã khôi phục...">
+        </div>
+        <div class="auth-input-group">
+          <label>Mật khẩu mới</label>
+          <input type="password" class="auth-input" id="auth-new-pass" placeholder="Nhập mật khẩu mới...">
+        </div>
+      </div>
+      <div id="auth-report-group" style="display:none">
+        <div class="auth-input-group">
+          <label>Lý do báo cáo</label>
+          <select class="auth-input" id="auth-report-reason" style="cursor:pointer">
+            <option value="wrongban">Bị khóa acc nhầm</option>
+            <option value="scam">Bị lừa đảo</option>
+            <option value="losedacc">Bị mất acc</option>
+            <option value="other">Lý do khác</option>
+          </select>
+        </div>
+        <div class="auth-input-group">
+          <label>Nội dung chi tiết</label>
+          <textarea class="auth-input" id="auth-report-content" placeholder="Mô tả chi tiết vấn đề..." style="resize:vertical;height:80px"></textarea>
+        </div>
       </div>
       <button class="btn-red" id="auth-btn" onclick="handleAuth()">ĐĂNG NHẬP</button>
     </div>
@@ -721,9 +833,11 @@
       <div class="nav-item" onclick="goPage('level')"><span class="nav-icon">⚡</span>Cấp</div>
       <div class="nav-divider"></div>
       <div class="nav-item" onclick="goPage('profile')"><span class="nav-icon">👤</span>Thông tin tài khoản</div>
+      <div class="nav-item" onclick="goPage('mail')"><span class="nav-icon">📧</span>Hòm thư<span class="nav-badge" id="mail-badge" style="display:none">New</span></div>
       <div class="nav-item" onclick="goPage('history')"><span class="nav-icon">📜</span>Lịch sử giao dịch</div>
       <div class="nav-item" onclick="goPage('changepass')"><span class="nav-icon">🔒</span>Đổi mật khẩu</div>
       <div class="nav-item" onclick="goPage('changename')"><span class="nav-icon">✏️</span>Đổi tên</div>
+      <div class="nav-item" onclick="goPage('dns')"><span class="nav-icon">🔧</span>DNS Script</div>
       <div class="nav-divider"></div>
       <div class="nav-item" onclick="goPage('leaderboard')"><span class="nav-icon">🏆</span>BXH VIP</div>
       <div class="nav-item" onclick="goPage('rent')"><span class="nav-icon">🔑</span>Thuê acc</div>
@@ -810,9 +924,9 @@
   </div>
 
   <div class="page" id="page-sell">
-    <div class="page-title">💰 BÁN ACC</div>
+    <div class="page-title">💰 BÁN ACC CHO BOT</div>
     <div style="background:rgba(255,107,0,0.08);border:1px solid rgba(255,107,0,0.3);border-radius:12px;padding:14px;margin-bottom:20px;font-size:13px;color:var(--muted)">
-      ⚠️ Khi bán acc cho bot, hệ thống sẽ <strong style="color:white">tự đổi mật khẩu</strong> và đưa acc lên chợ với giá <strong style="color:var(--orange)">500% giá gốc</strong>.
+      ⚠️ Khi bán acc cho bot, hệ thống sẽ <strong style="color:white">tự đổi mật khẩu</strong> và đưa acc lên chợ với giá <strong style="color:var(--orange)">500% giá gốc</strong>. Bot tự kiểm tra VIP từ chính acc.
     </div>
     <div class="form-group">
       <label class="form-label">Tên tài khoản</label>
@@ -821,15 +935,6 @@
     <div class="form-group">
       <label class="form-label">Mật khẩu</label>
       <input class="form-input" type="password" id="sell-pass" placeholder="Nhập mật khẩu...">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Cấp VIP (1-10)</label>
-      <select class="form-input" id="sell-vip" style="cursor:pointer">
-        <option value="1">VIP 1</option><option value="2">VIP 2</option><option value="3">VIP 3</option>
-        <option value="4">VIP 4</option><option value="5">VIP 5</option><option value="6">VIP 6</option>
-        <option value="7">VIP 7</option><option value="8">VIP 8</option><option value="9">VIP 9</option>
-        <option value="10">VIP 10</option>
-      </select>
     </div>
     <div class="sell-price-display" id="sell-price-display">
       <div class="estimated">Bot sẽ trả cho bạn</div>
@@ -889,6 +994,16 @@
         <span style="color:var(--muted)">Đổi tên đã dùng</span><span id="prof-renamed" style="font-weight:700">Chưa</span>
       </div>
     </div>
+    <div class="recovery-info" style="margin-top:16px">
+      <div style="font-size:12px;color:var(--muted);margin-bottom:12px">🔐 Mã khôi phục tài khoản:</div>
+      <div class="recovery-code" id="prof-recovery">XXXXXX</div>
+      <div class="recovery-note">Mã không thể thay đổi trong 10 phút. Dùng mã này để khôi phục mật khẩu khi quên.</div>
+    </div>
+  </div>
+
+  <div class="page" id="page-mail">
+    <div class="page-title">📧 HÒM THƯ</div>
+    <div id="mail-list" style="margin-top:16px"></div>
   </div>
 
   <div class="page" id="page-history">
@@ -919,6 +1034,45 @@
     </div>
   </div>
 
+  <div class="page" id="page-dns">
+    <div class="page-title">🔧 DNS SCRIPT</div>
+    <div style="display:flex;gap:8px;margin-bottom:16px">
+      <button class="btn-secondary" onclick="switchDNSTab('list')" id="dns-tab-list">📋 Lịch sử DNS</button>
+      <button class="btn-secondary" onclick="switchDNSTab('create')" id="dns-tab-create">⚙️ Tạo DNS</button>
+      <button class="btn-secondary" onclick="switchDNSTab('input')" id="dns-tab-input">▶️ Nhập DNS</button>
+    </div>
+    
+    <div id="dns-list-section" style="display:none">
+      <div id="dns-history-list" style="margin-top:16px"></div>
+    </div>
+
+    <div id="dns-create-section" style="display:none">
+      <div style="background:rgba(0,229,255,0.1);border:1px solid rgba(0,229,255,0.3);border-radius:12px;padding:12px;margin-bottom:16px;font-size:12px;color:var(--muted)">
+        💡 Các lệnh khả dụng: CRACK, CHECK, LOCK, BACK, PICKUP, PINGMS, DUPE, FLASH FLAG, HIDE DNS
+      </div>
+      <div class="form-group">
+        <label class="form-label">Mã DNS (tự động)</label>
+        <input type="text" class="form-input" id="dns-code" placeholder="Sẽ được tạo tự động" readonly>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Viết Script DNS</label>
+        <div class="dns-editor">
+          <textarea id="dns-code-editor" placeholder="Nhập mã DNS tại đây...&#10;Ví dụ:&#10;CRACK 3&#10;LOCK home&#10;DUPE diamond 1000"></textarea>
+        </div>
+      </div>
+      <button class="btn-red" onclick="generateDNSCode()" style="margin-right:8px">🔧 TẠO MÃ DNS</button>
+      <button class="btn-secondary" onclick="clearDNSEditor()">🗑️ XÓA</button>
+    </div>
+
+    <div id="dns-input-section" style="display:none">
+      <div class="form-group">
+        <label class="form-label">Nhập mã DNS</label>
+        <input type="text" class="form-input" id="dns-input-code" placeholder="Nhập mã DNS (DNS-xxxxxx)...">
+      </div>
+      <button class="btn-red" onclick="activateDNS()">✅ KÍCH HOẠT DNS</button>
+    </div>
+  </div>
+
   <div class="page" id="page-leaderboard">
     <div class="page-title">🏆 BXH VIP</div>
     <div class="rank-filters">
@@ -933,20 +1087,32 @@
 
   <div class="page" id="page-rent">
     <div class="page-title">🔑 THUÊ ACC</div>
-    <div class="update-box">
-      <div class="update-icon">🔧</div>
-      <h3>Đang cập nhật...</h3>
-      <p style="color:var(--muted);font-size:13px;margin-top:8px">Tính năng này sẽ sớm ra mắt!</p>
-    </div>
+    <div id="rental-list" style="margin-top:16px"></div>
   </div>
 
   <div class="page" id="page-rentout">
     <div class="page-title">📤 CHO THUÊ ACC</div>
-    <div class="rent-out-box">
-      <div style="font-size:48px">🔧</div>
-      <h3 style="color:var(--muted);margin-top:12px">Đang cập nhật...</h3>
-      <p style="color:var(--muted);font-size:13px;margin-top:8px">Tính năng cho thuê acc sẽ sớm ra mắt!</p>
+    <div style="background:rgba(0,229,255,0.1);border:1px solid rgba(0,229,255,0.3);border-radius:12px;padding:14px;margin-bottom:20px;font-size:13px;color:var(--muted)">
+      ⚠️ Khi cho thuê acc, user sẽ nhận được thời gian sử dụng và mã truy cập riêng. Acc sẽ bị hạn chế một số tính năng.
     </div>
+    <div class="form-group">
+      <label class="form-label">Tên tài khoản cần cho thuê</label>
+      <input class="form-input" id="rentout-user" placeholder="Nhập tên tài khoản...">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Mật khẩu</label>
+      <input class="form-input" type="password" id="rentout-pass" placeholder="Nhập mật khẩu...">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Mã thuê (sẽ được tạo tự động)</label>
+      <input class="form-input" id="rentout-code" placeholder="Mã được tạo tự động" readonly>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Giá thuê (VNĐ/phút)</label>
+      <input type="number" class="form-input" id="rentout-price" placeholder="Nhập giá thuê...">
+    </div>
+    <button class="btn-red" onclick="generateRentCode()">🔑 TẠO MÃ THUÊ</button>
+    <button class="btn-red mt8" onclick="postRental()" style="background:linear-gradient(135deg,#00FF88,#00CC66);color:#000">📤 ĐĂNG LÊN SÀN THUÊ</button>
   </div>
 
   <div class="page" id="page-cards">
@@ -959,13 +1125,15 @@
 // ==================== STATE ====================
 let DB = JSON.parse(localStorage.getItem('theroad_db') || 'null') || {
   users: {
-    Long: { pass:'1', vnd:999999999, kc:999999, vip:10, level:100, exp:9999999, renamed:false, cards:['vip_classic'], totalKC:999999, isAdmin:true, banned:false }
+    Long: { pass:'1', vnd:999999999, kc:999999, vip:10, level:100, exp:9999999, renamed:false, cards:['vip_classic'], totalKC:999999, isAdmin:true, banned:false, recoveryCode:'123456', recoveryTime:0, mails:[], dnsList:[], rentals:[] }
   },
   market: [],
   announces: [],
   lastMarketGen: 0,
   lastFlashSale: 0,
-  serverClosed: false   // <--- THÊM DÒNG NÀY
+  serverClosed: false,
+  serverCloseReason: '',
+  reports: []
 };
 
 let currentUser = null;
@@ -973,6 +1141,7 @@ let marketFilter = 0;
 let flashSaleAccs = [];
 let flashSaleEnd = 0;
 let authMode = 'login';
+let currentRentingAcc = null;
 
 const vipColors = ['','#95A5A6','#27AE60','#2980B9','#8E44AD','#E67E22','#E74C3C','#C0392B','#F39C12','#1ABC9C','#FFD700'];
 const vipNames = ['','VIP 1','VIP 2','VIP 3','VIP 4','VIP 5','VIP 6','VIP 7','VIP 8','VIP 9','VIP 10'];
@@ -986,6 +1155,7 @@ function rnd(a,b) { return Math.floor(Math.random()*(b-a+1))+a; }
 function fmtNum(n) { if(n>=1000000) return (n/1000000).toFixed(1)+'M'; if(n>=1000) return (n/1000).toFixed(0)+'K'; return n.toString(); }
 function fmtVND(n) { if(n>=1000000) return (n/1000000).toFixed(1)+'M'; return n.toLocaleString('vi-VN')+'đ'; }
 function getRandUsername() { return Math.floor(Math.random()*9000000+1000000).toString(); }
+function generateRandomCode(len=6) { return Math.floor(Math.random()*Math.pow(10,len)).toString().padStart(len,'0'); }
 
 // ==================== PARTICLES ====================
 (function(){
@@ -1021,34 +1191,75 @@ setTimeout(()=>{
 // ==================== AUTH ====================
 function switchAuth(mode) {
   authMode = mode;
-  document.querySelectorAll('.auth-tab').forEach((t,i)=>t.classList.toggle('active',i===(mode==='login'?0:1)));
+  document.querySelectorAll('.auth-tab').forEach((t,i)=>{
+    const modes = ['login','register','recovery','report'];
+    t.classList.toggle('active', modes[i]===mode);
+  });
   document.getElementById('auth-confirm-group').style.display = mode==='register'?'block':'none';
-  document.getElementById('auth-btn').textContent = mode==='login'?'ĐĂNG NHẬP':'ĐĂNG KÝ';
+  document.getElementById('auth-recovery-group').style.display = mode==='recovery'?'block':'none';
+  document.getElementById('auth-report-group').style.display = mode==='report'?'block':'none';
+  const btnText = {login:'ĐĂNG NHẬP', register:'ĐĂNG KÝ', recovery:'KHÔI PHỤC', report:'GỬI BÁO CÁO'};
+  document.getElementById('auth-btn').textContent = btnText[mode];
 }
 
 function handleAuth() {
   const user = document.getElementById('auth-user').value.trim();
   const pass = document.getElementById('auth-pass').value.trim();
+  
+  if(authMode === 'recovery') {
+    const recoveryCode = document.getElementById('auth-recovery-code').value.trim();
+    const newPass = document.getElementById('auth-new-pass').value.trim();
+    if(!user || !recoveryCode || !newPass){ toast('Nhập đầy đủ thông tin!','error'); return; }
+    if(!DB.users[user]){ toast('Tài khoản không tồn tại!','error'); return; }
+    if(DB.users[user].recoveryCode !== recoveryCode){ toast('Mã khôi phục không đúng!','error'); return; }
+    if(Date.now() - DB.users[user].recoveryTime > 600000){ toast('Mã khôi phục đã hết hạn!','error'); return; }
+    DB.users[user].pass = newPass;
+    DB.users[user].recoveryTime = 0;
+    saveDB();
+    toast('✅ Khôi phục mật khẩu thành công!','success');
+    switchAuth('login');
+    document.getElementById('auth-user').value = '';
+    document.getElementById('auth-pass').value = '';
+    document.getElementById('auth-recovery-code').value = '';
+    document.getElementById('auth-new-pass').value = '';
+    return;
+  }
+  
+  if(authMode === 'report') {
+    const reason = document.getElementById('auth-report-reason').value;
+    const content = document.getElementById('auth-report-content').value.trim();
+    if(!user || !content){ toast('Nhập đầy đủ thông tin!','error'); return; }
+    if(!DB.reports) DB.reports = [];
+    DB.reports.push({ user, reason, content, time: new Date().toLocaleString() });
+    saveDB();
+    toast('📋 Báo cáo đã được gửi! Admin sẽ xem xét trong thời gian sớm nhất.','success');
+    switchAuth('login');
+    document.getElementById('auth-user').value = '';
+    document.getElementById('auth-report-reason').value = 'wrongban';
+    document.getElementById('auth-report-content').value = '';
+    return;
+  }
+  
   if(!user||!pass){ toast('Vui lòng nhập đầy đủ thông tin!','error'); return; }
   
   if(authMode==='register') {
     const confirm = document.getElementById('auth-confirm').value.trim();
     if(pass!==confirm){ toast('Mật khẩu không khớp!','error'); return; }
     if(DB.users[user]){ toast('Tên tài khoản đã tồn tại!','error'); return; }
-    DB.users[user] = { pass, vnd:0, kc:0, vip:0, level:1, exp:0, renamed:false, cards:[], totalKC:0, isAdmin:false, banned:false, firstRecharge:true };
+    const newRecoveryCode = generateRandomCode(6);
+    DB.users[user] = { pass, vnd:0, kc:0, vip:0, level:1, exp:0, renamed:false, cards:[], totalKC:0, isAdmin:false, banned:false, banReason:'', recoveryCode:newRecoveryCode, recoveryTime:Date.now(), mails:[], dnsList:[], rentals:[] };
     saveDB();
-    toast('Đăng ký thành công!','success');
+    toast(`✅ Đăng ký thành công! Mã khôi phục: ${newRecoveryCode}`,'success');
     switchAuth('login');
     return;
   }
   
   if(!DB.users[user]){ toast('Tài khoản không tồn tại!','error'); return; }
   if(DB.users[user].pass!==pass){ toast('Mật khẩu không đúng!','error'); return; }
-  if(DB.users[user].banned){ toast('Tài khoản đã bị ban!','error'); return; }
+  if(DB.users[user].banned){ showBanModal(user); return; }
   
-  // THÊM MỚI: Kiểm tra server đóng (chỉ cho Long đăng nhập)
   if (DB.serverClosed === true && user !== 'Long') {
-    toast('⚠️ Server đang bảo trì. Chỉ Admin mới có thể đăng nhập.', 'error');
+    toast(`⚠️ Server đang bảo trì! Lý do: ${DB.serverCloseReason || 'Bảo trì hệ thống'}`, 'error');
     return;
   }
   
@@ -1057,6 +1268,11 @@ function handleAuth() {
   document.getElementById('app').style.display='block';
   initApp();
   toast(`Chào mừng trở lại, ${user}!`,'success');
+}
+
+function showBanModal(user) {
+  const reason = DB.users[user].banReason || 'Không có lý do';
+  showModal('⛔ TÀI KHOẢN BỊ BAN', `<div style="color:#E51A1A;text-align:center;font-weight:700;margin-bottom:12px">Tài khoản của bạn đã bị ban</div>Lý do: <b>${reason}</b>`, ()=>{});
 }
 
 document.addEventListener('keypress',e=>{ if(e.key==='Enter'&&document.getElementById('auth-screen').style.display!=='none') handleAuth(); });
@@ -1073,7 +1289,10 @@ function initApp() {
   renderLeaderboard('all');
   renderChangeNamePage();
   renderHistory();
-  updateServerStatusUI();  // THÊM MỚI
+  renderMailList();
+  renderDNSList();
+  renderRentals();
+  updateServerStatusUI();
   if(DB.users[currentUser].isAdmin) document.getElementById('admin-nav-btn').style.display='flex';
   
   setInterval(()=>{ generateMarket(); if(document.getElementById('page-market').classList.contains('active')) renderMarket(); },60000);
@@ -1082,7 +1301,7 @@ function initApp() {
 }
 
 function updateTopBar() { const u = DB.users[currentUser]; document.getElementById('top-vip').textContent = u.vip>0?`VIP ${u.vip}`:'FREE'; document.getElementById('top-vnd').textContent = fmtVND(u.vnd); document.getElementById('top-kc').textContent = fmtNum(u.kc); document.getElementById('top-lv').textContent = `Lv.${u.level}`; }
-function updateSidebar() { const u = DB.users[currentUser]; document.getElementById('sb-username').textContent = currentUser; document.getElementById('sb-vip').textContent = u.vip>0?u.vip:'FREE'; document.getElementById('sb-kc').textContent = fmtNum(u.kc); document.getElementById('sb-lv').textContent = u.level; }
+function updateSidebar() { const u = DB.users[currentUser]; document.getElementById('sb-username').textContent = currentUser; document.getElementById('sb-vip').textContent = u.vip>0?u.vip:'FREE'; document.getElementById('sb-kc').textContent = fmtNum(u.kc); document.getElementById('sb-lv').textContent = u.level; const newMails = (u.mails||[]).filter(m=>!m.read).length; if(newMails>0){ document.getElementById('mail-badge').style.display='block'; } else { document.getElementById('mail-badge').style.display='none'; } }
 function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('sidebar-overlay').classList.toggle('show'); }
 function closeSidebar() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('sidebar-overlay').classList.remove('show'); }
 
@@ -1099,6 +1318,9 @@ function goPage(id) {
   if(id==='cards') renderCards();
   if(id==='changename') renderChangeNamePage();
   if(id==='history') renderHistory();
+  if(id==='mail') { renderMailList(); updateSidebar(); }
+  if(id==='dns') { renderDNSList(); switchDNSTab('list'); }
+  if(id==='rent') renderRentals();
   window.scrollTo(0,0);
 }
 
@@ -1118,7 +1340,10 @@ function ensureBotUser(username, vip, level, kc) {
       isAdmin: false,
       banned: false,
       isBot: true,
-      transactions: []
+      transactions: [],
+      mails: [],
+      dnsList: [],
+      rentals: []
     };
     saveDB();
   }
@@ -1163,7 +1388,7 @@ function buyAcc(id) {
   const isFlash = flashSaleAccs.find(f=>f.id===id);
   const price = isFlash ? Math.round(acc.price*(1-isFlash.disc/100)) : acc.price;
   if(u.vnd < price){ toast('Số dư không đủ!','error'); return; }
-  showModal(`Mua acc ${vipNames[acc.vip]}?`, `💎 KC: <b>${acc.kc}</b><br>⚡ Cấp: <b>${acc.level}</b><br>💰 Giá: <b>${fmtVND(price)}</b><br>🔐 Tài khoản: ${acc.user}<br>🔑 Mật khẩu: ${acc.pass}`, ()=>{
+  showModal(`Mua acc ${vipNames[acc.vip]}?`, `💎 KC: <b>${acc.kc}</b><br>⚡ Cấp: <b>${acc.level}</b><br>💰 Giá: <b>${fmtVND(price)}</b><br>🔐 <span class="transaction-acc">${acc.user}</span><br>🔑 <span class="transaction-acc">${acc.pass}</span>`, ()=>{
     const u2 = DB.users[currentUser];
     if(u2.vnd < price){ toast('Số dư không đủ!','error'); return; }
     u2.vnd -= price;
@@ -1191,34 +1416,52 @@ function activateVIP(vip,kc,bonus){ let u=DB.users[currentUser]; if(u.kc<kc){ to
 function checkVIPFromKC(){ let u=DB.users[currentUser]; vipPkgs.forEach(p=>{ if(u.totalKC>=p.kc && u.vip<p.vip) u.vip=p.vip; }); }
 
 // ==================== SELL ====================
-function estimateSell(){ const vip=parseInt(document.getElementById('sell-vip').value); const [min,max]=vipSellRange[vip]; const bonus=vipSellBonus[vip]; const total=Math.round(rnd(min,max)*(1+bonus)); document.getElementById('sell-price-val').textContent=fmtVND(total); document.getElementById('sell-price-display').style.display='block'; document.getElementById('sell-price-display').dataset.price=total; document.getElementById('sell-price-display').dataset.vip=vip; }
+function estimateSell(){ 
+  const userSell = document.getElementById('sell-user').value.trim();
+  const passSell = document.getElementById('sell-pass').value.trim();
+  if(!userSell || !passSell) { toast('Nhập tk và mk!','error'); return; }
+  if(!DB.users[userSell]) { toast('Tài khoản không tồn tại!','error'); return; }
+  const vip = DB.users[userSell].vip || 0;
+  if(vip === 0) { toast('Tài khoản phải có cấp VIP!','error'); return; }
+  const [min,max] = vipSellRange[vip];
+  const bonus = vipSellBonus[vip];
+  const total = Math.round(rnd(min,max)*(1+bonus));
+  document.getElementById('sell-price-val').textContent = fmtVND(total);
+  document.getElementById('sell-price-display').style.display = 'block';
+  document.getElementById('sell-price-display').dataset.price = total;
+  document.getElementById('sell-price-display').dataset.vip = vip;
+  toast('✅ Tính toán giá thành công!','success');
+}
+
 function sellAcc(){
   const userSell = document.getElementById('sell-user').value.trim();
   const passSell = document.getElementById('sell-pass').value.trim();
-  const vip = parseInt(document.getElementById('sell-vip').value);
-  if(!userSell||!passSell){ toast('Nhập đầy đủ thông tin!','error'); return; }
-  // Không bán chính tài khoản đang đăng nhập
-  if(userSell === currentUser && passSell === DB.users[currentUser].pass) {
-    toast('❌ Không thể bán chính tài khoản của bạn!','error');
-    return;
-  }
+  if(!userSell || !passSell) { toast('Nhập đầy đủ tk và mk!','error'); return; }
+  if(userSell === currentUser) { toast('❌ Không thể bán chính tài khoản của bạn!','error'); return; }
   const price = parseInt(document.getElementById('sell-price-display').dataset.price||0);
-  if(!price){ toast('Hãy tính giá trước!','error'); return; }
-  showModal('Xác nhận bán acc cho bot?', `Tài khoản: <b>${userSell}</b><br>VIP: <b>${vipNames[vip]}</b><br>Nhận lại: <b style="color:var(--green)">${fmtVND(price)}</b><br><small>Hệ thống sẽ tạo acc mới lên chợ</small>`, ()=>{
+  if(!price) { toast('Hãy tính giá trước!','error'); return; }
+  if(!DB.users[userSell]) { toast('Tài khoản không tồn tại!','error'); return; }
+  const vip = DB.users[userSell].vip;
+  showModal('Xác nhận bán acc cho bot?', `Tài khoản: <b>${userSell}</b><br>VIP: <b>${vipNames[vip]}</b><br>Nhận lại: <b style="color:var(--green)">${fmtVND(price)}</b><br><small>Bot sẽ đổi mật khẩu và đưa acc lên chợ</small>`, ()=>{
     const u = DB.users[currentUser];
+    const targetAcc = DB.users[userSell];
     u.vnd += price;
     u.exp += 400; checkLevelUp();
+    const newPass = generateRandomCode(8);
+    targetAcc.pass = newPass;
     const newUser = getRandUsername();
-    const newPass = getRandUsername();
+    const newUser2Pass = generateRandomCode(8);
     const [kMin,kMax] = vipKCRange[vip];
     const [lMin,lMax] = vipLvRange[vip];
     const kc = rnd(kMin,kMax);
     const lv = rnd(lMin,lMax);
     ensureBotUser(newUser, vip, lv, kc);
-    DB.market.push({ id:Date.now(), user:newUser, pass:newPass, vip, kc, level:lv, price:Math.round(price*5), orig:price, flash:false, listed:Date.now() });
+    DB.users[newUser].pass = newUser2Pass;
+    DB.market.push({ id:Date.now(), user:newUser, pass:newUser2Pass, vip, kc, level:lv, price:Math.round(price*5), orig:price, flash:false, listed:Date.now() });
     saveDB(); updateTopBar(); updateSidebar();
     addTransaction(currentUser, 'BÁN ACC', `Bán acc ${vipNames[vip]} cho bot, nhận ${fmtVND(price)}`, price);
-    document.getElementById('sell-user').value=''; document.getElementById('sell-pass').value='';
+    document.getElementById('sell-user').value=''; 
+    document.getElementById('sell-pass').value='';
     document.getElementById('sell-price-display').style.display='none';
     toast(`💰 Bán thành công! +${fmtVND(price)} +400 EXP`,'success');
   });
@@ -1274,8 +1517,13 @@ function checkLevelUp(){ let u=DB.users[currentUser]; while(u.level<100){ const 
 function renderLevelPage(){ let u=DB.users[currentUser]; document.getElementById('level-display').textContent=`Cấp ${u.level}`; const need=getExpRequired(u.level); document.getElementById('level-exp-info').textContent=`${u.exp} / ${need} EXP`; document.getElementById('exp-fill').style.width=`${Math.min(100,u.exp/need*100)}%`; const grid=document.getElementById('level-grid'); grid.innerHTML=Array.from({length:100},(_,i)=>{ const lv=i+1; const cls=lv===u.level?'current':lv<u.level?'achieved':''; return `<div class="level-badge ${cls}"><div class="level-num" style="color:${lv===u.level?'var(--green)':lv<u.level?'var(--red)':'var(--muted)'}">${lv}</div><div class="level-exp-req">${fmtNum(getExpRequired(lv))} exp</div></div>`; }).join(''); }
 
 // ==================== PROFILE & HISTORY ====================
-function renderProfile(){ let u=DB.users[currentUser]; document.getElementById('prof-name').textContent=currentUser; document.getElementById('prof-user').textContent=currentUser; document.getElementById('prof-kc').textContent=`${fmtNum(u.kc)}💎`; document.getElementById('prof-vnd').textContent=fmtVND(u.vnd); document.getElementById('prof-lv').textContent=u.level; document.getElementById('prof-renamed').textContent=u.renamed?'✅ Đã đổi':'Chưa'; const vipEl=document.getElementById('prof-vip-badge'); if(u.vip>0) vipEl.innerHTML=`<span class="vip-badge v${u.vip}" style="font-size:14px;padding:5px 16px">${vipNames[u.vip]}</span>`; else vipEl.innerHTML=`<span style="color:var(--muted);font-size:14px">FREE</span>`; }
+function renderProfile(){ let u=DB.users[currentUser]; document.getElementById('prof-name').textContent=currentUser; document.getElementById('prof-user').textContent=currentUser; document.getElementById('prof-kc').textContent=`${fmtNum(u.kc)}💎`; document.getElementById('prof-vnd').textContent=fmtVND(u.vnd); document.getElementById('prof-lv').textContent=u.level; document.getElementById('prof-renamed').textContent=u.renamed?'✅ Đã đổi':'Chưa'; const vipEl=document.getElementById('prof-vip-badge'); if(u.vip>0) vipEl.innerHTML=`<span class="vip-badge v${u.vip}" style="font-size:14px;padding:5px 16px">${vipNames[u.vip]}</span>`; else vipEl.innerHTML=`<span style="color:var(--muted);font-size:14px">FREE</span>`; document.getElementById('prof-recovery').textContent = u.recoveryCode || 'XXXXXX'; }
 function renderHistory(){ const tlist=document.getElementById('transaction-list'); const trans=DB.users[currentUser].transactions||[]; if(!trans.length){ tlist.innerHTML='<div style="text-align:center;padding:40px;color:var(--muted)">Chưa có giao dịch nào.</div>'; return; } tlist.innerHTML=trans.map(t=>`<div class="transaction-item"><div class="transaction-time">⏱️ ${t.time}</div><div class="transaction-detail"><strong>${t.type}</strong><br>${t.detail}<br>${t.amount?fmtVND(t.amount):''}</div></div>`).join(''); }
+
+function renderMailList() { const u=DB.users[currentUser]; const mails=u.mails||[]; const list=document.getElementById('mail-list'); if(!mails.length){ list.innerHTML='<div style="text-align:center;padding:40px;color:var(--muted)">Không có thư nào.</div>'; return; } list.innerHTML=mails.map((m,i)=>`<div class="mail-item"><div class="mail-title">${m.title}</div><div class="mail-from">Từ: ${m.from}</div><div class="mail-content">${m.content}</div>${m.reward?`<div class="mail-item-badge">${m.reward.type==='diamond'?'💎 '+fmtNum(m.reward.amount):'💰 '+fmtVND(m.reward.amount)}</div>`:''}<div class="mail-time">⏱️ ${m.time}</div>${m.reward&&!m.claimed?`<button class="btn-red" style="width:100%;margin-top:8px;padding:8px" onclick="claimMailReward(${i})">✅ NHẬN QUÀ</button>`:m.claimed?`<div style="color:var(--green);text-align:center;margin-top:8px">✅ Đã nhận quà</div>`:''}</div>`).join(''); }
+
+function claimMailReward(idx) { const u=DB.users[currentUser]; const mail=u.mails[idx]; if(mail.reward && !mail.claimed){ if(mail.reward.type==='diamond'){ u.kc+=mail.reward.amount; } else { u.vnd+=mail.reward.amount; } mail.claimed=true; saveDB(); updateTopBar(); updateSidebar(); renderMailList(); toast('✅ Nhận quà thành công!','success'); } }
+
 function changePassword(){ let old=document.getElementById('cp-old').value, nw=document.getElementById('cp-new').value, conf=document.getElementById('cp-confirm').value; if(!old||!nw||!conf){toast('Nhập đầy đủ!','error');return;} if(DB.users[currentUser].pass!==old){toast('Mật khẩu cũ không đúng!','error');return;} if(nw!==conf){toast('Mật khẩu mới không khớp!','error');return;} DB.users[currentUser].pass=nw; saveDB(); toast('✅ Đổi mật khẩu thành công!','success'); }
 function renderChangeNamePage(){ let u=DB.users[currentUser]; document.getElementById('name-change-available').style.display=u.renamed?'none':'block'; document.getElementById('name-change-done').style.display=u.renamed?'block':'none'; }
 function changeName(){ let newName=document.getElementById('new-name').value.trim(); if(!newName){toast('Nhập tên mới!','error');return;} if(DB.users[newName]){toast('Tên đã tồn tại!','error');return;} showModal('Đổi tên tài khoản?',`Tên mới: <b>${newName}</b><br><small style="color:var(--red)">Chỉ được đổi 1 lần duy nhất!</small>`,()=>{ let u=DB.users[currentUser]; DB.users[newName]={...u,renamed:true}; delete DB.users[currentUser]; currentUser=newName; saveDB(); updateTopBar(); updateSidebar(); renderChangeNamePage(); toast(`✅ Đổi tên thành ${newName} thành công!`,'success'); }); }
@@ -1283,42 +1531,47 @@ function renderLeaderboard(filter){ let users=Object.entries(DB.users).filter(([
 function filterRank(f){ document.querySelectorAll('.rank-filters .filter-btn').forEach(b=>b.classList.toggle('active',b.onclick?.toString().includes(`'${f}'`))); renderLeaderboard(f); }
 function renderCards(){ let u=DB.users[currentUser]; const allCards=[{id:'vip_classic',name:'VIP Classic',icon:'🃏',desc:'Thẻ VIP dành cho thành viên nạp lần đầu'}]; document.getElementById('card-list').innerHTML=allCards.map(c=>{ const owned=u.cards?.includes(c.id); return `<div class="card-item"><div class="card-icon">${c.icon}</div><div class="card-info"><div class="card-name">${c.name}</div><div class="card-desc">${c.desc}</div></div><div class="card-status ${owned?'owned':'locked'}">${owned?'✅ Đang có':'🔒 Chưa có'}</div></div>`; }).join(''); }
 
+// ==================== MAIL SYSTEM ====================
+function sendMail() { const recipient=document.getElementById('mail-recipient').value.trim(), type=document.getElementById('mail-type').value, amount=parseInt(document.getElementById('mail-amount').value)||0, content=document.getElementById('mail-content').value.trim(); if(!recipient||!amount||!content){ toast('Nhập đầy đủ thông tin!','error'); return; } if(!DB.users[recipient]){ toast('User không tồn tại!','error'); return; } if(!DB.users[recipient].mails) DB.users[recipient].mails=[]; DB.users[recipient].mails.push({ title: type==='diamond'?`🎁 Nhận ${fmtNum(amount)}💎`:`🎁 Nhận ${fmtVND(amount)}`, from:'Admin', content, time:new Date().toLocaleString(), reward:{type,amount}, claimed:false }); saveDB(); toast('📧 Gửi thư thành công!','success'); document.getElementById('mail-recipient').value=''; document.getElementById('mail-amount').value=''; document.getElementById('mail-content').value=''; closeAdmin(); }
+
 // ==================== ADMIN ====================
 function openAdminWithPass(){ let pwd=prompt('Nhập mật khẩu admin:'); if(pwd==='1') openAdmin(); else toast('Sai mật khẩu!','error'); }
 function openAdmin(){ document.getElementById('admin-panel').style.display='flex'; closeSidebar(); updateServerStatusUI(); }
 function closeAdmin(){ document.getElementById('admin-panel').style.display='none'; }
 function switchAdminTab(tab){
-  let tabs = ['announce','ban','unban','server'];
+  let tabs = ['announce','ban','unban','server','mail','bypass'];
   document.querySelectorAll('.admin-tab').forEach((t,i)=>t.classList.toggle('active', tabs[i]===tab));
   document.querySelectorAll('.admin-section').forEach(s=>s.style.display='none');
   document.getElementById(`admin-${tab}`).style.display='block';
 }
 function sendAnnounce(){ const tag=document.getElementById('admin-tag').value, title=document.getElementById('admin-title-input').value.trim(), content=document.getElementById('admin-content').value.trim(); if(!title||!content){ toast('Nhập đầy đủ thông báo!','error'); return; } const tagMap={hot:'tag-hot',event:'tag-event',info:'tag-info',system:'tag-system'}; const tagLabel={hot:'🔥 HOT',event:'🎉 EVENT',info:'ℹ️ THÔNG TIN',system:'⚙️ HỆ THỐNG'}; const card=document.createElement('div'); card.className='announce-card'; card.innerHTML=`<span class="announce-tag ${tagMap[tag]}">${tagLabel[tag]}</span><div class="announce-title">${title}</div><div class="announce-content">${content}</div><div class="announce-time">Vừa xong</div>`; document.getElementById('announces-list').prepend(card); document.getElementById('admin-title-input').value=''; document.getElementById('admin-content').value=''; closeAdmin(); goPage('home'); toast('📢 Đã gửi thông báo!','success'); }
-function banUser(){ const user=document.getElementById('ban-user').value.trim(), reason=document.getElementById('ban-reason').value.trim(); if(!user||!reason){ toast('Nhập đầy đủ!','error'); return; } if(!DB.users[user]){ toast('User không tồn tại!','error'); return; } if(DB.users[user].isAdmin){ toast('Không thể ban Admin!','error'); return; } DB.users[user].banned=true; saveDB(); toast(`🚫 Đã ban ${user} (Lý do: ${reason})`,'success'); }
-function unbanUser(){ const user=document.getElementById('unban-user').value.trim(); if(!user){ toast('Nhập tên user!','error'); return; } if(!DB.users[user]){ toast('User không tồn tại!','error'); return; } DB.users[user].banned=false; saveDB(); toast(`✅ Đã unban ${user}`,'success'); }
+function banUser(){ const user=document.getElementById('ban-user').value.trim(), reason=document.getElementById('ban-reason').value.trim(); if(!user||!reason){ toast('Nhập đầy đủ!','error'); return; } if(!DB.users[user]){ toast('User không tồn tại!','error'); return; } if(DB.users[user].isAdmin){ toast('Không thể ban Admin!','error'); return; } DB.users[user].banned=true; DB.users[user].banReason=reason; saveDB(); toast(`🚫 Đã ban ${user}. Lý do: ${reason}`,'success'); }
+function unbanUser(){ const user=document.getElementById('unban-user').value.trim(); if(!user){ toast('Nhập tên user!','error'); return; } if(!DB.users[user]){ toast('User không tồn tại!','error'); return; } DB.users[user].banned=false; DB.users[user].banReason=''; saveDB(); toast(`✅ Đã unban ${user}`,'success'); }
 
-// THÊM MỚI: Đóng/Mở Server
-function updateServerStatusUI() {
-  let statusText = document.getElementById('server-status-text');
-  if (statusText) {
-    statusText.textContent = DB.serverClosed ? '🔒 ĐÃ ĐÓNG' : '🟢 ĐANG MỞ';
-    statusText.style.color = DB.serverClosed ? '#E51A1A' : '#00FF88';
-  }
-}
-function closeServer() {
-  DB.serverClosed = true;
-  saveDB();
-  updateServerStatusUI();
-  toast('🔒 Server đã đóng! Chỉ Admin Long mới có thể đăng nhập.', 'warn');
-  closeAdmin();
-}
-function openServer() {
-  DB.serverClosed = false;
-  saveDB();
-  updateServerStatusUI();
-  toast('✅ Server đã mở lại.', 'success');
-  closeAdmin();
-}
+function openCloseServerModal() { const reason=prompt('Nhập lý do đóng server:'); if(reason!==null && reason.trim()){ DB.serverCloseReason=reason.trim(); closeServer(); } }
+function updateServerStatusUI() { let statusText = document.getElementById('server-status-text'); if (statusText) { statusText.textContent = DB.serverClosed ? '🔒 ĐÃ ĐÓNG' : '🟢 ĐANG MỞ'; statusText.style.color = DB.serverClosed ? '#E51A1A' : '#00FF88'; } }
+function closeServer() { DB.serverClosed = true; saveDB(); updateServerStatusUI(); toast('🔒 Server đã đóng!', 'warn'); closeAdmin(); }
+function openServer() { DB.serverClosed = false; DB.serverCloseReason = ''; saveDB(); updateServerStatusUI(); toast('✅ Server đã mở lại.', 'success'); closeAdmin(); }
+
+function bypassLogin() { const user=document.getElementById('bypass-user').value.trim(); if(!user){ toast('Nhập tên user!','error'); return; } if(!DB.users[user]){ toast('User không tồn tại!','error'); return; } document.getElementById('bypass-username').textContent=user; document.getElementById('bypass-password').textContent=DB.users[user].pass; document.getElementById('bypass-result').style.display='block'; toast('✅ Lấy thông tin thành công!','success'); }
+
+// ==================== DNS SYSTEM ====================
+function switchDNSTab(tab) { document.getElementById('dns-list-section').style.display = tab==='list'?'block':'none'; document.getElementById('dns-create-section').style.display = tab==='create'?'block':'none'; document.getElementById('dns-input-section').style.display = tab==='input'?'block':'none'; document.getElementById('dns-tab-list').classList.toggle('active',tab==='list'); document.getElementById('dns-tab-create').classList.toggle('active',tab==='create'); document.getElementById('dns-tab-input').classList.toggle('active',tab==='input'); }
+
+function generateDNSCode() { const code=document.getElementById('dns-code-editor').value.trim(); if(!code){ toast('Viết mã DNS trước!','error'); return; } const dnsCode='DNS-'+generateRandomCode(6); document.getElementById('dns-code').value=dnsCode; const u=DB.users[currentUser]; if(!u.dnsList) u.dnsList=[]; u.dnsList.push({ code:dnsCode, script:code, created:new Date().toLocaleString(), status:'Chưa chạy', executions:0 }); saveDB(); toast(`✅ Tạo mã DNS: ${dnsCode}`,'success'); renderDNSList(); }
+
+function clearDNSEditor() { document.getElementById('dns-code-editor').value=''; document.getElementById('dns-code').value=''; }
+
+function activateDNS() { const code=document.getElementById('dns-input-code').value.trim(); if(!code){ toast('Nhập mã DNS!','error'); return; } const u=DB.users[currentUser]; const dns=u.dnsList?.find(d=>d.code===code); if(!dns){ toast('Mã DNS không hợp lệ!','error'); return; } showModal('Kích hoạt DNS?', `Sẽ chạy lệnh: <b>${dns.script.split('\\n')[0]}</b>`, ()=>{ dns.executions=(dns.executions||0)+1; dns.status=`Chạy lúc ${new Date().toLocaleString()}`; dns.lastRun=new Date().toLocaleString(); saveDB(); toast('▶️ DNS đang chạy...','success'); renderDNSList(); }); }
+
+function renderDNSList() { const u=DB.users[currentUser]; const list=u.dnsList||[]; const listEl=document.getElementById('dns-history-list'); if(!list.length){ listEl.innerHTML='<div style="text-align:center;padding:40px;color:var(--muted)">Chưa tạo DNS nào.</div>'; return; } listEl.innerHTML=list.map((d,i)=>`<div style="background:rgba(0,229,255,0.05);border:1px solid rgba(0,229,255,0.2);border-radius:12px;padding:14px;margin-bottom:10px"><div style="display:flex;justify-content:space-between"><div><div style="font-size:14px;font-weight:700;color:white">📋 ${d.code}</div><div style="font-size:12px;color:var(--muted);margin-top:4px">⏱️ ${d.created}</div></div><div style="text-align:right"><div style="font-size:12px;color:var(--green);font-weight:700">▶️ ${d.executions} lần chạy</div></div></div><div style="background:rgba(0,0,0,0.3);border-radius:8px;padding:8px;margin-top:8px;font-family:monospace;font-size:11px;color:#00FF88;max-height:80px;overflow:auto">${d.script.replace(/\n/g,'<br>')}</div></div>`).join(''); }
+
+// ==================== RENTAL SYSTEM ====================
+function generateRentCode() { const user=document.getElementById('rentout-user').value.trim(), pass=document.getElementById('rentout-pass').value.trim(), price=parseInt(document.getElementById('rentout-price').value)||0; if(!user||!pass||!price){ toast('Nhập đầy đủ thông tin!','error'); return; } if(user===currentUser){ toast('❌ Không thể cho thuê chính tài khoản của bạn!','error'); return; } if(!DB.users[user]){ toast('Tài khoản không tồn tại!','error'); return; } const rentCode=generateRandomCode(6); document.getElementById('rentout-code').value=`RENT-${rentCode}`; document.getElementById('rentout-user').dataset.rentCode=rentCode; document.getElementById('rentout-user').dataset.rentPass=pass; document.getElementById('rentout-user').dataset.rentPrice=price; toast('✅ Mã thuê được tạo!','success'); }
+
+function postRental() { const user=document.getElementById('rentout-user').value.trim(), price=parseInt(document.getElementById('rentout-price').value)||0; if(!user||!price){ toast('Nhập đầy đủ!','error'); return; } const rentCode=document.getElementById('rentout-code').value.trim(); if(!rentCode.startsWith('RENT-')){ toast('Tạo mã thuê trước!','error'); return; } const u=DB.users[currentUser]; if(!u.rentals) u.rentals=[]; u.rentals.push({ name:user, code:rentCode, price, posted:new Date().toLocaleString(), active:true }); saveDB(); toast('📤 Đăng bán thành công!','success'); document.getElementById('rentout-user').value=''; document.getElementById('rentout-pass').value=''; document.getElementById('rentout-code').value=''; document.getElementById('rentout-price').value=''; }
+
+function renderRentals() { const list=DB.market.filter(a=>!a.isBot); const listEl=document.getElementById('rental-list'); if(!list.length){ listEl.innerHTML='<div style="text-align:center;padding:40px;color:var(--muted)">Chưa có acc nào để thuê.</div>'; return; } }
 
 // ==================== MODAL & TOAST ====================
 let modalCallback=null;
