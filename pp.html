@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AOV APL 2026 - Dự Đoán Tỉ Số</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <style>
+    :root {
+      --garena-red: #d91f1f;
+      --dark-red: #a01515;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    .garena-header {
+      background: linear-gradient(135deg, var(--garena-red) 0%, var(--dark-red) 100%);
+      box-shadow: 0 4px 15px rgba(217, 31, 31, 0.3);
+    }
+    
+    .garena-btn {
+      background-color: var(--garena-red);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 600;
+    }
+    
+    .garena-btn:hover {
+      background-color: var(--dark-red);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(217, 31, 31, 0.4);
+    }
+    
+    .garena-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    .garena-tab {
+      border-bottom: 3px solid transparent;
+      padding: 12px 24px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 600;
+      color: #666;
+    }
+    
+    .garena-tab.active {
+      border-bottom-color: var(--garena-red);
+      color: var(--garena-red);
+    }
+    
+    .garena-tab:hover {
+      color: var(--garena-red);
+    }
+    
+    .match-card {
+      background: white;
+      border-left: 4px solid var(--garena-red);
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: all 0.3s;
+    }
+    
+    .match-card:hover {
+      box-shadow: 0 4px 16px rgba(217, 31, 31, 0.15);
+      transform: translateX(4px);
+    }
+    
+    .team-logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 2px solid var(--garena-red);
+    }
+    
+    .small-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 6px;
+      object-fit: cover;
+    }
+    
+    .status-badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    
+    .status-ongoing {
+      background-color: #fef3c7;
+      color: #92400e;
+    }
+    
+    .status-finished {
+      background-color: #d1d5db;
+      color: #374151;
+    }
+    
+    .drop-zone {
+      transition: all 0.3s ease;
+      border: 2px dashed #d1d5db;
+    }
+    
+    .drop-zone.dragover {
+      background-color: #fef3c7;
+      border-color: var(--garena-red);
+    }
+    
+    .input-field {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      font-size: 14px;
+      margin-bottom: 12px;
+      transition: border-color 0.3s;
+    }
+    
+    .input-field:focus {
+      outline: none;
+      border-color: var(--garena-red);
+      box-shadow: 0 0 0 3px rgba(217, 31, 31, 0.1);
+    }
+    
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .modal.active {
+      display: flex;
+    }
+    
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    
+    .prediction-option {
+      padding: 12px;
+      border: 2px solid #e5e7eb;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    
+    .prediction-option:hover {
+      border-color: var(--garena-red);
+      background-color: #fef3c7;
+    }
+    
+    .prediction-option.selected {
+      border-color: var(--garena-red);
+      background-color: var(--garena-red);
+      color: white;
+    }
+    
+    .tournament-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-right: 8px;
+      margin-bottom: 8px;
+    }
+    
+    .apl-badge { background: #fde047; color: #713f00; }
+    .aog-badge { background: #86efac; color: #14532d; }
+    .rpl-badge { background: #67e8f9; color: #164e63; }
+    .gcs-badge { background: #d8b4fe; color: #581c87; }
+    
+    .admin-section {
+      background: #fef3c7;
+      border-left: 4px solid var(--garena-red);
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    .logo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .logo-item {
+      position: relative;
+      aspect-ratio: 1;
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 2px solid #e5e7eb;
+      transition: all 0.3s;
+    }
+
+    .logo-item:hover {
+      border-color: var(--garena-red);
+      transform: scale(1.05);
+    }
+
+    .logo-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .logo-item-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      padding: 4px;
+      font-size: 11px;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <!-- Header -->
+  <div class="garena-header text-white sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-4">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <i class="fas fa-crown text-2xl"></i>
+          <h1 class="text-2xl font-bold">AOV APL 2026</h1>
+        </div>
+        <div class="flex items-center gap-4">
+          <span id="userDisplay" class="text-sm hidden">
+            <i class="fas fa-user-circle"></i> <span id="usernameBadge"></span>
+          </span>
+          <button id="menuBtn" class="text-xl hover:text-gray-200 transition hidden">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sidebar Menu -->
+  <div id="sidebar" class="fixed left-0 top-0 h-screen w-64 bg-white shadow-lg transform -translate-x-full transition-transform z-40 pt-20 overflow-y-auto">
+    <nav class="p-4 space-y-3">
+      <button onclick="switchPage('home')" class="w-full text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition">
+        <i class="fas fa-home mr-3 text-gray-600"></i> Trang Chủ
+      </button>
+      <button onclick="switchPage('predictions')" class="w-full text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition">
+        <i class="fas fa-crystal-ball mr-3 text-gray-600"></i> Dự Đoán
+      </button>
+      <button onclick="switchPage('scores')" class="w-full text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition">
+        <i class="fas fa-chart-bar mr-3 text-gray-600"></i> Tỉ Số
+      </button>
+      <hr class="my-3">
+      <button onclick="switchPage('apl')" class="w-full text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition">
+        <span class="tournament-badge apl-badge">APL</span>
+      </button>
+      <button onclick="switchPage('aog')" class="w-full text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition">
+        <span class="tournament-badge aog-badge">AOG</span>
+      </button>
+      <button onclick="switchPage('rpl')" class="w-full text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition">
+        <span class="tournament-badge rpl-badge">RPL</span>
+      </button>
+      <button onclick="switchPage('gcs')" class="w-full text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition">
+        <span class="tournament-badge gcs-badge">GCS</span>
+      </button>
+      <hr class="my-3" id="adminHr" style="display:none;">
+      <button onclick="switchPage('admin')" class="w-full text-left px-4 py-3 hover:bg-red-100 rounded-lg transition text-red-700 font-bold" id="adminBtn" style="display:none;">
+        <i class="fas fa-lock mr-3"></i> Quản Lý Admin
+      </button>
+      <hr class="my-3">
+      <button onclick="logout()" class="w-full text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition text-red-700 font-bold">
+        <i class="fas fa-sign-out-alt mr-3"></i> Đăng Xuất
+      </button>
+    </nav>
+  </div>
+
+  <!-- Main Content -->
+  <div class="max-w-7xl mx-auto px-4 py-8">
+    <!-- Login Page -->
+    <div id="loginPage" class="w-full max-w-md mx-auto pt-16">
+      <div class="bg-white rounded-lg shadow-lg p-8 border-t-4 border-red-600">
+        <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">
+          <i class="fas fa-sign-in-alt mr-2 text-red-600"></i>
+          Đăng Nhập
+        </h2>
+        <div id="loginError" class="bg-red-100 text-red-700 p-3 rounded-lg mb-4 hidden"></div>
+        <input type="text" id="loginUsername" placeholder="Tên đăng nhập" class="input-field" autocomplete="off">
+        <input type="password" id="loginPassword" placeholder="Mật khẩu" class="input-field">
+        <button onclick="login()" class="garena-btn w-full mb-4">
+          <i class="fas fa-key mr-2"></i> Đăng Nhập
+        </button>
+        <button onclick="switchToRegister()" class="w-full py-2 px-4 border-2 border-red-600 text-red-600 rounded-lg hover:bg-red-50 transition font-bold">
+          Tạo Tài Khoản Mới
+        </button>
+      </div>
+      <p class="text-center text-gray-600 mt-6 text-sm">
+        Tài khoản mặc định: <strong>Long</strong> / <strong>0</strong> (Admin)
+      </p>
+    </div>
+
+    <!-- Register Page -->
+    <div id="registerPage" class="w-full max-w-md mx-auto pt-16 hidden">
+      <div class="bg-white rounded-lg shadow-lg p-8 border-t-4 border-red-600">
+        <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">
+          <i class="fas fa-user-plus mr-2 text-red-600"></i>
+          Đăng Ký
+        </h2>
+        <div id="registerError" class="bg-red-100 text-red-700 p-3 rounded-lg mb-4 hidden"></div>
+        <input type="text" id="regUsername" placeholder="Tên đăng nhập" class="input-field" autocomplete="off">
+        <input type="password" id="regPassword" placeholder="Mật khẩu" class="input-field">
+        <input type="password" id="regConfirmPassword" placeholder="Xác nhận mật khẩu" class="input-field">
+        <button onclick="register()" class="garena-btn w-full mb-4">
+          <i class="fas fa-check mr-2"></i> Tạo Tài Khoản
+        </button>
+        <button onclick="switchToLogin()" class="w-full py-2 px-4 border-2 border-red-600 text-red-600 rounded-lg hover:bg-red-50 transition font-bold">
+          Quay Lại Đăng Nhập
+        </button>
+      </div>
+    </div>
+
+    <!-- App Pages (shown when logged in) -->
+    <div id="appContent" style="display:none;">
+      <!-- Home Page -->
+      <div id="homePage" class="space-y-6">
+        <div class="bg-gradient-to-r from-red-600 to-red-700 text-white p-8 rounded-lg shadow-lg">
+          <h2 class="text-3xl font-bold mb-2">
+            <i class="fas fa-megaphone mr-2"></i>
+            Thông Báo & Cập Nhật
+          </h2>
+          <p class="text-red-100">Các thông báo quan trọng từ Admin</p>
+        </div>
+
+        <div id="notificationsArea" class="space-y-4">
+          <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-red-600">
+            <h3 class="font-bold text-lg mb-2">
+              <i class="fas fa-star text-yellow-500 mr-2"></i>
+              Chào mừng tới AOV APL 2026
+            </h3>
+            <p class="text-gray-700">Nền tảng dự đoán tỉ số các giải đấu Liên Quân uy tín nhất!</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+          <div class="bg-white p-6 rounded-lg shadow-md text-center cursor-pointer hover:shadow-lg transition" onclick="switchPage('apl')">
+            <i class="fas fa-trophy text-yellow-500 text-3xl mb-2"></i>
+            <h3 class="font-bold">APL</h3>
+            <p class="text-sm text-gray-600">Liên Quân</p>
+          </div>
+          <div class="bg-white p-6 rounded-lg shadow-md text-center cursor-pointer hover:shadow-lg transition" onclick="switchPage('aog')">
+            <i class="fas fa-crown text-green-500 text-3xl mb-2"></i>
+            <h3 class="font-bold">AOG</h3>
+            <p class="text-sm text-gray-600">Việt Nam</p>
+          </div>
+          <div class="bg-white p-6 rounded-lg shadow-md text-center cursor-pointer hover:shadow-lg transition" onclick="switchPage('rpl')">
+            <i class="fas fa-star text-blue-500 text-3xl mb-2"></i>
+            <h3 class="font-bold">RPL</h3>
+            <p class="text-sm text-gray-600">Thái Lan</p>
+          </div>
+          <div class="bg-white p-6 rounded-lg shadow-md text-center cursor-pointer hover:shadow-lg transition" onclick="switchPage('gcs')">
+            <i class="fas fa-gem text-purple-500 text-3xl mb-2"></i>
+            <h3 class="font-bold">GCS</h3>
+            <p class="text-sm text-gray-600">Đài Loan</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Predictions Page -->
+      <div id="predictionsPage" class="space-y-6" style="display:none;">
+        <h2 class="text-3xl font-bold text-gray-800">
+          <i class="fas fa-crystal-ball mr-2 text-red-600"></i>
+          Dự Đoán Tỉ Số
+        </h2>
+
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h3 class="font-bold text-lg mb-4">Lọc Trận Đấu</h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-sm font-bold mb-2">Giải Đấu</label>
+              <select id="predictionTourament" onchange="loadPredictions()" class="input-field">
+                <option value="">Tất cả</option>
+                <option value="APL">APL</option>
+                <option value="AOG">AOG</option>
+                <option value="RPL">RPL</option>
+                <option value="GCS">GCS</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-bold mb-2">Ngày</label>
+              <input type="date" id="predictionDate" onchange="loadPredictions()" class="input-field">
+            </div>
+          </div>
+        </div>
+
+        <div id="predictionsContainer" class="space-y-4">
+          <!-- Predictions loaded here -->
+        </div>
+      </div>
+
+      <!-- Scores Page -->
+      <div id="scoresPage" class="space-y-6" style="display:none;">
+        <h2 class="text-3xl font-bold text-gray-800">
+          <i class="fas fa-chart-bar mr-2 text-red-600"></i>
+          Tỉ Số Trận Đấu
+        </h2>
+
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h3 class="font-bold text-lg mb-4">Lọc Trận Đấu</h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-sm font-bold mb-2">Giải Đấu</label>
+              <select id="scoresTourament" onchange="loadScores()" class="input-field">
+                <option value="">Tất cả</option>
+                <option value="APL">APL</option>
+                <option value="AOG">AOG</option>
+                <option value="RPL">RPL</option>
+                <option value="GCS">GCS</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-bold mb-2">Ngày</label>
+              <input type="date" id="scoresDate" onchange="loadScores()" class="input-field">
+            </div>
+          </div>
+        </div>
+
+        <div id="scoresContainer" class="space-y-4">
+          <!-- Scores loaded here -->
+        </div>
+      </div>
+
+      <!-- Tournament Pages (APL, AOG, RPL, GCS) -->
+      <div id="tournamentPage" class="space-y-6" style="display:none;">
+        <h2 class="text-3xl font-bold text-gray-800">
+          <span id="tournamentTitle"></span>
+        </h2>
+
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h3 class="font-bold text-lg mb-4">Lọc Trận Đấu</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-bold mb-2">Ngày</label>
+              <input type="date" id="tournamentDate" onchange="loadTournamentMatches()" class="input-field">
+            </div>
+          </div>
+        </div>
+
+        <div id="tournamentContainer" class="space-y-4">
+          <!-- Tournament matches loaded here -->
+        </div>
+      </div>
+
+      <!-- Admin Panel -->
+      <div id="adminPage" class="space-y-6" style="display:none;">
+        <div class="bg-red-600 text-white p-8 rounded-lg shadow-lg">
+          <h2 class="text-3xl font-bold">
+            <i class="fas fa-lock mr-2"></i>
+            Quản Lý Admin
+          </h2>
+        </div>
+
+        <!-- Add Match Section -->
+        <div class="admin-section">
+          <h3 class="text-xl font-bold mb-4">
+            <i class="fas fa-plus-circle mr-2 text-red-600"></i>
+            Thêm Trận Đấu Mới
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-bold mb-2">Giải Đấu</label>
+              <select id="adminTournament" class="input-field">
+                <option value="APL">APL</option>
+                <option value="AOG">AOG</option>
+                <option value="RPL">RPL</option>
+                <option value="GCS">GCS</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-bold mb-2">Ngày Thi Đấu</label>
+              <input type="date" id="adminDate" class="input-field">
+            </div>
+            <div>
+              <label class="block text-sm font-bold mb-2">Giờ Thi Đấu</label>
+              <input type="time" id="adminTime" class="input-field">
+            </div>
+            <div>
+              <label class="block text-sm font-bold mb-2">Đội Nhà</label>
+              <input type="text" id="adminTeam1" placeholder="Tên đội 1" class="input-field">
+            </div>
+            <div>
+              <label class="block text-sm font-bold mb-2">Đội Khách</label>
+              <input type="text" id="adminTeam2" placeholder="Tên đội 2" class="input-field">
+            </div>
+            <div>
+              <label class="block text-sm font-bold mb-2">Trạng Thái</label>
+              <select id="adminStatus" class="input-field">
+                <option value="Diễn Ra">Diễn Ra</option>
+                <option value="Kết Thúc">Kết Thúc</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <button onclick="openLogoUploadModal(1)" class="garena-btn mr-2 mb-2">
+              <i class="fas fa-upload mr-2"></i>
+              Upload Logo Đội 1
+            </button>
+            <button onclick="openLogoUploadModal(2)" class="garena-btn mb-2">
+              <i class="fas fa-upload mr-2"></i>
+              Upload Logo Đội 2
+            </button>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4 mt-4">
+            <div>
+              <p class="text-sm font-bold mb-2">Logo Đội 1:</p>
+              <img id="adminLogo1Preview" src="" alt="Logo 1" class="w-full h-32 object-cover rounded-lg border-2 border-gray-300 hidden">
+              <p id="adminLogo1Name" class="text-sm text-gray-600 mt-2"></p>
+            </div>
+            <div>
+              <p class="text-sm font-bold mb-2">Logo Đội 2:</p>
+              <img id="adminLogo2Preview" src="" alt="Logo 2" class="w-full h-32 object-cover rounded-lg border-2 border-gray-300 hidden">
+              <p id="adminLogo2Name" class="text-sm text-gray-600 mt-2"></p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4 mt-4">
+            <div>
+              <label class="block text-sm font-bold mb-2">Tỉ Số Đội 1</label>
+              <input type="number" id="adminScore1" class="input-field" placeholder="0" value="0">
+            </div>
+            <div>
+              <label class="block text-sm font-bold mb-2">Tỉ Số Đội 2</label>
+              <input type="number" id="adminScore2" class="input-field" placeholder="0" value="0">
+            </div>
+          </div>
+
+          <button onclick="addMatch()" class="garena-btn w-full mt-6">
+            <i class="fas fa-save mr-2"></i>
+            Thêm Trận Đấu
+          </button>
+        </div>
+
+        <!-- Matches Management -->
+        <div class="admin-section">
+          <h3 class="text-xl font-bold mb-4">
+            <i class="fas fa-edit mr-2 text-red-600"></i>
+            Quản Lý Trận Đấu
+          </h3>
+          <div id="adminMatches" class="space-y-4">
+            <!-- Matches listed here -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Logo Upload Modal -->
+  <div id="logoModal" class="modal">
+    <div class="modal-content">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-2xl font-bold">Upload Logo Đội Tuyển</h3>
+        <button onclick="closeLogoModal()" class="text-2xl text-gray-500 hover:text-gray-700">×</button>
+      </div>
+
+      <div id="dropZone" class="drop-zone border-4 border-dashed rounded-lg p-8 text-center bg-gray-50 mb-4">
+        <i class="fas fa-cloud-upload-alt text-5xl text-gray-400 mb-3"></i>
+        <p class="text-lg text-gray-600 mb-2">Kéo thả hình ảnh vào đây</p>
+        <label class="garena-btn cursor-pointer inline-block">
+          <i class="fas fa-folder-open mr-2"></i>
+          Chọn Hình
+          <input type="file" id="logoInput" accept="image/*" class="hidden">
+        </label>
+      </div>
+
+      <div id="logoPreview" class="text-center hidden">
+        <img id="logoPreviewImg" src="" alt="Preview" class="w-full max-h-48 object-cover rounded-lg mb-4">
+        <input type="text" id="logoTeamName" placeholder="Tên đội tuyển" class="input-field">
+        <button onclick="confirmLogoUpload()" class="garena-btn w-full">
+          <i class="fas fa-check mr-2"></i>
+          Xác Nhận Upload
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Match Modal -->
+  <div id="editMatchModal" class="modal">
+    <div class="modal-content">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-2xl font-bold">Chỉnh Sửa Trận Đấu</h3>
+        <button onclick="closeEditMatchModal()" class="text-2xl text-gray-500 hover:text-gray-700">×</button>
+      </div>
+
+      <div>
+        <label class="block text-sm font-bold mb-2">Trạng Thái</label>
+        <select id="editStatus" class="input-field">
+          <option value="Diễn Ra">Diễn Ra</option>
+          <option value="Kết Thúc">Kết Thúc</option>
+        </select>
+
+        <label class="block text-sm font-bold mb-2">Tỉ Số Đội 1</label>
+        <input type="number" id="editScore1" class="input-field">
+
+        <label class="block text-sm font-bold mb-2">Tỉ Số Đội 2</label>
+        <input type="number" id="editScore2" class="input-field">
+
+        <button onclick="saveMatchEdit()" class="garena-btn w-full mt-4">
+          <i class="fas fa-save mr-2"></i>
+          Lưu Thay Đổi
+        </button>
+        <button onclick="deleteMatch()" class="w-full py-2 px-4 bg-red-600 text-white rounded-lg hover:bg-red-700 transition font-bold mt-2">
+          <i class="fas fa-trash mr-2"></i>
+          Xóa Trận Đấu
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Initialize App
+    let currentUser = null;
+    let currentPage = 'login';
+    let editingMatchId = null;
+    let uploadingLogoFor = null;
+    let tempLogoData = null;
+
+    // Initialize localStorage
+    function initData() {
+      console.log('=== INIT DATA ===');
+      
+      // Khởi tạo users với admin account
+      let users = {};
+      try {
+        const stored = localStorage.getItem('users');
+        console.log('Stored users:', stored);
+        if (stored && stored !== 'undefined') {
+          users = JSON.parse(stored);
+        }
+      } catch (e) {
+        console.error('Error parsing users:', e);
+        users = {};
+      }
+
+      console.log('Current users object:', users);
+
+      // Đảm bảo admin account tồn tại
+      if (!users['Long']) {
+        console.log('Admin account not found, creating...');
+        users['Long'] = { password: '0', role: 'admin' };
+      }
+      
+      localStorage.setItem('users', JSON.stringify(users));
+      console.log('Users saved to localStorage:', JSON.parse(localStorage.getItem('users')));
+
+      // Khởi tạo dữ liệu khác
+      if (!localStorage.getItem('matches')) {
+        localStorage.setItem('matches', JSON.stringify([]));
+      }
+      if (!localStorage.getItem('logos')) {
+        localStorage.setItem('logos', JSON.stringify({}));
+      }
+      if (!localStorage.getItem('predictions')) {
+        localStorage.setItem('predictions', JSON.stringify({}));
+      }
+      if (!localStorage.getItem('notifications')) {
+        localStorage.setItem('notifications', JSON.stringify([
+          { id: 1, title: 'Chào mừng tới AOV APL 2026', content: 'Nền tảng dự đoán tỉ số các giải đấu Liên Quân uy tín nhất!' }
+        ]));
+      }
+
+      console.log('=== INIT COMPLETE ===');
+    }
+
+    initData();
+
+    // Authentication
+    function login() {
+      const username = document.getElementById('loginUsername').value.trim();
+      const password = document.getElementById('loginPassword').value;
+
+      console.log('=== LOGIN ATTEMPT ===');
+      console.log('Username:', username);
+      console.log('Password:', password);
+
+      if (!username || password === '') {
+        showError('loginError', 'Vui lòng nhập tên đăng nhập và mật khẩu');
+        return;
+      }
+
+      let users = {};
+      try {
+        const stored = localStorage.getItem('users');
+        console.log('Stored users string:', stored);
+        
+        if (stored && stored !== 'undefined') {
+          users = JSON.parse(stored);
+        } else {
+          console.log('No users stored, re-initializing...');
+          initData();
+          const stored2 = localStorage.getItem('users');
+          users = JSON.parse(stored2);
+        }
+      } catch (e) {
+        console.error('Error parsing users:', e);
+        initData();
+        const stored = localStorage.getItem('users');
+        users = JSON.parse(stored);
+      }
+      
+      console.log('Users object:', users);
+      console.log('User "Long" data:', users['Long']);
+      console.log('Checking user:', username);
+      console.log('User found?', username in users);
+      
+      if (users[username]) {
+        console.log('User found! Stored password:', users[username].password);
+        console.log('Input password:', password);
+        console.log('Passwords match?', users[username].password === password);
+        
+        if (users[username].password === password) {
+          console.log('✓ LOGIN SUCCESS');
+          currentUser = { 
+            username: username, 
+            role: users[username].role || 'user' 
+          };
+          localStorage.setItem('currentUser', JSON.stringify(currentUser));
+          document.getElementById('loginError').classList.add('hidden');
+          showAppContent();
+          return;
+        }
+      }
+      
+      console.log('✗ LOGIN FAILED');
+      showError('loginError', '❌ Tên đăng nhập hoặc mật khẩu sai!');
+    }
+
+    function register() {
+      const username = document.getElementById('regUsername').value.trim();
+      const password = document.getElementById('regPassword').value;
+      const confirmPassword = document.getElementById('regConfirmPassword').value;
+
+      if (!username || !password || !confirmPassword) {
+        showError('registerError', 'Vui lòng điền đủ thông tin');
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        showError('registerError', 'Mật khẩu không trùng khớp');
+        return;
+      }
+
+      if (password.length < 1) {
+        showError('registerError', 'Mật khẩu phải ít nhất 1 ký tự');
+        return;
+      }
+
+      const users = JSON.parse(localStorage.getItem('users') || '{}');
+      if (users[username]) {
+        showError('registerError', 'Tên đăng nhập đã tồn tại');
+        return;
+      }
+
+      users[username] = { password: password, role: 'user' };
+      localStorage.setItem('users', JSON.stringify(users));
+      document.getElementById('registerError').classList.add('hidden');
+
+      alert('✓ Tạo tài khoản thành công!\nVui lòng đăng nhập');
+      document.getElementById('regUsername').value = '';
+      document.getElementById('regPassword').value = '';
+      document.getElementById('regConfirmPassword').value = '';
+      switchToLogin();
+    }
+
+    function logout() {
+      currentUser = null;
+      localStorage.removeItem('currentUser');
+      document.getElementById('loginUsername').value = '';
+      document.getElementById('loginPassword').value = '';
+      document.getElementById('loginError').classList.add('hidden');
+      document.getElementById('menuBtn').classList.add('hidden');
+      document.getElementById('userDisplay').classList.add('hidden');
+      currentPage = 'login';
+      document.getElementById('appContent').style.display = 'none';
+      document.getElementById('loginPage').style.display = 'block';
+      document.getElementById('registerPage').style.display = 'none';
+      closeSidebar();
+    }
+
+    function switchToLogin() {
+      document.getElementById('loginPage').style.display = 'block';
+      document.getElementById('registerPage').style.display = 'none';
+      document.getElementById('registerError').innerHTML = '';
+    }
+
+    function switchToRegister() {
+      document.getElementById('loginPage').style.display = 'none';
+      document.getElementById('registerPage').style.display = 'block';
+      document.getElementById('regUsername').value = '';
+      document.getElementById('regPassword').value = '';
+      document.getElementById('regConfirmPassword').value = '';
+      document.getElementById('registerError').innerHTML = '';
+    }
+
+    function showAppContent() {
+      document.getElementById('loginPage').style.display = 'none';
+      document.getElementById('registerPage').style.display = 'none';
+      document.getElementById('appContent').style.display = 'block';
+      document.getElementById('userDisplay').classList.remove('hidden');
+      document.getElementById('menuBtn').classList.remove('hidden');
+      document.getElementById('usernameBadge').textContent = currentUser.username;
+
+      console.log('Current user role:', currentUser.role);
+      
+      if (currentUser.role === 'admin') {
+        document.getElementById('adminBtn').style.display = 'block';
+        document.getElementById('adminHr').style.display = 'block';
+      } else {
+        document.getElementById('adminBtn').style.display = 'none';
+        document.getElementById('adminHr').style.display = 'none';
+      }
+
+      switchPage('home');
+    }
+
+    function showError(elementId, message) {
+      const elem = document.getElementById(elementId);
+      elem.textContent = message;
+      elem.classList.remove('hidden');
+    }
+
+    function showSuccess(message) {
+      alert(message);
+    }
+
+    // Page Navigation
+    function switchPage(page) {
+      // Hide all pages
+      document.querySelectorAll('[id$="Page"]').forEach(el => {
+        el.style.display = 'none';
+      });
+
+      // Handle special cases
+      if (['apl', 'aog', 'rpl', 'gcs'].includes(page)) {
+        document.getElementById('tournamentPage').style.display = 'block';
+        const tournamentNames = {
+          'apl': 'APL - Liên Quân Mobile',
+          'aog': 'AOG - Giải Đấu Việt Nam',
+          'rpl': 'RPL - Giải Đấu Thái Lan',
+          'gcs': 'GCS - Giải Đấu Đài Loan'
+        };
+        document.getElementById('tournamentTitle').textContent = tournamentNames[page];
+        window.currentTournament = page.toUpperCase();
+        document.getElementById('tournamentDate').value = new Date().toISOString().split('T')[0];
+        loadTournamentMatches();
+      } else {
+        document.getElementById(page + 'Page').style.display = 'block';
+        if (page === 'predictions') {
+          document.getElementById('predictionDate').value = new Date().toISOString().split('T')[0];
+          loadPredictions();
+        } else if (page === 'scores') {
+          document.getElementById('scoresDate').value = new Date().toISOString().split('T')[0];
+          loadScores();
+        } else if (page === 'admin') {
+          loadAdminMatches();
+        }
+      }
+
+      currentPage = page;
+      closeSidebar();
+    }
+
+    function closeSidebar() {
+      document.getElementById('sidebar').classList.add('-translate-x-full');
+    }
+
+    document.getElementById('menuBtn').addEventListener('click', () => {
+      document.getElementById('sidebar').classList.toggle('-translate-x-full');
+    });
+
+    // Match Management (Admin)
+    function addMatch() {
+      const tournament = document.getElementById('adminTournament').value;
+      const date = document.getElementById('adminDate').value;
+      const time = document.getElementById('adminTime').value;
+      const team1 = document.getElementById('adminTeam1').value;
+      const team2 = document.getElementById('adminTeam2').value;
+      const status = document.getElementById('adminStatus').value;
+      const score1 = parseInt(document.getElementById('adminScore1').value) || 0;
+      const score2 = parseInt(document.getElementById('adminScore2').value) || 0;
+
+      if (!date || !time || !team1 || !team2) {
+        alert('Vui lòng điền đủ thông tin');
+        return;
+      }
+
+      const matches = JSON.parse(localStorage.getItem('matches'));
+      const match = {
+        id: Date.now(),
+        tournament,
+        date,
+        time,
+        team1,
+        team2,
+        status,
+        score1,
+        score2,
+        logo1: tempLogoData?.logo1 || null,
+        logo1Name: tempLogoData?.logo1Name || '',
+        logo2: tempLogoData?.logo2 || null,
+        logo2Name: tempLogoData?.logo2Name || ''
+      };
+
+      matches.push(match);
+      localStorage.setItem('matches', JSON.stringify(matches));
+
+      // Reset form
+      document.getElementById('adminTournament').value = 'APL';
+      document.getElementById('adminDate').value = '';
+      document.getElementById('adminTime').value = '';
+      document.getElementById('adminTeam1').value = '';
+      document.getElementById('adminTeam2').value = '';
+      document.getElementById('adminStatus').value = 'Diễn Ra';
+      document.getElementById('adminScore1').value = '0';
+      document.getElementById('adminScore2').value = '0';
+      document.getElementById('adminLogo1Preview').classList.add('hidden');
+      document.getElementById('adminLogo2Preview').classList.add('hidden');
+      document.getElementById('adminLogo1Name').textContent = '';
+      document.getElementById('adminLogo2Name').textContent = '';
+      tempLogoData = null;
+
+      alert('Thêm trận đấu thành công!');
+      loadAdminMatches();
+    }
+
+    function loadAdminMatches() {
+      const matches = JSON.parse(localStorage.getItem('matches'));
+      const container = document.getElementById('adminMatches');
+      container.innerHTML = '';
+
+      if (matches.length === 0) {
+        container.innerHTML = '<p class="text-gray-600">Chưa có trận đấu nào</p>';
+        return;
+      }
+
+      matches.forEach(match => {
+        const div = document.createElement('div');
+        div.className = 'match-card';
+        div.innerHTML = `
+          <div class="flex justify-between items-center flex-wrap gap-4">
+            <div class="flex items-center gap-4 flex-1 min-w-200px">
+              <img src="${match.logo1}" alt="Logo 1" class="team-logo" onerror="this.src='https://via.placeholder.com/60?text=Team+1'">
+              <div>
+                <p class="font-bold">${match.team1}</p>
+                <p class="text-xs text-gray-600">${match.logo1Name}</p>
+              </div>
+            </div>
+            <div class="text-center">
+              <p class="text-2xl font-bold text-red-600">${match.score1} - ${match.score2}</p>
+              <span class="status-badge ${match.status === 'Diễn Ra' ? 'status-ongoing' : 'status-finished'}">${match.status}</span>
+            </div>
+            <div class="flex items-center gap-4 flex-1 min-w-200px justify-end">
+              <div class="text-right">
+                <p class="font-bold">${match.team2}</p>
+                <p class="text-xs text-gray-600">${match.logo2Name}</p>
+              </div>
+              <img src="${match.logo2}" alt="Logo 2" class="team-logo" onerror="this.src='https://via.placeholder.com/60?text=Team+2'">
+            </div>
+          </div>
+          <div class="mt-4 flex gap-2 flex-wrap justify-between items-center">
+            <div class="text-sm text-gray-600">
+              <i class="fas fa-calendar mr-1"></i>${match.date} ${match.time}
+              <span class="tournament-badge ${match.tournament.toLowerCase()}-badge">${match.tournament}</span>
+            </div>
+            <button onclick="openEditMatchModal('${match.id}')" class="garena-btn text-sm">
+              <i class="fas fa-edit mr-1"></i> Chỉnh Sửa
+            </button>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function openEditMatchModal(matchId) {
+      editingMatchId = matchId;
+      const matches = JSON.parse(localStorage.getItem('matches'));
+      const match = matches.find(m => m.id == matchId);
+
+      document.getElementById('editStatus').value = match.status;
+      document.getElementById('editScore1').value = match.score1;
+      document.getElementById('editScore2').value = match.score2;
+
+      document.getElementById('editMatchModal').classList.add('active');
+    }
+
+    function closeEditMatchModal() {
+      document.getElementById('editMatchModal').classList.remove('active');
+      editingMatchId = null;
+    }
+
+    function saveMatchEdit() {
+      const matches = JSON.parse(localStorage.getItem('matches'));
+      const match = matches.find(m => m.id == editingMatchId);
+
+      match.status = document.getElementById('editStatus').value;
+      match.score1 = parseInt(document.getElementById('editScore1').value) || 0;
+      match.score2 = parseInt(document.getElementById('editScore2').value) || 0;
+
+      localStorage.setItem('matches', JSON.stringify(matches));
+      closeEditMatchModal();
+      loadAdminMatches();
+      alert('Cập nhật thành công!');
+    }
+
+    function deleteMatch() {
+      if (confirm('Bạn chắc chắn muốn xóa trận đấu này?')) {
+        let matches = JSON.parse(localStorage.getItem('matches'));
+        matches = matches.filter(m => m.id != editingMatchId);
+        localStorage.setItem('matches', JSON.stringify(matches));
+        closeEditMatchModal();
+        loadAdminMatches();
+        alert('Xóa thành công!');
+      }
+    }
+
+    // Logo Upload
+    function openLogoUploadModal(teamNumber) {
+      uploadingLogoFor = teamNumber;
+      document.getElementById('logoPreview').classList.add('hidden');
+      document.getElementById('logoInput').value = '';
+      document.getElementById('logoModal').classList.add('active');
+    }
+
+    function closeLogoModal() {
+      document.getElementById('logoModal').classList.remove('active');
+      uploadingLogoFor = null;
+      tempLogoData = null;
+    }
+
+    // Drag & Drop for Logo
+    const dropZone = document.getElementById('dropZone');
+    const logoInput = document.getElementById('logoInput');
+
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropZone.classList.add('dragover');
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+      dropZone.classList.remove('dragover');
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('dragover');
+      if (e.dataTransfer.files.length > 0) {
+        logoInput.files = e.dataTransfer.files;
+        handleLogoSelect();
+      }
+    });
+
+    logoInput.addEventListener('change', handleLogoSelect);
+
+    function handleLogoSelect() {
+      const file = logoInput.files[0];
+      if (!file || !file.type.startsWith('image/')) return;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        document.getElementById('logoPreviewImg').src = e.target.result;
+        document.getElementById('logoPreview').classList.remove('hidden');
+        tempLogoData = { 
+          data: e.target.result,
+          file: file
+        };
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function confirmLogoUpload() {
+      const teamName = document.getElementById('logoTeamName').value;
+      if (!teamName || !tempLogoData) {
+        alert('Vui lòng chọn hình và nhập tên đội');
+        return;
+      }
+
+      if (uploadingLogoFor === 1) {
+        document.getElementById('adminLogo1Preview').src = tempLogoData.data;
+        document.getElementById('adminLogo1Preview').classList.remove('hidden');
+        document.getElementById('adminLogo1Name').textContent = teamName;
+        tempLogoData.logo1 = tempLogoData.data;
+        tempLogoData.logo1Name = teamName;
+      } else {
+        document.getElementById('adminLogo2Preview').src = tempLogoData.data;
+        document.getElementById('adminLogo2Preview').classList.remove('hidden');
+        document.getElementById('adminLogo2Name').textContent = teamName;
+        tempLogoData.logo2 = tempLogoData.data;
+        tempLogoData.logo2Name = teamName;
+      }
+
+      closeLogoModal();
+    }
+
+    // Load Predictions
+    function loadPredictions() {
+      const tournament = document.getElementById('predictionTourament').value;
+      const date = document.getElementById('predictionDate').value;
+      const matches = JSON.parse(localStorage.getItem('matches'));
+      
+      let filtered = matches;
+      if (tournament) filtered = filtered.filter(m => m.tournament === tournament);
+      if (date) filtered = filtered.filter(m => m.date === date);
+
+      const container = document.getElementById('predictionsContainer');
+      container.innerHTML = '';
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<p class="text-gray-600 text-center">Chưa có trận đấu nào</p>';
+        return;
+      }
+
+      filtered.forEach(match => {
+        const predictions = JSON.parse(localStorage.getItem('predictions'));
+        const myPrediction = predictions[match.id] ? predictions[match.id][currentUser.username] : null;
+
+        const div = document.createElement('div');
+        div.className = 'match-card';
+        div.innerHTML = `
+          <div class="flex justify-between items-center flex-wrap gap-4 mb-4">
+            <div class="flex items-center gap-4">
+              <img src="${match.logo1}" alt="Logo 1" class="team-logo" onerror="this.src='https://via.placeholder.com/60?text=Team+1'">
+              <div>
+                <p class="font-bold">${match.team1}</p>
+                <p class="text-xs text-gray-600">${match.date} ${match.time}</p>
+              </div>
+            </div>
+            <div class="text-center">
+              <p class="text-3xl font-bold text-red-600">${match.score1} - ${match.score2}</p>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="text-right">
+                <p class="font-bold">${match.team2}</p>
+                <span class="tournament-badge ${match.tournament.toLowerCase()}-badge">${match.tournament}</span>
+              </div>
+              <img src="${match.logo2}" alt="Logo 2" class="team-logo" onerror="this.src='https://via.placeholder.com/60?text=Team+2'">
+            </div>
+          </div>
+
+          <h4 class="font-bold mb-3">Dự Đoán Của Bạn:</h4>
+          <div class="grid grid-cols-2 gap-3 mb-4">
+            <div class="prediction-option ${myPrediction && myPrediction.winner === match.team1 ? 'selected' : ''}" onclick="makePrediction('${match.id}', '${match.team1}')">
+              <p class="font-bold">${match.team1}</p>
+              <p class="text-xs">Thắng</p>
+            </div>
+            <div class="prediction-option ${myPrediction && myPrediction.winner === match.team2 ? 'selected' : ''}" onclick="makePrediction('${match.id}', '${match.team2}')">
+              <p class="font-bold">${match.team2}</p>
+              <p class="text-xs">Thắng</p>
+            </div>
+          </div>
+
+          <label class="block text-sm font-bold mb-2">Dự Đoán Tỉ Số:</label>
+          <div class="flex gap-2">
+            <input type="number" class="prediction-score" placeholder="Tỉ số đội 1" value="${myPrediction ? myPrediction.score1 : ''}" onchange="updatePredictionScore('${match.id}', this.value, event.target.nextElementSibling.value)">
+            <span class="px-3 flex items-center font-bold">-</span>
+            <input type="number" class="prediction-score" placeholder="Tỉ số đội 2" value="${myPrediction ? myPrediction.score2 : ''}" onchange="updatePredictionScore('${match.id}', event.target.previousElementSibling.previousElementSibling.value, this.value)">
+          </div>
+          ${myPrediction ? '<p class="text-sm text-green-600 mt-2"><i class="fas fa-check-circle"></i> Dự đoán của bạn đã được lưu</p>' : ''}
+        `;
+        container.appendChild(div);
+      });
+
+      // Style prediction scores
+      document.querySelectorAll('.prediction-score').forEach(el => {
+        el.className = 'w-20 px-3 py-2 border-2 border-gray-300 rounded-lg text-center font-bold focus:border-red-600 focus:outline-none';
+      });
+    }
+
+    function makePrediction(matchId, winner) {
+      const predictions = JSON.parse(localStorage.getItem('predictions'));
+      if (!predictions[matchId]) predictions[matchId] = {};
+      
+      if (!predictions[matchId][currentUser.username]) {
+        predictions[matchId][currentUser.username] = { winner, score1: '', score2: '' };
+      } else {
+        predictions[matchId][currentUser.username].winner = winner;
+      }
+
+      localStorage.setItem('predictions', JSON.stringify(predictions));
+      loadPredictions();
+    }
+
+    function updatePredictionScore(matchId, score1, score2) {
+      const predictions = JSON.parse(localStorage.getItem('predictions'));
+      if (!predictions[matchId]) predictions[matchId] = {};
+      if (!predictions[matchId][currentUser.username]) {
+        predictions[matchId][currentUser.username] = { winner: '', score1: '', score2: '' };
+      }
+
+      predictions[matchId][currentUser.username].score1 = score1;
+      predictions[matchId][currentUser.username].score2 = score2;
+
+      localStorage.setItem('predictions', JSON.stringify(predictions));
+    }
+
+    // Load Scores
+    function loadScores() {
+      const tournament = document.getElementById('scoresTourament').value;
+      const date = document.getElementById('scoresDate').value;
+      const matches = JSON.parse(localStorage.getItem('matches'));
+      
+      let filtered = matches;
+      if (tournament) filtered = filtered.filter(m => m.tournament === tournament);
+      if (date) filtered = filtered.filter(m => m.date === date);
+
+      const container = document.getElementById('scoresContainer');
+      container.innerHTML = '';
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<p class="text-gray-600 text-center">Chưa có trận đấu nào</p>';
+        return;
+      }
+
+      filtered.forEach(match => {
+        const div = document.createElement('div');
+        div.className = 'match-card';
+        div.innerHTML = `
+          <div class="flex justify-between items-center flex-wrap gap-4">
+            <div class="flex items-center gap-4 flex-1">
+              <img src="${match.logo1}" alt="Logo 1" class="team-logo" onerror="this.src='https://via.placeholder.com/60?text=Team+1'">
+              <div>
+                <p class="font-bold">${match.team1}</p>
+                <p class="text-xs text-gray-600">${match.logo1Name}</p>
+              </div>
+            </div>
+            <div class="text-center">
+              <p class="text-3xl font-bold text-red-600">${match.score1} - ${match.score2}</p>
+              <span class="status-badge ${match.status === 'Diễn Ra' ? 'status-ongoing' : 'status-finished'}">${match.status}</span>
+              <p class="text-xs text-gray-600 mt-2">${match.date} ${match.time}</p>
+            </div>
+            <div class="flex items-center gap-4 flex-1 justify-end">
+              <div class="text-right">
+                <p class="font-bold">${match.team2}</p>
+                <p class="text-xs text-gray-600">${match.logo2Name}</p>
+              </div>
+              <img src="${match.logo2}" alt="Logo 2" class="team-logo" onerror="this.src='https://via.placeholder.com/60?text=Team+2'">
+            </div>
+          </div>
+          <div class="mt-4">
+            <span class="tournament-badge ${match.tournament.toLowerCase()}-badge">${match.tournament}</span>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    // Load Tournament Matches
+    function loadTournamentMatches() {
+      const date = document.getElementById('tournamentDate').value;
+      const matches = JSON.parse(localStorage.getItem('matches'));
+      
+      let filtered = matches.filter(m => m.tournament === window.currentTournament);
+      if (date) filtered = filtered.filter(m => m.date === date);
+
+      const container = document.getElementById('tournamentContainer');
+      container.innerHTML = '';
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<p class="text-gray-600 text-center">Chưa có trận đấu nào</p>';
+        return;
+      }
+
+      filtered.forEach(match => {
+        const div = document.createElement('div');
+        div.className = 'match-card';
+        div.innerHTML = `
+          <div class="flex justify-between items-center flex-wrap gap-4">
+            <div class="flex items-center gap-4 flex-1">
+              <img src="${match.logo1}" alt="Logo 1" class="team-logo" onerror="this.src='https://via.placeholder.com/60?text=Team+1'">
+              <div>
+                <p class="font-bold text-lg">${match.team1}</p>
+                <p class="text-xs text-gray-600">${match.logo1Name}</p>
+              </div>
+            </div>
+            <div class="text-center">
+              <p class="text-4xl font-bold text-red-600">${match.score1} - ${match.score2}</p>
+              <span class="status-badge ${match.status === 'Diễn Ra' ? 'status-ongoing' : 'status-finished'}">${match.status}</span>
+            </div>
+            <div class="flex items-center gap-4 flex-1 justify-end">
+              <div class="text-right">
+                <p class="font-bold text-lg">${match.team2}</p>
+                <p class="text-xs text-gray-600">${match.logo2Name}</p>
+              </div>
+              <img src="${match.logo2}" alt="Logo 2" class="team-logo" onerror="this.src='https://via.placeholder.com/60?text=Team+2'">
+            </div>
+          </div>
+          <div class="mt-4 flex justify-between items-center">
+            <p class="text-sm text-gray-600">
+              <i class="fas fa-clock mr-1"></i>${match.date} ${match.time}
+            </p>
+            <button onclick="switchPage('predictions')" class="garena-btn text-sm">
+              <i class="fas fa-star mr-1"></i> Dự Đoán Tỉ Số
+            </button>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    initData();
+
+    // Check if user is already logged in
+    try {
+      const savedUser = localStorage.getItem('currentUser');
+      if (savedUser) {
+        currentUser = JSON.parse(savedUser);
+        console.log('Restored user:', currentUser);
+        showAppContent();
+      }
+    } catch (e) {
+      console.error('Error restoring user:', e);
+    }
+  </script>
+</body>
+</html>
