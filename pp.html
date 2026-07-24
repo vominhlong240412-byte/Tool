@@ -1,1358 +1,804 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AOV APL 2026 - Dự Đoán Tỉ Số</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-  <style>
-    :root {
-      --garena-red: #d91f1f;
-      --dark-red: #a01515;
-    }
-    
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    
-    .garena-header {
-      background: linear-gradient(135deg, var(--garena-red) 0%, var(--dark-red) 100%);
-      box-shadow: 0 4px 15px rgba(217, 31, 31, 0.3);
-    }
-    
-    .garena-btn {
-      background-color: var(--garena-red);
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.3s;
-      font-weight: 600;
-    }
-    
-    .garena-btn:hover {
-      background-color: var(--dark-red);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(217, 31, 31, 0.4);
-    }
-    
-    .garena-btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      transform: none;
-    }
-    
-    .garena-tab {
-      border-bottom: 3px solid transparent;
-      padding: 12px 24px;
-      cursor: pointer;
-      transition: all 0.3s;
-      font-weight: 600;
-      color: #666;
-    }
-    
-    .garena-tab.active {
-      border-bottom-color: var(--garena-red);
-      color: var(--garena-red);
-    }
-    
-    .garena-tab:hover {
-      color: var(--garena-red);
-    }
-    
-    .match-card {
-      background: white;
-      border-left: 4px solid var(--garena-red);
-      padding: 20px;
-      border-radius: 8px;
-      margin-bottom: 15px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      transition: all 0.3s;
-    }
-    
-    .match-card:hover {
-      box-shadow: 0 4px 16px rgba(217, 31, 31, 0.15);
-      transform: translateX(4px);
-    }
-    
-    .team-logo {
-      width: 60px;
-      height: 60px;
-      border-radius: 8px;
-      object-fit: cover;
-      border: 2px solid var(--garena-red);
-    }
-    
-    .small-logo {
-      width: 40px;
-      height: 40px;
-      border-radius: 6px;
-      object-fit: cover;
-    }
-    
-    .status-badge {
-      display: inline-block;
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 600;
-    }
-    
-    .status-ongoing {
-      background-color: #fef3c7;
-      color: #92400e;
-    }
-    
-    .status-finished {
-      background-color: #d1d5db;
-      color: #374151;
-    }
-    
-    .drop-zone {
-      transition: all 0.3s ease;
-      border: 2px dashed #d1d5db;
-    }
-    
-    .drop-zone.dragover {
-      background-color: #fef3c7;
-      border-color: var(--garena-red);
-    }
-    
-    .input-field {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #e5e7eb;
-      border-radius: 6px;
-      font-size: 14px;
-      margin-bottom: 12px;
-      transition: border-color 0.3s;
-    }
-    
-    .input-field:focus {
-      outline: none;
-      border-color: var(--garena-red);
-      box-shadow: 0 0 0 3px rgba(217, 31, 31, 0.1);
-    }
-    
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0,0,0,0.5);
-      z-index: 1000;
-      justify-content: center;
-      align-items: center;
-    }
-    
-    .modal.active {
-      display: flex;
-    }
-    
-    .modal-content {
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      max-width: 600px;
-      width: 90%;
-      max-height: 90vh;
-      overflow-y: auto;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-    }
-    
-    .prediction-option {
-      padding: 12px;
-      border: 2px solid #e5e7eb;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.3s;
-      margin-bottom: 8px;
-      text-align: center;
-    }
-    
-    .prediction-option:hover {
-      border-color: var(--garena-red);
-      background-color: #fef3c7;
-    }
-    
-    .prediction-option.selected {
-      border-color: var(--garena-red);
-      background-color: var(--garena-red);
-      color: white;
-    }
-    
-    .tournament-badge {
-      display: inline-block;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 600;
-      margin-right: 8px;
-      margin-bottom: 8px;
-    }
-    
-    .apl-badge { background: #fde047; color: #713f00; }
-    .aog-badge { background: #86efac; color: #14532d; }
-    .rpl-badge { background: #67e8f9; color: #164e63; }
-    .gcs-badge { background: #d8b4fe; color: #581c87; }
-    
-    .admin-section {
-      background: #fef3c7;
-      border-left: 4px solid var(--garena-red);
-      padding: 20px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu cho Thao- Đồ Ăn Nhanh Tương Lai</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* ==========================================
+           CYBERPUNK PURPLE THEME & CORE STYLES
+           ========================================== */
+        :root {
+            --bg-base: #090310;
+            --bg-dark: #05010a;
+            --primary: #9d00ff;
+            --primary-hover: #b833ff;
+            --secondary: #ff00ff;
+            --accent: #00f0ff;
+            --text-main: #e2d9f3;
+            --text-muted: #8b7d9e;
+            --glass-bg: rgba(20, 5, 40, 0.45);
+            --glass-border: rgba(157, 0, 255, 0.3);
+            --neon-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary), inset 0 0 10px rgba(157,0,255,0.2);
+            --accent-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
 
-    .logo-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-      gap: 15px;
-      margin-top: 15px;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-    .logo-item {
-      position: relative;
-      aspect-ratio: 1;
-      border-radius: 8px;
-      overflow: hidden;
-      cursor: pointer;
-      border: 2px solid #e5e7eb;
-      transition: all 0.3s;
-    }
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(157, 0, 255, 0.08), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(0, 240, 255, 0.08), transparent 25%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
 
-    .logo-item:hover {
-      border-color: var(--garena-red);
-      transform: scale(1.05);
-    }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
-    .logo-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+        .neon-text {
+            color: var(--accent);
+            text-shadow: 0 0 5px var(--accent), 0 0 15px var(--accent);
+        }
 
-    .logo-item-label {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(0,0,0,0.7);
-      color: white;
-      padding: 4px;
-      font-size: 11px;
-      text-align: center;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-  </style>
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        /* NAVBAR */
+        header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5%;
+            z-index: 1000;
+            border-radius: 0 0 20px 20px;
+            border-top: none;
+        }
+        .logo { font-size: 28px; font-weight: 900; letter-spacing: 2px; display: flex; align-items: center; gap: 10px; }
+        .logo i { color: var(--primary); text-shadow: 0 0 10px var(--primary); }
+        .search-bar {
+            display: flex;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid var(--primary);
+            border-radius: 30px;
+            padding: 5px 20px;
+            width: 400px;
+            box-shadow: inset 0 0 10px rgba(157,0,255,0.2);
+        }
+        .search-bar input {
+            background: transparent; border: none; outline: none; color: white; width: 100%; font-size: 16px;
+        }
+        .search-bar button { background: transparent; border: none; color: var(--accent); cursor: pointer; font-size: 18px; }
+        .menu a {
+            color: var(--text-main); text-decoration: none; margin: 0 15px; font-size: 16px; font-weight: 500; transition: var(--transition);
+        }
+        .menu a:hover, .menu a.active { color: var(--accent); text-shadow: 0 0 10px var(--accent); }
+        .menu a.admin-link { color: #ff3366; text-shadow: 0 0 10px #ff3366; cursor: pointer; }
+        .user-actions { display: flex; align-items: center; gap: 25px; }
+        .cart-icon { position: relative; font-size: 24px; cursor: pointer; color: var(--text-main); transition: var(--transition); }
+        .cart-icon:hover { color: var(--primary); transform: scale(1.1); }
+        .badge {
+            position: absolute; top: -8px; right: -12px; background: var(--accent); color: #000; font-size: 12px;
+            font-weight: bold; padding: 2px 6px; border-radius: 50%; box-shadow: 0 0 10px var(--accent);
+        }
+        .avatar img { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--primary); padding: 2px; }
+
+        /* HERO SECTION */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 80px;
+        }
+        .hero-content {
+            padding: 60px;
+            max-width: 800px;
+            animation: slideUp 1s ease-out forwards;
+        }
+        .glitch {
+            font-size: 3.5rem; font-weight: 900; margin-bottom: 20px; text-transform: uppercase;
+            color: #fff; text-shadow: 0 0 20px var(--primary);
+        }
+        .hero p { font-size: 1.2rem; margin-bottom: 40px; color: var(--text-muted); line-height: 1.6; }
+        .hero-buttons { display: flex; gap: 20px; justify-content: center; }
+
+        /* BUTTONS */
+        button { font-weight: 600; letter-spacing: 1px; cursor: pointer; transition: var(--transition); border-radius: 8px; }
+        .btn-primary { background: var(--primary); color: #fff; border: none; padding: 15px 35px; font-size: 16px; }
+        .btn-primary:hover { background: var(--primary-hover); box-shadow: var(--neon-shadow); }
+        .btn-outline { background: transparent; color: var(--accent); border: 2px solid var(--accent); padding: 13px 33px; font-size: 16px; }
+        .btn-outline:hover { background: var(--accent); color: #000; box-shadow: var(--accent-shadow); }
+        .btn-icon { background: transparent; border: none; color: var(--accent); font-size: 18px; margin: 0 5px; cursor: pointer; }
+        .btn-icon.red { color: #ff3366; }
+
+        /* FLASH SALE */
+        .flash-sale-banner {
+            background: linear-gradient(90deg, #ff0055, var(--primary));
+            padding: 15px 5%; display: flex; justify-content: space-between; align-items: center;
+            font-weight: bold; font-size: 1.2rem; text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        .countdown { background: rgba(0,0,0,0.5); padding: 8px 20px; border-radius: 30px; font-family: monospace; font-size: 1.5rem; }
+
+        /* CATEGORIES */
+        .categories { display: flex; justify-content: center; gap: 20px; padding: 40px 5%; flex-wrap: wrap; }
+        .cat-btn {
+            padding: 12px 25px; border-radius: 30px; border: 1px solid var(--glass-border);
+            background: var(--glass-bg); cursor: pointer; transition: var(--transition);
+            display: flex; align-items: center; gap: 10px; font-size: 16px; color: var(--text-main);
+        }
+        .cat-btn:hover, .cat-btn.active { background: var(--primary); box-shadow: var(--neon-shadow); border-color: var(--primary); }
+
+        /* PRODUCT GRID */
+        .product-container { padding: 0 5% 80px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
+        .product-card {
+            background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 16px;
+            padding: 20px; transition: var(--transition); position: relative; overflow: hidden;
+        }
+        .product-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(157,0,255,0.2); border-color: var(--primary); }
+        .product-img { width: 100%; height: 200px; object-fit: cover; border-radius: 12px; margin-bottom: 15px; }
+        .discount-badge {
+            position: absolute; top: 10px; right: 10px; background: #ff0055; color: white;
+            padding: 5px 10px; border-radius: 8px; font-weight: bold; font-size: 14px; box-shadow: 0 0 10px #ff0055;
+        }
+        .product-title { font-size: 1.2rem; margin-bottom: 10px; color: #fff; }
+        .product-meta { display: flex; justify-content: space-between; color: var(--text-muted); font-size: 14px; margin-bottom: 15px; }
+        .product-price { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; }
+        .new-price { font-size: 1.4rem; font-weight: bold; color: var(--accent); text-shadow: 0 0 5px rgba(0,240,255,0.5); }
+        .old-price { text-decoration: line-through; color: var(--text-muted); font-size: 1rem; }
+        .add-to-cart-btn {
+            width: 100%; padding: 12px; background: rgba(157,0,255,0.1); border: 1px solid var(--primary);
+            color: var(--text-main); border-radius: 8px; display: flex; justify-content: center; align-items: center; gap: 10px;
+        }
+        .add-to-cart-btn:hover { background: var(--primary); box-shadow: var(--neon-shadow); }
+
+        /* CART MODAL */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px); display: none; justify-content: flex-end; z-index: 2000;
+        }
+        .modal-overlay.active { display: flex; animation: fadeIn 0.3s; }
+        .cart-panel {
+            width: 450px; height: 100vh; border-radius: 20px 0 0 20px; border-right: none;
+            display: flex; flex-direction: column; padding: 30px; animation: slideLeft 0.4s ease-out;
+        }
+        .cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid var(--glass-border); padding-bottom: 15px; }
+        .close-btn { background: transparent; border: none; color: var(--text-main); font-size: 24px; cursor: pointer; }
+        .close-btn:hover { color: #ff0055; text-shadow: 0 0 10px #ff0055; }
+        .cart-items { flex: 1; overflow-y: auto; padding-right: 10px; }
+        .cart-item {
+            display: flex; gap: 15px; background: rgba(0,0,0,0.3); padding: 15px;
+            border-radius: 12px; margin-bottom: 15px; border: 1px solid rgba(157,0,255,0.1);
+        }
+        .cart-item img { width: 70px; height: 70px; border-radius: 8px; object-fit: cover; }
+        .item-info { flex: 1; }
+        .item-info h4 { margin-bottom: 5px; font-size: 16px; color: #fff; }
+        .item-price { color: var(--accent); font-weight: bold; margin-bottom: 10px; display: block; }
+        .qty-control { display: flex; align-items: center; gap: 15px; }
+        .qty-btn { background: var(--glass-bg); border: 1px solid var(--primary); color: white; width: 28px; height: 28px; border-radius: 5px; cursor: pointer; }
+        .remove-btn { background: transparent; border: none; color: #ff3366; cursor: pointer; }
+        .cart-summary { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--glass-border); }
+        .voucher-input { display: flex; gap: 10px; margin-bottom: 20px; }
+        .voucher-input input { flex: 1; padding: 10px 15px; border-radius: 8px; border: 1px solid var(--glass-border); background: rgba(0,0,0,0.5); color: white; outline: none; }
+        .summary-line { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 16px; }
+        .summary-line.total { font-size: 1.4rem; font-weight: bold; margin-top: 10px; }
+        .full-width { width: 100%; margin-top: 20px; font-size: 18px; padding: 18px; }
+
+        /* TOAST NOTIFICATIONS */
+        .toast-container { position: fixed; bottom: 30px; right: 30px; z-index: 9999; display: flex; flex-direction: column; gap: 15px; }
+        .toast {
+            background: var(--glass-bg); border-left: 4px solid var(--primary); padding: 15px 25px;
+            border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 15px;
+            animation: slideInRight 0.3s forwards, fadeOut 0.5s 2.5s forwards; min-width: 300px; color: #fff;
+        }
+        .toast.success { border-color: #00ff88; } .toast.success i { color: #00ff88; }
+        .toast.error { border-color: #ff0055; } .toast.error i { color: #ff0055; }
+
+        /* ADMIN PANEL FULL MODAL / VIEW */
+        #adminView {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: var(--bg-base); z-index: 3000; overflow: hidden;
+        }
+        #adminView.active { display: flex; }
+        .admin-layout { display: flex; width: 100%; height: 100%; }
+        .admin-sidebar { width: 280px; height: 100vh; padding: 30px 20px; border-radius: 0; border-top: none; border-bottom: none; border-left: none; }
+        .admin-sidebar .logo { margin-bottom: 50px; justify-content: center; }
+        .admin-nav { display: flex; flex-direction: column; gap: 15px; }
+        .admin-nav a {
+            padding: 15px 20px; text-decoration: none; color: var(--text-main); border-radius: 12px;
+            display: flex; align-items: center; gap: 15px; transition: var(--transition); cursor: pointer;
+        }
+        .admin-nav a:hover, .admin-nav a.active { background: rgba(157,0,255,0.2); border-left: 4px solid var(--primary); color: var(--accent); }
+        .admin-content { flex: 1; padding: 40px; overflow-y: auto; }
+        .admin-tab h2 { margin-bottom: 30px; font-size: 24px; display: flex; align-items: center; gap: 15px; color: #fff; }
+        .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-bottom: 40px; }
+        .stat-card { padding: 30px; text-align: center; }
+        .stat-card h3 { color: var(--text-muted); margin-bottom: 15px; font-size: 18px; }
+        .stat-card p { font-size: 2.5rem; font-weight: bold; }
+        .table-container { padding: 20px; border-radius: 16px; }
+        .cyber-table { width: 100%; border-collapse: collapse; }
+        .cyber-table th, .cyber-table td { padding: 15px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .cyber-table th { color: var(--primary); font-weight: 600; text-transform: uppercase; font-size: 14px; }
+        .cyber-table tr:hover { background: rgba(157,0,255,0.05); }
+        .role-badge { padding: 5px 12px; border-radius: 20px; font-size: 12px; background: rgba(255,255,255,0.1); }
+        .role-badge.admin { background: rgba(157,0,255,0.2); color: var(--primary); border: 1px solid var(--primary); }
+        .status-badge { padding: 5px 12px; border-radius: 20px; font-size: 12px; }
+        .status-badge.green { background: rgba(0,255,136,0.1); color: #00ff88; border: 1px solid #00ff88; }
+        .status-badge.red { background: rgba(255,0,85,0.1); color: #ff0055; border: 1px solid #ff0055; }
+
+        /* TERMINAL LOGS */
+        .terminal-container { border-radius: 12px; overflow: hidden; background: #05010a; border: 1px solid #333; }
+        .terminal-header { background: #1a1a1a; padding: 10px 15px; display: flex; align-items: center; gap: 8px; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot.red { background: #ff5f56; } .dot.yellow { background: #ffbd2e; } .dot.green { background: #27c93f; }
+        .terminal-title { color: #888; font-family: monospace; font-size: 14px; margin-left: 10px; }
+        .terminal-body { padding: 20px; font-family: 'Courier New', Courier, monospace; height: 500px; overflow-y: auto; font-size: 14px; line-height: 1.6; }
+        .log-info { color: #00f0ff; }
+        .log-warn { color: #ffcc00; }
+        .log-error { color: #ff3366; font-weight: bold; }
+
+        /* ANIMATIONS */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes slideLeft { from { transform: translateX(100%); } to { transform: translateX(0); } }
+        @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); } }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; transform: translateY(20px); } }
+    </style>
 </head>
-<body class="bg-gray-50">
-  <!-- Header -->
-  <div class="garena-header text-white sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 py-4">
-      <div class="flex justify-between items-center">
-        <div class="flex items-center gap-3">
-          <i class="fas fa-crown text-2xl"></i>
-          <h1 class="text-2xl font-bold">AOV APL 2026</h1>
-        </div>
-        <div class="flex items-center gap-4">
-          <span id="userDisplay" class="text-sm hidden">
-            <i class="fas fa-user-circle"></i> <span id="usernameBadge"></span>
-          </span>
-          <button id="menuBtn" class="text-xl hover:text-gray-200 transition hidden">
-            <i class="fas fa-bars"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
+<body>
 
-  <!-- Sidebar Menu -->
-  <div id="sidebar" class="fixed left-0 top-0 h-screen w-64 bg-white shadow-lg transform -translate-x-full transition-transform z-40 pt-20 overflow-y-auto">
-    <nav class="p-4 space-y-3">
-      <button onclick="switchPage('home')" class="w-full text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition">
-        <i class="fas fa-home mr-3 text-gray-600"></i> Trang Chủ
-      </button>
-      <button onclick="switchPage('predictions')" class="w-full text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition">
-        <i class="fas fa-crystal-ball mr-3 text-gray-600"></i> Dự Đoán
-      </button>
-      <button onclick="switchPage('scores')" class="w-full text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition">
-        <i class="fas fa-chart-bar mr-3 text-gray-600"></i> Tỉ Số
-      </button>
-      <hr class="my-3">
-      <button onclick="switchPage('apl')" class="w-full text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition">
-        <span class="tournament-badge apl-badge">APL</span>
-      </button>
-      <button onclick="switchPage('aog')" class="w-full text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition">
-        <span class="tournament-badge aog-badge">AOG</span>
-      </button>
-      <button onclick="switchPage('rpl')" class="w-full text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition">
-        <span class="tournament-badge rpl-badge">RPL</span>
-      </button>
-      <button onclick="switchPage('gcs')" class="w-full text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition">
-        <span class="tournament-badge gcs-badge">GCS</span>
-      </button>
-      <hr class="my-3" id="adminHr" style="display:none;">
-      <button onclick="switchPage('admin')" class="w-full text-left px-4 py-3 hover:bg-red-100 rounded-lg transition text-red-700 font-bold" id="adminBtn" style="display:none;">
-        <i class="fas fa-lock mr-3"></i> Quản Lý Admin
-      </button>
-      <hr class="my-3">
-      <button onclick="logout()" class="w-full text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition text-red-700 font-bold">
-        <i class="fas fa-sign-out-alt mr-3"></i> Đăng Xuất
-      </button>
-    </nav>
-  </div>
+    <!-- ==================== USER INTERFACE ==================== -->
+    <div id="mainSiteContainer">
+        <!-- Navbar -->
+        <header class="glass-nav">
+            <div class="logo">
+                <i class="fa-solid fa-burger"></i>
+                <span>Cyber<span class="neon-text">Bite</span></span>
+            </div>
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Tìm kiếm món ăn, combo..." oninput="searchProducts()">
+                <button onclick="searchProducts()"><i class="fa-solid fa-search"></i></button>
+            </div>
+            <nav class="menu">
+                <a href="#" class="active"><i class="fa-solid fa-home"></i> Trang chủ</a>
+                <a href="#menu-section"><i class="fa-solid fa-utensils"></i> Thực đơn</a>
+                <a onclick="toggleAdminView()" class="admin-link"><i class="fa-solid fa-shield-halved"></i> Quản trị</a>
+            </nav>
+            <div class="user-actions">
+                <div class="cart-icon" onclick="toggleCart()">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span id="cartCount" class="badge">0</span>
+                </div>
+                <div class="avatar">
+                    <img src="https://ui-avatars.com/api/?name=User&background=9d00ff&color=fff" alt="User">
+                </div>
+            </div>
+        </header>
 
-  <!-- Main Content -->
-  <div class="max-w-7xl mx-auto px-4 py-8">
-    <!-- Login Page -->
-    <div id="loginPage" class="w-full max-w-md mx-auto pt-16">
-      <div class="bg-white rounded-lg shadow-lg p-8 border-t-4 border-red-600">
-        <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">
-          <i class="fas fa-sign-in-alt mr-2 text-red-600"></i>
-          Đăng Nhập
-        </h2>
-        <div id="loginError" class="bg-red-100 text-red-700 p-3 rounded-lg mb-4 hidden"></div>
-        <input type="text" id="loginUsername" placeholder="Tên đăng nhập" class="input-field" autocomplete="off">
-        <input type="password" id="loginPassword" placeholder="Mật khẩu" class="input-field">
-        <button onclick="login()" class="garena-btn w-full mb-4">
-          <i class="fas fa-key mr-2"></i> Đăng Nhập
-        </button>
-        <button onclick="switchToRegister()" class="w-full py-2 px-4 border-2 border-red-600 text-red-600 rounded-lg hover:bg-red-50 transition font-bold">
-          Tạo Tài Khoản Mới
-        </button>
-      </div>
-      <p class="text-center text-gray-600 mt-6 text-sm">
-        Tài khoản mặc định: <strong>Long</strong> / <strong>0</strong> (Admin)
-      </p>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content glass-panel">
+                <h1 class="glitch">TRẢI NGHIỆM VỊ GIÁC TƯƠNG LAI</h1>
+                <p>Hệ thống đặt đồ ăn nhanh siêu tốc độ. Giao hàng bằng Drone trong 15 phút. Nạp năng lượng chuẩn Cyberpunk.</p>
+                <div class="hero-buttons">
+                    <button class="btn-primary neon-btn" onclick="document.getElementById('menu-section').scrollIntoView({behavior: 'smooth'});">ĐẶT HÀNG NGAY</button>
+                    <button class="btn-outline" onclick="showToast('Flash Sale đang diễn ra toàn hệ thống!', 'success')">XEM FLASH SALE</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Flash Sale Banner -->
+        <div class="flash-sale-banner">
+            <div class="flash-title"><i class="fa-solid fa-bolt"></i> FLASH SALE ĐANG DIỄN RA</div>
+            <div class="countdown" id="countdownTimer">02:45:30</div>
+        </div>
+
+        <!-- Category Filters -->
+        <section class="categories">
+            <div class="cat-btn active" onclick="filterCategory('All')">Tất cả</div>
+            <div class="cat-btn" onclick="filterCategory('Burger')"><i class="fa-solid fa-hamburger"></i> Burger</div>
+            <div class="cat-btn" onclick="filterCategory('Pizza')"><i class="fa-solid fa-pizza-slice"></i> Pizza</div>
+            <div class="cat-btn" onclick="filterCategory('Chicken')"><i class="fa-solid fa-drumstick-bite"></i> Gà Rán</div>
+            <div class="cat-btn" onclick="filterCategory('Drink')"><i class="fa-solid fa-mug-hot"></i> Đồ Uống</div>
+        </section>
+
+        <!-- Product Grid -->
+        <section id="menu-section" class="product-container">
+            <div class="grid" id="productGrid">
+                <!-- Render via JS -->
+            </div>
+        </section>
     </div>
 
-    <!-- Register Page -->
-    <div id="registerPage" class="w-full max-w-md mx-auto pt-16 hidden">
-      <div class="bg-white rounded-lg shadow-lg p-8 border-t-4 border-red-600">
-        <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">
-          <i class="fas fa-user-plus mr-2 text-red-600"></i>
-          Đăng Ký
-        </h2>
-        <div id="registerError" class="bg-red-100 text-red-700 p-3 rounded-lg mb-4 hidden"></div>
-        <input type="text" id="regUsername" placeholder="Tên đăng nhập" class="input-field" autocomplete="off">
-        <input type="password" id="regPassword" placeholder="Mật khẩu" class="input-field">
-        <input type="password" id="regConfirmPassword" placeholder="Xác nhận mật khẩu" class="input-field">
-        <button onclick="register()" class="garena-btn w-full mb-4">
-          <i class="fas fa-check mr-2"></i> Tạo Tài Khoản
-        </button>
-        <button onclick="switchToLogin()" class="w-full py-2 px-4 border-2 border-red-600 text-red-600 rounded-lg hover:bg-red-50 transition font-bold">
-          Quay Lại Đăng Nhập
-        </button>
-      </div>
+    <!-- ==================== ADMIN PANEL VIEW ==================== -->
+    <div id="adminView">
+        <div class="admin-layout">
+            <!-- Sidebar -->
+            <aside class="admin-sidebar glass-panel">
+                <div class="logo">
+                    <i class="fa-solid fa-server"></i>
+                    <span class="neon-text">C-Bite Admin</span>
+                </div>
+                <nav class="admin-nav">
+                    <a class="active" onclick="switchAdminTab('dashboard', this)"><i class="fa-solid fa-chart-line"></i> Thống Kê Tổng Quan</a>
+                    <a onclick="switchAdminTab('users', this)"><i class="fa-solid fa-users-gear"></i> Quản Lý Người Dùng</a>
+                    <a onclick="switchAdminTab('logs', this)"><i class="fa-solid fa-terminal"></i> Nhật Ký Hệ Thống</a>
+                    <a onclick="toggleAdminView()" style="margin-top: 50px; color: #ff3366;"><i class="fa-solid fa-arrow-right-from-bracket"></i> Về Trang Chủ</a>
+                </nav>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="admin-content">
+                <!-- Dashboard Tab -->
+                <section id="admin-tab-dashboard" class="admin-tab">
+                    <h2><i class="fa-solid fa-chart-pie"></i> Bảng Điều Khiển Hệ Thống</h2>
+                    <div class="stat-grid">
+                        <div class="stat-card glass-panel">
+                            <h3>Doanh Thu Ngày</h3>
+                            <p class="neon-text">24,500,000 VNĐ</p>
+                        </div>
+                        <div class="stat-card glass-panel">
+                            <h3>Đơn Hàng Mới</h3>
+                            <p class="neon-text">1,245</p>
+                        </div>
+                        <div class="stat-card glass-panel">
+                            <h3>Người Dùng Hoạt Động</h3>
+                            <p class="neon-text">8,432</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- User Management Tab -->
+                <section id="admin-tab-users" class="admin-tab" style="display: none;">
+                    <h2><i class="fa-solid fa-users"></i> Quản Lý Tài Khoản Hệ Thống</h2>
+                    <div class="table-container glass-panel">
+                        <table class="cyber-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Tên Đăng Nhập</th>
+                                    <th>Email</th>
+                                    <th>Phân Quyền</th>
+                                    <th>Trạng Thái</th>
+                                    <th>Thao Tác</th>
+                                </tr>
+                            </thead>
+                            <tbody id="userTableBody">
+                                <!-- Render via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- System Logs Tab -->
+                <section id="admin-tab-logs" class="admin-tab" style="display: none;">
+                    <h2><i class="fa-solid fa-microchip"></i> Nhật Ký Chạy Hệ Thống (System Logs)</h2>
+                    <div class="terminal-container glass-panel">
+                        <div class="terminal-header">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                            <span class="terminal-title">root@cyberbite:~# tail -f /var/log/system.log</span>
+                        </div>
+                        <div class="terminal-body" id="logContainer">
+                            <!-- Render via JS -->
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
     </div>
 
-    <!-- App Pages (shown when logged in) -->
-    <div id="appContent" style="display:none;">
-      <!-- Home Page -->
-      <div id="homePage" class="space-y-6">
-        <div class="bg-gradient-to-r from-red-600 to-red-700 text-white p-8 rounded-lg shadow-lg">
-          <h2 class="text-3xl font-bold mb-2">
-            <i class="fas fa-megaphone mr-2"></i>
-            Thông Báo & Cập Nhật
-          </h2>
-          <p class="text-red-100">Các thông báo quan trọng từ Admin</p>
+    <!-- ==================== CART MODAL ==================== -->
+    <div class="modal-overlay" id="cartModal">
+        <div class="cart-panel glass-panel">
+            <div class="cart-header">
+                <h2><i class="fa-solid fa-cart-arrow-down"></i> Giỏ Hàng Của Bạn</h2>
+                <button onclick="toggleCart()" class="close-btn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="cart-items" id="cartItemsContainer">
+                <!-- Cart items render here -->
+            </div>
+            <div class="cart-summary">
+                <div class="voucher-input">
+                    <input type="text" id="voucherCode" placeholder="Nhập mã ưu đãi (VD: CYBER50)">
+                    <button class="btn-primary" onclick="applyVoucher()">Áp Dụng</button>
+                </div>
+                <div class="summary-line"><span>Tạm tính:</span> <span id="subTotal">0đ</span></div>
+                <div class="summary-line"><span>Giảm giá:</span> <span id="discountAmt">0đ</span></div>
+                <div class="summary-line"><span>Phí vận chuyển:</span> <span id="shippingFee">15,000đ</span></div>
+                <hr style="border-color: var(--glass-border); margin: 10px 0;">
+                <div class="summary-line total"><span>Tổng cộng:</span> <span id="grandTotal" class="neon-text">15,000đ</span></div>
+                <button class="btn-primary neon-btn full-width" onclick="checkout()">THANH TOÁN BẰNG NEON COIN</button>
+            </div>
         </div>
-
-        <div id="notificationsArea" class="space-y-4">
-          <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-red-600">
-            <h3 class="font-bold text-lg mb-2">
-              <i class="fas fa-star text-yellow-500 mr-2"></i>
-              Chào mừng tới AOV APL 2026
-            </h3>
-            <p class="text-gray-700">Nền tảng dự đoán tỉ số các giải đấu Liên Quân uy tín nhất!</p>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
-          <div class="bg-white p-6 rounded-lg shadow-md text-center cursor-pointer hover:shadow-lg transition" onclick="switchPage('apl')">
-            <i class="fas fa-trophy text-yellow-500 text-3xl mb-2"></i>
-            <h3 class="font-bold">APL</h3>
-            <p class="text-sm text-gray-600">Liên Quân</p>
-          </div>
-          <div class="bg-white p-6 rounded-lg shadow-md text-center cursor-pointer hover:shadow-lg transition" onclick="switchPage('aog')">
-            <i class="fas fa-crown text-green-500 text-3xl mb-2"></i>
-            <h3 class="font-bold">AOG</h3>
-            <p class="text-sm text-gray-600">Việt Nam</p>
-          </div>
-          <div class="bg-white p-6 rounded-lg shadow-md text-center cursor-pointer hover:shadow-lg transition" onclick="switchPage('rpl')">
-            <i class="fas fa-star text-blue-500 text-3xl mb-2"></i>
-            <h3 class="font-bold">RPL</h3>
-            <p class="text-sm text-gray-600">Thái Lan</p>
-          </div>
-          <div class="bg-white p-6 rounded-lg shadow-md text-center cursor-pointer hover:shadow-lg transition" onclick="switchPage('gcs')">
-            <i class="fas fa-gem text-purple-500 text-3xl mb-2"></i>
-            <h3 class="font-bold">GCS</h3>
-            <p class="text-sm text-gray-600">Đài Loan</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Predictions Page -->
-      <div id="predictionsPage" class="space-y-6" style="display:none;">
-        <h2 class="text-3xl font-bold text-gray-800">
-          <i class="fas fa-crystal-ball mr-2 text-red-600"></i>
-          Dự Đoán Tỉ Số
-        </h2>
-
-        <div class="bg-white p-6 rounded-lg shadow-md">
-          <h3 class="font-bold text-lg mb-4">Lọc Trận Đấu</h3>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <label class="block text-sm font-bold mb-2">Giải Đấu</label>
-              <select id="predictionTourament" onchange="loadPredictions()" class="input-field">
-                <option value="">Tất cả</option>
-                <option value="APL">APL</option>
-                <option value="AOG">AOG</option>
-                <option value="RPL">RPL</option>
-                <option value="GCS">GCS</option>
-              </select>
-            </div>
-            <div>
-              <label class="block text-sm font-bold mb-2">Ngày</label>
-              <input type="date" id="predictionDate" onchange="loadPredictions()" class="input-field">
-            </div>
-          </div>
-        </div>
-
-        <div id="predictionsContainer" class="space-y-4">
-          <!-- Predictions loaded here -->
-        </div>
-      </div>
-
-      <!-- Scores Page -->
-      <div id="scoresPage" class="space-y-6" style="display:none;">
-        <h2 class="text-3xl font-bold text-gray-800">
-          <i class="fas fa-chart-bar mr-2 text-red-600"></i>
-          Tỉ Số Trận Đấu
-        </h2>
-
-        <div class="bg-white p-6 rounded-lg shadow-md">
-          <h3 class="font-bold text-lg mb-4">Lọc Trận Đấu</h3>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <label class="block text-sm font-bold mb-2">Giải Đấu</label>
-              <select id="scoresTourament" onchange="loadScores()" class="input-field">
-                <option value="">Tất cả</option>
-                <option value="APL">APL</option>
-                <option value="AOG">AOG</option>
-                <option value="RPL">RPL</option>
-                <option value="GCS">GCS</option>
-              </select>
-            </div>
-            <div>
-              <label class="block text-sm font-bold mb-2">Ngày</label>
-              <input type="date" id="scoresDate" onchange="loadScores()" class="input-field">
-            </div>
-          </div>
-        </div>
-
-        <div id="scoresContainer" class="space-y-4">
-          <!-- Scores loaded here -->
-        </div>
-      </div>
-
-      <!-- Tournament Pages (APL, AOG, RPL, GCS) -->
-      <div id="tournamentPage" class="space-y-6" style="display:none;">
-        <h2 class="text-3xl font-bold text-gray-800">
-          <span id="tournamentTitle"></span>
-        </h2>
-
-        <div class="bg-white p-6 rounded-lg shadow-md">
-          <h3 class="font-bold text-lg mb-4">Lọc Trận Đấu</h3>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-sm font-bold mb-2">Ngày</label>
-              <input type="date" id="tournamentDate" onchange="loadTournamentMatches()" class="input-field">
-            </div>
-          </div>
-        </div>
-
-        <div id="tournamentContainer" class="space-y-4">
-          <!-- Tournament matches loaded here -->
-        </div>
-      </div>
-
-      <!-- Admin Panel -->
-      <div id="adminPage" class="space-y-6" style="display:none;">
-        <div class="bg-red-600 text-white p-8 rounded-lg shadow-lg">
-          <h2 class="text-3xl font-bold">
-            <i class="fas fa-lock mr-2"></i>
-            Quản Lý Admin
-          </h2>
-        </div>
-
-        <!-- Add Match Section -->
-        <div class="admin-section">
-          <h3 class="text-xl font-bold mb-4">
-            <i class="fas fa-plus-circle mr-2 text-red-600"></i>
-            Thêm Trận Đấu Mới
-          </h3>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-sm font-bold mb-2">Giải Đấu</label>
-              <select id="adminTournament" class="input-field">
-                <option value="APL">APL</option>
-                <option value="AOG">AOG</option>
-                <option value="RPL">RPL</option>
-                <option value="GCS">GCS</option>
-              </select>
-            </div>
-            <div>
-              <label class="block text-sm font-bold mb-2">Ngày Thi Đấu</label>
-              <input type="date" id="adminDate" class="input-field">
-            </div>
-            <div>
-              <label class="block text-sm font-bold mb-2">Giờ Thi Đấu</label>
-              <input type="time" id="adminTime" class="input-field">
-            </div>
-            <div>
-              <label class="block text-sm font-bold mb-2">Đội Nhà</label>
-              <input type="text" id="adminTeam1" placeholder="Tên đội 1" class="input-field">
-            </div>
-            <div>
-              <label class="block text-sm font-bold mb-2">Đội Khách</label>
-              <input type="text" id="adminTeam2" placeholder="Tên đội 2" class="input-field">
-            </div>
-            <div>
-              <label class="block text-sm font-bold mb-2">Trạng Thái</label>
-              <select id="adminStatus" class="input-field">
-                <option value="Diễn Ra">Diễn Ra</option>
-                <option value="Kết Thúc">Kết Thúc</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="mt-4">
-            <button onclick="openLogoUploadModal(1)" class="garena-btn mr-2 mb-2">
-              <i class="fas fa-upload mr-2"></i>
-              Upload Logo Đội 1
-            </button>
-            <button onclick="openLogoUploadModal(2)" class="garena-btn mb-2">
-              <i class="fas fa-upload mr-2"></i>
-              Upload Logo Đội 2
-            </button>
-          </div>
-
-          <div class="grid grid-cols-2 gap-4 mt-4">
-            <div>
-              <p class="text-sm font-bold mb-2">Logo Đội 1:</p>
-              <img id="adminLogo1Preview" src="" alt="Logo 1" class="w-full h-32 object-cover rounded-lg border-2 border-gray-300 hidden">
-              <p id="adminLogo1Name" class="text-sm text-gray-600 mt-2"></p>
-            </div>
-            <div>
-              <p class="text-sm font-bold mb-2">Logo Đội 2:</p>
-              <img id="adminLogo2Preview" src="" alt="Logo 2" class="w-full h-32 object-cover rounded-lg border-2 border-gray-300 hidden">
-              <p id="adminLogo2Name" class="text-sm text-gray-600 mt-2"></p>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-2 gap-4 mt-4">
-            <div>
-              <label class="block text-sm font-bold mb-2">Tỉ Số Đội 1</label>
-              <input type="number" id="adminScore1" class="input-field" placeholder="0" value="0">
-            </div>
-            <div>
-              <label class="block text-sm font-bold mb-2">Tỉ Số Đội 2</label>
-              <input type="number" id="adminScore2" class="input-field" placeholder="0" value="0">
-            </div>
-          </div>
-
-          <button onclick="addMatch()" class="garena-btn w-full mt-6">
-            <i class="fas fa-save mr-2"></i>
-            Thêm Trận Đấu
-          </button>
-        </div>
-
-        <!-- Matches Management -->
-        <div class="admin-section">
-          <h3 class="text-xl font-bold mb-4">
-            <i class="fas fa-edit mr-2 text-red-600"></i>
-            Quản Lý Trận Đấu
-          </h3>
-          <div id="adminMatches" class="space-y-4">
-            <!-- Matches listed here -->
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
 
-  <!-- Logo Upload Modal -->
-  <div id="logoModal" class="modal">
-    <div class="modal-content">
-      <div class="flex justify-between items-center mb-4">
-        <h3 class="text-2xl font-bold">Upload Logo Đội Tuyển</h3>
-        <button onclick="closeLogoModal()" class="text-2xl text-gray-500 hover:text-gray-700">×</button>
-      </div>
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="toast-container"></div>
 
-      <div id="dropZone" class="drop-zone border-4 border-dashed rounded-lg p-8 text-center bg-gray-50 mb-4">
-        <i class="fas fa-cloud-upload-alt text-5xl text-gray-400 mb-3"></i>
-        <p class="text-lg text-gray-600 mb-2">Kéo thả hình ảnh vào đây</p>
-        <label class="garena-btn cursor-pointer inline-block">
-          <i class="fas fa-folder-open mr-2"></i>
-          Chọn Hình
-          <input type="file" id="logoInput" accept="image/*" class="hidden">
-        </label>
-      </div>
+    <!-- ==================== JAVASCRIPT LOGIC ==================== -->
+    <script>
+        // 1. DATABASE 80 SẢN PHẨM HOÀN CHỈNH
+        const productsData = [
+            // --- BURGERS ---
+            { id: "B01", name: "Neon Beef Burger", category: "Burger", price: 85000, oldPrice: 100000, discount: 15, rating: 4.8, sold: 1250, calories: 650, time: "10p", image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500", desc: "Burger bò Wagyu nướng lửa hồng ngoại, phủ phô mai chảy." },
+            { id: "B02", name: "Cyber Chicken Burger", category: "Burger", price: 75000, oldPrice: 90000, discount: 16, rating: 4.5, sold: 980, calories: 550, time: "8p", image: "https://images.unsplash.com/photo-1572802419224-296b0aeee0d9?w=500", desc: "Burger gà chiên xù giòn tan cùng sốt mayo tương lai." },
+            { id: "B03", name: "Double Glitch Burger", category: "Burger", price: 120000, oldPrice: 150000, discount: 20, rating: 5.0, sold: 3400, calories: 950, time: "12p", image: "https://images.unsplash.com/photo-1586816001966-79b736744398?w=500", desc: "Nhân đôi thịt bò, nhân đôi phô mai, nhân đôi năng lượng." },
+            { id: "B04", name: "Synthwave Fish Burger", category: "Burger", price: 65000, oldPrice: 80000, discount: 18, rating: 4.2, sold: 450, calories: 400, time: "9p", image: "https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=500", desc: "Burger phi lê cá tuyết biển sâu phủ sốt Tartar." },
+            { id: "B05", name: "Matrix Veggie Burger", category: "Burger", price: 60000, oldPrice: 75000, discount: 20, rating: 4.7, sold: 620, calories: 350, time: "7p", image: "https://images.unsplash.com/photo-1520072959219-c595dc870360?w=500", desc: "Burger thuần chay làm từ nấm và đậu lăng hữu cơ." },
+            { id: "B06", name: "Hacker's Spicy Burger", category: "Burger", price: 90000, oldPrice: 110000, discount: 18, rating: 4.9, sold: 1800, calories: 700, time: "11p", image: "https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=500", desc: "Vị cay nổ tung khoang miệng với sốt Ghost Pepper." },
+            { id: "B07", name: "Nano Pork Burger", category: "Burger", price: 80000, oldPrice: 95000, discount: 15, rating: 4.3, sold: 700, calories: 600, time: "10p", image: "https://images.unsplash.com/photo-1594212699903-f8f2781a83e1?w=500", desc: "Thịt heo xé BBQ áp chảo cùng hành tây ngâm." },
+            { id: "B08", name: "Quantum Cheese Burger", category: "Burger", price: 110000, oldPrice: 135000, discount: 18, rating: 4.6, sold: 1100, calories: 850, time: "12p", image: "https://images.unsplash.com/photo-1550547660-d9450f859349?w=500", desc: "Ngập tràn 4 loại phô mai cao cấp hòa quyện." },
+            { id: "B09", name: "Plasma Egg Burger", category: "Burger", price: 55000, oldPrice: 65000, discount: 15, rating: 4.1, sold: 300, calories: 450, time: "6p", image: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=500", desc: "Bữa sáng hoàn hảo với trứng ốp la lòng đào." },
+            { id: "B10", name: "Overclocked Truffle", category: "Burger", price: 150000, oldPrice: 200000, discount: 25, rating: 5.0, sold: 400, calories: 900, time: "15p", image: "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=500", desc: "Phiên bản giới hạn phủ nấm Truffle đen." },
+            
+            // --- PIZZAS ---
+            { id: "P01", name: "Cyberpunk Pepperoni", category: "Pizza", price: 150000, oldPrice: 200000, discount: 25, rating: 4.9, sold: 2500, calories: 1200, time: "20p", image: "https://images.unsplash.com/photo-1628840042765-356cda07504e?w=500", desc: "Pizza viền phô mai phủ ngập Pepperoni cay nồng." },
+            { id: "P02", name: "Neon Margarita", category: "Pizza", price: 120000, oldPrice: 150000, discount: 20, rating: 4.5, sold: 1800, calories: 1000, time: "18p", image: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=500", desc: "Hương vị cà chua Ý truyền thống và Basil tươi." },
+            { id: "P03", name: "Galactic Seafood", category: "Pizza", price: 250000, oldPrice: 300000, discount: 16, rating: 4.8, sold: 900, calories: 1300, time: "25p", image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500", desc: "Tôm sú, mực ống, thanh cua cùng sốt Thousand Island." },
+            { id: "P04", name: "Robot Meat Lover", category: "Pizza", price: 220000, oldPrice: 280000, discount: 21, rating: 4.7, sold: 1600, calories: 1500, time: "22p", image: "https://images.unsplash.com/photo-1604381536105-bea7b4c77b42?w=500", desc: "Ngập tràn xúc xích, thịt xông khói, bò băm và xá xíu." },
+            { id: "P05", name: "Hawaiian Glitch", category: "Pizza", price: 160000, oldPrice: 190000, discount: 15, rating: 4.3, sold: 1200, calories: 1100, time: "18p", image: "https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=500", desc: "Sự kết hợp gây tranh cãi: Dứa ngọt và Jambon." },
+            { id: "P06", name: "Acid BBQ Chicken", category: "Pizza", price: 180000, oldPrice: 220000, discount: 18, rating: 4.6, sold: 1400, calories: 1250, time: "20p", image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500", desc: "Gà nướng xé sợi quyện cùng sốt BBQ khói đậm đà." },
+            { id: "P07", name: "Mushroom Data", category: "Pizza", price: 140000, oldPrice: 170000, discount: 17, rating: 4.4, sold: 800, calories: 950, time: "18p", image: "https://images.unsplash.com/photo-1604068549290-dea0e4a30536?w=500", desc: "Ba loại nấm cao cấp xào tỏi trên nền sốt kem trắng." },
+            { id: "P08", name: "Byte-sized Cheese", category: "Pizza", price: 190000, oldPrice: 240000, discount: 20, rating: 4.8, sold: 1500, calories: 1400, time: "22p", image: "https://images.unsplash.com/photo-1579751626657-72bc17010498?w=500", desc: "Phô mai 4 lớp siêu kéo sợi béo ngậy." },
+            { id: "P09", name: "Spicy Cortex", category: "Pizza", price: 170000, oldPrice: 210000, discount: 19, rating: 4.5, sold: 1100, calories: 1150, time: "20p", image: "https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?w=500", desc: "Thịt bò băm cay Mexico xào chung cùng ớt Jalapeno." },
+            { id: "P10", name: "Void Veggie", category: "Pizza", price: 130000, oldPrice: 160000, discount: 18, rating: 4.2, sold: 500, calories: 900, time: "18p", image: "https://images.unsplash.com/photo-1604381536105-bea7b4c77b42?w=500", desc: "Ngập tràn rau củ xanh tươi nướng than hoa." },
 
-      <div id="logoPreview" class="text-center hidden">
-        <img id="logoPreviewImg" src="" alt="Preview" class="w-full max-h-48 object-cover rounded-lg mb-4">
-        <input type="text" id="logoTeamName" placeholder="Tên đội tuyển" class="input-field">
-        <button onclick="confirmLogoUpload()" class="garena-btn w-full">
-          <i class="fas fa-check mr-2"></i>
-          Xác Nhận Upload
-        </button>
-      </div>
-    </div>
-  </div>
+            // --- FRIED CHICKEN ---
+            { id: "C01", name: "Volt Fried Chicken (3pcs)", category: "Chicken", price: 95000, oldPrice: 120000, discount: 20, rating: 4.8, sold: 3100, calories: 800, time: "15p", image: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=500", desc: "3 miếng gà rán giòn rụm tẩm gia vị bí mật." },
+            { id: "C02", name: "Laser Spicy Wings (6pcs)", category: "Chicken", price: 110000, oldPrice: 140000, discount: 21, rating: 4.9, sold: 2800, calories: 950, time: "12p", image: "https://images.unsplash.com/photo-1569691899455-88464f6d3ab1?w=500", desc: "Cánh gà phủ sốt cay nồng phong cách Hàn Quốc." },
+            { id: "C03", name: "EMP Garlic Soy Wings", category: "Chicken", price: 110000, oldPrice: 140000, discount: 21, rating: 4.7, sold: 2500, calories: 900, time: "12p", image: "https://images.unsplash.com/photo-1608039829572-78524f79c4c7?w=500", desc: "Cánh gà áo sốt tỏi tương mặn ngọt siêu dính." },
+            { id: "C04", name: "Nugget Bits (10pcs)", category: "Chicken", price: 65000, oldPrice: 85000, discount: 23, rating: 4.5, sold: 1900, calories: 600, time: "8p", image: "https://images.unsplash.com/photo-1562967914-608f82629710?w=500", desc: "Gà viên chiên giòn dành cho dân cày game." },
+            { id: "C05", name: "Motherboard Combo", category: "Chicken", price: 250000, oldPrice: 320000, discount: 21, rating: 5.0, sold: 1500, calories: 2500, time: "20p", image: "https://images.unsplash.com/photo-1598514982205-f36b96d1e8d4?w=500", desc: "6 miếng gà + 2 khoai + 2 nước. Đủ cho cả team." },
+            { id: "C06", name: "CPU Roasted Chicken", category: "Chicken", price: 180000, oldPrice: 220000, discount: 18, rating: 4.6, sold: 800, calories: 1200, time: "25p", image: "https://images.unsplash.com/photo-1598128558393-70ff21433be0?w=500", desc: "Nửa con gà quay tiêu đen nguyên bản." },
+            { id: "C07", name: "Cyber Popcorn Chicken", category: "Chicken", price: 55000, oldPrice: 70000, discount: 21, rating: 4.4, sold: 2200, calories: 500, time: "7p", image: "https://images.unsplash.com/photo-1614398751058-29219800e8bc?w=500", desc: "Gà lắc phô mai viên nhỏ ăn vặt múa phím cực êm." },
+            { id: "C08", name: "RAM Chicken Tenders", category: "Chicken", price: 85000, oldPrice: 110000, discount: 22, rating: 4.5, sold: 1300, calories: 750, time: "10p", image: "https://images.unsplash.com/photo-1569691899455-88464f6d3ab1?w=500", desc: "Ức gà xé thớ chiên giòn không xương." },
+            { id: "C09", name: "Glitch Cheese Chicken", category: "Chicken", price: 140000, oldPrice: 180000, discount: 22, rating: 4.8, sold: 1600, calories: 1100, time: "15p", image: "https://images.unsplash.com/photo-1598514982205-f36b96d1e8d4?w=500", desc: "Gà cuộn phô mai đút lò béo ngậy." },
+            { id: "C10", name: "Dark Web Dark Meat", category: "Chicken", price: 100000, oldPrice: 130000, discount: 23, rating: 4.3, sold: 900, calories: 850, time: "14p", image: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=500", desc: "2 Đùi gà góc tư siêu to khổng lồ." },
 
-  <!-- Edit Match Modal -->
-  <div id="editMatchModal" class="modal">
-    <div class="modal-content">
-      <div class="flex justify-between items-center mb-4">
-        <h3 class="text-2xl font-bold">Chỉnh Sửa Trận Đấu</h3>
-        <button onclick="closeEditMatchModal()" class="text-2xl text-gray-500 hover:text-gray-700">×</button>
-      </div>
+            // --- DRINKS ---
+            { id: "D01", name: "Neon Cola XL", category: "Drink", price: 25000, oldPrice: 35000, discount: 28, rating: 4.5, sold: 5000, calories: 200, time: "1p", image: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=500", desc: "Nước ngọt có ga bùng nổ năng lượng." },
+            { id: "D02", name: "Cyber Slushy Blue", category: "Drink", price: 45000, oldPrice: 60000, discount: 25, rating: 4.8, sold: 3200, calories: 350, time: "3p", image: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=500", desc: "Đá bào vị việt quất xanh dạ quang." },
+            { id: "D03", name: "Plasma Milk Tea", category: "Drink", price: 55000, oldPrice: 70000, discount: 21, rating: 4.9, sold: 4800, calories: 450, time: "5p", image: "https://images.unsplash.com/photo-1558857563-b37102e9ea15?w=500", desc: "Trà sữa trân châu đường đen cốt dừa." },
+            { id: "D04", name: "Liquid Nitrogen Coffee", category: "Drink", price: 65000, oldPrice: 85000, discount: 23, rating: 4.7, sold: 2900, calories: 150, time: "4p", image: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=500", desc: "Cà phê ủ lạnh sục khí nito béo ngậy." },
+            { id: "D05", name: "Glitch Lemonade", category: "Drink", price: 35000, oldPrice: 50000, discount: 30, rating: 4.6, sold: 3500, calories: 120, time: "2p", image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500", desc: "Nước chanh dâu tằm giải nhiệt tức thì." },
+            { id: "D06", name: "Quantum Matcha", category: "Drink", price: 60000, oldPrice: 80000, discount: 25, rating: 4.8, sold: 2100, calories: 300, time: "4p", image: "https://images.unsplash.com/photo-1515823662972-da6a2e4d3002?w=500", desc: "Matcha Nhật Bản xay tuyết mát lạnh." },
+            { id: "D07", name: "Overdrive Energy", category: "Drink", price: 50000, oldPrice: 65000, discount: 23, rating: 4.4, sold: 4100, calories: 250, time: "1p", image: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=500", desc: "Nước tăng lực công thức bí mật của Hacker." },
+            { id: "D08", name: "Synthwave Shake", category: "Drink", price: 70000, oldPrice: 90000, discount: 22, rating: 4.7, sold: 1800, calories: 600, time: "6p", image: "https://images.unsplash.com/photo-1572490122747-3968b75bf699?w=500", desc: "Milkshake dâu tây vani phủ kem tươi." },
+            { id: "D09", name: "Hologram Water", category: "Drink", price: 15000, oldPrice: 20000, discount: 25, rating: 4.0, sold: 6000, calories: 0, time: "1p", image: "https://images.unsplash.com/photo-1523362628745-0c100150b504?w=500", desc: "Nước khoáng tinh khiết lọc qua thạch anh." },
+            { id: "D10", name: "Neon Mojito (No Alcohol)", category: "Drink", price: 55000, oldPrice: 75000, discount: 26, rating: 4.5, sold: 2200, calories: 180, time: "4p", image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500", desc: "Mojito chanh bạc hà sảng khoái." }
+        ];
 
-      <div>
-        <label class="block text-sm font-bold mb-2">Trạng Thái</label>
-        <select id="editStatus" class="input-field">
-          <option value="Diễn Ra">Diễn Ra</option>
-          <option value="Kết Thúc">Kết Thúc</option>
-        </select>
-
-        <label class="block text-sm font-bold mb-2">Tỉ Số Đội 1</label>
-        <input type="number" id="editScore1" class="input-field">
-
-        <label class="block text-sm font-bold mb-2">Tỉ Số Đội 2</label>
-        <input type="number" id="editScore2" class="input-field">
-
-        <button onclick="saveMatchEdit()" class="garena-btn w-full mt-4">
-          <i class="fas fa-save mr-2"></i>
-          Lưu Thay Đổi
-        </button>
-        <button onclick="deleteMatch()" class="w-full py-2 px-4 bg-red-600 text-white rounded-lg hover:bg-red-700 transition font-bold mt-2">
-          <i class="fas fa-trash mr-2"></i>
-          Xóa Trận Đấu
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    // Initialize App
-    let currentUser = null;
-    let currentPage = 'login';
-    let editingMatchId = null;
-    let uploadingLogoFor = null;
-    let tempLogoData = null;
-
-    // Initialize localStorage
-    function initData() {
-      console.log('=== INIT DATA ===');
-      
-      // Khởi tạo users với admin account
-      let users = {};
-      try {
-        const stored = localStorage.getItem('users');
-        console.log('Stored users:', stored);
-        if (stored && stored !== 'undefined') {
-          users = JSON.parse(stored);
+        function generateFullDatabase() {
+            let fullDB = [...productsData];
+            const prefixes = ["Ultra", "Mega", "Hyper", "Super", "Elite", "Pro", "Max", "Prime", "Alpha", "Omega"];
+            let idCounter = 11;
+            while(fullDB.length < 80) {
+                let baseProduct = productsData[Math.floor(Math.random() * productsData.length)];
+                let prefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+                let newItem = {
+                    id: baseProduct.category.charAt(0) + idCounter.toString().padStart(2, '0'),
+                    name: `${prefix} ${baseProduct.name}`,
+                    category: baseProduct.category,
+                    price: baseProduct.price + (Math.floor(Math.random() * 20) * 1000),
+                    oldPrice: baseProduct.oldPrice + (Math.floor(Math.random() * 25) * 1000),
+                    discount: baseProduct.discount + Math.floor(Math.random() * 5),
+                    rating: (Math.random() * (5.0 - 4.0) + 4.0).toFixed(1),
+                    sold: Math.floor(Math.random() * 3000) + 100,
+                    calories: baseProduct.calories + Math.floor(Math.random() * 100),
+                    time: (parseInt(baseProduct.time) + Math.floor(Math.random() * 5)) + "p",
+                    image: baseProduct.image,
+                    desc: `Phiên bản nâng cấp ${prefix} của ${baseProduct.name}. Cung cấp trải nghiệm tuyệt hảo.`
+                };
+                fullDB.push(newItem);
+                idCounter++;
+            }
+            return fullDB;
         }
-      } catch (e) {
-        console.error('Error parsing users:', e);
-        users = {};
-      }
 
-      console.log('Current users object:', users);
+        const DATABASE = generateFullDatabase();
 
-      // Đảm bảo admin account tồn tại
-      if (!users['Long']) {
-        console.log('Admin account not found, creating...');
-        users['Long'] = { password: '0', role: 'admin' };
-      }
-      
-      localStorage.setItem('users', JSON.stringify(users));
-      console.log('Users saved to localStorage:', JSON.parse(localStorage.getItem('users')));
+        // 2. STATE & STORAGE
+        let cart = JSON.parse(localStorage.getItem('cyberCart')) || [];
+        let currentCategory = 'All';
 
-      // Khởi tạo dữ liệu khác
-      if (!localStorage.getItem('matches')) {
-        localStorage.setItem('matches', JSON.stringify([]));
-      }
-      if (!localStorage.getItem('logos')) {
-        localStorage.setItem('logos', JSON.stringify({}));
-      }
-      if (!localStorage.getItem('predictions')) {
-        localStorage.setItem('predictions', JSON.stringify({}));
-      }
-      if (!localStorage.getItem('notifications')) {
-        localStorage.setItem('notifications', JSON.stringify([
-          { id: 1, title: 'Chào mừng tới AOV APL 2026', content: 'Nền tảng dự đoán tỉ số các giải đấu Liên Quân uy tín nhất!' }
-        ]));
-      }
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProducts(DATABASE);
+            startFlashSaleTimer();
+            updateCartUI();
+            initAdminUsers();
+            initAdminLogs();
+        });
 
-      console.log('=== INIT COMPLETE ===');
-    }
+        // 3. PRODUCT RENDERING & FILTER
+        function renderProducts(products) {
+            const grid = document.getElementById('productGrid');
+            if(!grid) return;
+            grid.innerHTML = '';
+            
+            if(products.length === 0) {
+                grid.innerHTML = `<h3 style="color:var(--text-muted); grid-column: 1/-1; text-align:center;">Không tìm thấy kết quả phù hợp!</h3>`;
+                return;
+            }
 
-    initData();
-
-    // Authentication
-    function login() {
-      const username = document.getElementById('loginUsername').value.trim();
-      const password = document.getElementById('loginPassword').value;
-
-      console.log('=== LOGIN ATTEMPT ===');
-      console.log('Username:', username);
-      console.log('Password:', password);
-
-      if (!username || password === '') {
-        showError('loginError', 'Vui lòng nhập tên đăng nhập và mật khẩu');
-        return;
-      }
-
-      let users = {};
-      try {
-        const stored = localStorage.getItem('users');
-        console.log('Stored users string:', stored);
-        
-        if (stored && stored !== 'undefined') {
-          users = JSON.parse(stored);
-        } else {
-          console.log('No users stored, re-initializing...');
-          initData();
-          const stored2 = localStorage.getItem('users');
-          users = JSON.parse(stored2);
+            products.forEach((product, index) => {
+                setTimeout(() => {
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+                    card.innerHTML = `
+                        <div class="discount-badge">-${product.discount}%</div>
+                        <img src="${product.image}" alt="${product.name}" class="product-img" loading="lazy">
+                        <h3 class="product-title">${product.name}</h3>
+                        <div class="product-meta">
+                            <span><i class="fa-solid fa-star" style="color:var(--accent);"></i> ${product.rating}</span>
+                            <span><i class="fa-solid fa-fire" style="color:#ff3366;"></i> ${product.calories} kcal</span>
+                            <span><i class="fa-solid fa-clock"></i> ${product.time}</span>
+                        </div>
+                        <div class="product-price">
+                            <span class="new-price">${product.price.toLocaleString('vi-VN')}đ</span>
+                            <span class="old-price">${product.oldPrice.toLocaleString('vi-VN')}đ</span>
+                        </div>
+                        <button class="add-to-cart-btn" onclick="addToCart('${product.id}')">
+                            <i class="fa-solid fa-cart-plus"></i> THÊM VÀO GIỎ
+                        </button>
+                    `;
+                    grid.appendChild(card);
+                }, index * 10);
+            });
         }
-      } catch (e) {
-        console.error('Error parsing users:', e);
-        initData();
-        const stored = localStorage.getItem('users');
-        users = JSON.parse(stored);
-      }
-      
-      console.log('Users object:', users);
-      console.log('User "Long" data:', users['Long']);
-      console.log('Checking user:', username);
-      console.log('User found?', username in users);
-      
-      if (users[username]) {
-        console.log('User found! Stored password:', users[username].password);
-        console.log('Input password:', password);
-        console.log('Passwords match?', users[username].password === password);
-        
-        if (users[username].password === password) {
-          console.log('✓ LOGIN SUCCESS');
-          currentUser = { 
-            username: username, 
-            role: users[username].role || 'user' 
-          };
-          localStorage.setItem('currentUser', JSON.stringify(currentUser));
-          document.getElementById('loginError').classList.add('hidden');
-          showAppContent();
-          return;
+
+        function filterCategory(category) {
+            document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            currentCategory = category;
+            
+            let filtered = category === 'All' ? DATABASE : DATABASE.filter(p => p.category === category);
+            renderProducts(filtered);
         }
-      }
-      
-      console.log('✗ LOGIN FAILED');
-      showError('loginError', '❌ Tên đăng nhập hoặc mật khẩu sai!');
-    }
 
-    function register() {
-      const username = document.getElementById('regUsername').value.trim();
-      const password = document.getElementById('regPassword').value;
-      const confirmPassword = document.getElementById('regConfirmPassword').value;
-
-      if (!username || !password || !confirmPassword) {
-        showError('registerError', 'Vui lòng điền đủ thông tin');
-        return;
-      }
-
-      if (password !== confirmPassword) {
-        showError('registerError', 'Mật khẩu không trùng khớp');
-        return;
-      }
-
-      if (password.length < 1) {
-        showError('registerError', 'Mật khẩu phải ít nhất 1 ký tự');
-        return;
-      }
-
-      const users = JSON.parse(localStorage.getItem('users') || '{}');
-      if (users[username]) {
-        showError('registerError', 'Tên đăng nhập đã tồn tại');
-        return;
-      }
-
-      users[username] = { password: password, role: 'user' };
-      localStorage.setItem('users', JSON.stringify(users));
-      document.getElementById('registerError').classList.add('hidden');
-
-      alert('✓ Tạo tài khoản thành công!\nVui lòng đăng nhập');
-      document.getElementById('regUsername').value = '';
-      document.getElementById('regPassword').value = '';
-      document.getElementById('regConfirmPassword').value = '';
-      switchToLogin();
-    }
-
-    function logout() {
-      currentUser = null;
-      localStorage.removeItem('currentUser');
-      document.getElementById('loginUsername').value = '';
-      document.getElementById('loginPassword').value = '';
-      document.getElementById('loginError').classList.add('hidden');
-      document.getElementById('menuBtn').classList.add('hidden');
-      document.getElementById('userDisplay').classList.add('hidden');
-      currentPage = 'login';
-      document.getElementById('appContent').style.display = 'none';
-      document.getElementById('loginPage').style.display = 'block';
-      document.getElementById('registerPage').style.display = 'none';
-      closeSidebar();
-    }
-
-    function switchToLogin() {
-      document.getElementById('loginPage').style.display = 'block';
-      document.getElementById('registerPage').style.display = 'none';
-      document.getElementById('registerError').innerHTML = '';
-    }
-
-    function switchToRegister() {
-      document.getElementById('loginPage').style.display = 'none';
-      document.getElementById('registerPage').style.display = 'block';
-      document.getElementById('regUsername').value = '';
-      document.getElementById('regPassword').value = '';
-      document.getElementById('regConfirmPassword').value = '';
-      document.getElementById('registerError').innerHTML = '';
-    }
-
-    function showAppContent() {
-      document.getElementById('loginPage').style.display = 'none';
-      document.getElementById('registerPage').style.display = 'none';
-      document.getElementById('appContent').style.display = 'block';
-      document.getElementById('userDisplay').classList.remove('hidden');
-      document.getElementById('menuBtn').classList.remove('hidden');
-      document.getElementById('usernameBadge').textContent = currentUser.username;
-
-      console.log('Current user role:', currentUser.role);
-      
-      if (currentUser.role === 'admin') {
-        document.getElementById('adminBtn').style.display = 'block';
-        document.getElementById('adminHr').style.display = 'block';
-      } else {
-        document.getElementById('adminBtn').style.display = 'none';
-        document.getElementById('adminHr').style.display = 'none';
-      }
-
-      switchPage('home');
-    }
-
-    function showError(elementId, message) {
-      const elem = document.getElementById(elementId);
-      elem.textContent = message;
-      elem.classList.remove('hidden');
-    }
-
-    function showSuccess(message) {
-      alert(message);
-    }
-
-    // Page Navigation
-    function switchPage(page) {
-      // Hide all pages
-      document.querySelectorAll('[id$="Page"]').forEach(el => {
-        el.style.display = 'none';
-      });
-
-      // Handle special cases
-      if (['apl', 'aog', 'rpl', 'gcs'].includes(page)) {
-        document.getElementById('tournamentPage').style.display = 'block';
-        const tournamentNames = {
-          'apl': 'APL - Liên Quân Mobile',
-          'aog': 'AOG - Giải Đấu Việt Nam',
-          'rpl': 'RPL - Giải Đấu Thái Lan',
-          'gcs': 'GCS - Giải Đấu Đài Loan'
-        };
-        document.getElementById('tournamentTitle').textContent = tournamentNames[page];
-        window.currentTournament = page.toUpperCase();
-        document.getElementById('tournamentDate').value = new Date().toISOString().split('T')[0];
-        loadTournamentMatches();
-      } else {
-        document.getElementById(page + 'Page').style.display = 'block';
-        if (page === 'predictions') {
-          document.getElementById('predictionDate').value = new Date().toISOString().split('T')[0];
-          loadPredictions();
-        } else if (page === 'scores') {
-          document.getElementById('scoresDate').value = new Date().toISOString().split('T')[0];
-          loadScores();
-        } else if (page === 'admin') {
-          loadAdminMatches();
+        function searchProducts() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            let filtered = DATABASE.filter(p => 
+                (currentCategory === 'All' || p.category === currentCategory) &&
+                p.name.toLowerCase().includes(query)
+            );
+            renderProducts(filtered);
         }
-      }
 
-      currentPage = page;
-      closeSidebar();
-    }
+        // 4. CART LOGIC
+        function toggleCart() {
+            document.getElementById('cartModal').classList.toggle('active');
+        }
 
-    function closeSidebar() {
-      document.getElementById('sidebar').classList.add('-translate-x-full');
-    }
+        function addToCart(productId) {
+            const product = DATABASE.find(p => p.id === productId);
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if(existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+            
+            saveCart();
+            updateCartUI();
+            showToast(`Đã thêm ${product.name} vào giỏ hàng!`, 'success');
+        }
 
-    document.getElementById('menuBtn').addEventListener('click', () => {
-      document.getElementById('sidebar').classList.toggle('-translate-x-full');
-    });
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            saveCart();
+            updateCartUI();
+        }
 
-    // Match Management (Admin)
-    function addMatch() {
-      const tournament = document.getElementById('adminTournament').value;
-      const date = document.getElementById('adminDate').value;
-      const time = document.getElementById('adminTime').value;
-      const team1 = document.getElementById('adminTeam1').value;
-      const team2 = document.getElementById('adminTeam2').value;
-      const status = document.getElementById('adminStatus').value;
-      const score1 = parseInt(document.getElementById('adminScore1').value) || 0;
-      const score2 = parseInt(document.getElementById('adminScore2').value) || 0;
+        function changeQuantity(productId, delta) {
+            const item = cart.find(item => item.id === productId);
+            if(item) {
+                item.quantity += delta;
+                if(item.quantity <= 0) removeFromCart(productId);
+                else {
+                    saveCart();
+                    updateCartUI();
+                }
+            }
+        }
 
-      if (!date || !time || !team1 || !team2) {
-        alert('Vui lòng điền đủ thông tin');
-        return;
-      }
+        function saveCart() {
+            localStorage.setItem('cyberCart', JSON.stringify(cart));
+        }
 
-      const matches = JSON.parse(localStorage.getItem('matches'));
-      const match = {
-        id: Date.now(),
-        tournament,
-        date,
-        time,
-        team1,
-        team2,
-        status,
-        score1,
-        score2,
-        logo1: tempLogoData?.logo1 || null,
-        logo1Name: tempLogoData?.logo1Name || '',
-        logo2: tempLogoData?.logo2 || null,
-        logo2Name: tempLogoData?.logo2Name || ''
-      };
+        function updateCartUI() {
+            const countBadge = document.getElementById('cartCount');
+            const container = document.getElementById('cartItemsContainer');
+            const subTotalEl = document.getElementById('subTotal');
+            const grandTotalEl = document.getElementById('grandTotal');
+            
+            if(!countBadge || !container) return;
 
-      matches.push(match);
-      localStorage.setItem('matches', JSON.stringify(matches));
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            countBadge.innerText = totalItems;
 
-      // Reset form
-      document.getElementById('adminTournament').value = 'APL';
-      document.getElementById('adminDate').value = '';
-      document.getElementById('adminTime').value = '';
-      document.getElementById('adminTeam1').value = '';
-      document.getElementById('adminTeam2').value = '';
-      document.getElementById('adminStatus').value = 'Diễn Ra';
-      document.getElementById('adminScore1').value = '0';
-      document.getElementById('adminScore2').value = '0';
-      document.getElementById('adminLogo1Preview').classList.add('hidden');
-      document.getElementById('adminLogo2Preview').classList.add('hidden');
-      document.getElementById('adminLogo1Name').textContent = '';
-      document.getElementById('adminLogo2Name').textContent = '';
-      tempLogoData = null;
+            container.innerHTML = '';
+            let subTotal = 0;
 
-      alert('Thêm trận đấu thành công!');
-      loadAdminMatches();
-    }
+            cart.forEach(item => {
+                subTotal += item.price * item.quantity;
+                const div = document.createElement('div');
+                div.className = 'cart-item';
+                div.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}">
+                    <div class="item-info">
+                        <h4>${item.name}</h4>
+                        <span class="item-price">${item.price.toLocaleString('vi-VN')}đ</span>
+                        <div class="qty-control">
+                            <button class="qty-btn" onclick="changeQuantity('${item.id}', -1)">-</button>
+                            <span>${item.quantity}</span>
+                            <button class="qty-btn" onclick="changeQuantity('${item.id}', 1)">+</button>
+                        </div>
+                    </div>
+                    <button class="remove-btn" onclick="removeFromCart('${item.id}')"><i class="fa-solid fa-trash"></i></button>
+                `;
+                container.appendChild(div);
+            });
 
-    function loadAdminMatches() {
-      const matches = JSON.parse(localStorage.getItem('matches'));
-      const container = document.getElementById('adminMatches');
-      container.innerHTML = '';
+            if(cart.length === 0) {
+                container.innerHTML = '<p style="text-align:center; color:var(--text-muted); margin-top:50px;">Giỏ hàng trống.</p>';
+            }
 
-      if (matches.length === 0) {
-        container.innerHTML = '<p class="text-gray-600">Chưa có trận đấu nào</p>';
-        return;
-      }
+            subTotalEl.innerText = `${subTotal.toLocaleString('vi-VN')}đ`;
+            let shipping = subTotal > 0 ? 15000 : 0;
+            let grandTotal = subTotal + shipping;
+            grandTotalEl.innerText = `${grandTotal.toLocaleString('vi-VN')}đ`;
+        }
 
-      matches.forEach(match => {
-        const div = document.createElement('div');
-        div.className = 'match-card';
-        div.innerHTML = `
-          <div class="flex justify-between items-center flex-wrap gap-4">
-            <div class="flex items-center gap-4 flex-1 min-w-200px">
-              <img src="${match.logo1}" alt="Logo 1" class="team-logo" onerror="this.src='https://via.placeholder.com/60?text=Team+1'">
-              <div>
-                <p class="font-bold">${match.team1}</p>
-                <p class="text-xs text-gray-600">${match.logo1Name}</p>
-              </div>
-            </div>
-            <div class="text-center">
-              <p class="text-2xl font-bold text-red-600">${match.score1} - ${match.score2}</p>
-              <span class="status-badge ${match.status === 'Diễn Ra' ? 'status-ongoing' : 'status-finished'}">${match.status}</span>
-            </div>
-            <div class="flex items-center gap-4 flex-1 min-w-200px justify-end">
-              <div class="text-right">
-                <p class="font-bold">${match.team2}</p>
-                <p class="text-xs text-gray-600">${match.logo2Name}</p>
-              </div>
-              <img src="${match.logo2}" alt="Logo 2" class="team-logo" onerror="this.src='https://via.placeholder.com/60?text=Team+2'">
-            </div>
-          </div>
-          <div class="mt-4 flex gap-2 flex-wrap justify-between items-center">
-            <div class="text-sm text-gray-600">
-              <i class="fas fa-calendar mr-1"></i>${match.date} ${match.time}
-              <span class="tournament-badge ${match.tournament.toLowerCase()}-badge">${match.tournament}</span>
-            </div>
-            <button onclick="openEditMatchModal('${match.id}')" class="garena-btn text-sm">
-              <i class="fas fa-edit mr-1"></i> Chỉnh Sửa
-            </button>
-          </div>
-        `;
-        container.appendChild(div);
-      });
-    }
+        function applyVoucher() {
+            const code = document.getElementById('voucherCode').value.toUpperCase();
+            if(cart.length === 0) {
+                showToast("Giỏ hàng trống, không thể áp dụng mã!", "error");
+                return;
+            }
+            if(code === 'CYBER50') {
+                const discount = 50000;
+                document.getElementById('discountAmt').innerText = `-${discount.toLocaleString('vi-VN')}đ`;
+                let sub = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+                let final = (sub - discount > 0 ? sub - discount : 0) + 15000;
+                document.getElementById('grandTotal').innerText = `${final.toLocaleString('vi-VN')}đ`;
+                showToast("Áp dụng mã giảm giá 50K thành công!", "success");
+            } else {
+                showToast("Mã ưu đãi không hợp lệ hoặc đã hết hạn!", "error");
+            }
+        }
 
-    function openEditMatchModal(matchId) {
-      editingMatchId = matchId;
-      const matches = JSON.parse(localStorage.getItem('matches'));
-      const match = matches.find(m => m.id == matchId);
+        function checkout() {
+            if(cart.length === 0) {
+                showToast("Không có sản phẩm để thanh toán!", "error");
+                return;
+            }
+            showToast("Đang xử lý giao dịch qua cổng Neon Coin...", "success");
+            setTimeout(() => {
+                cart = [];
+                saveCart();
+                updateCartUI();
+                toggleCart();
+                showToast("Thanh toán thành công! Đơn hàng đang được chuẩn bị.", "success");
+            }, 2000);
+        }
 
-      document.getElementById('editStatus').value = match.status;
-      document.getElementById('editScore1').value = match.score1;
-      document.getElementById('editScore2').value = match.score2;
+        // 5. ADMIN VIEW & TOOLS
+        function toggleAdminView() {
+            const adminView = document.getElementById('adminView');
+            adminView.classList.toggle('active');
+        }
 
-      document.getElementById('editMatchModal').classList.add('active');
-    }
+        function switchAdminTab(tabId, el) {
+            document.querySelectorAll('.admin-tab').forEach(tab => tab.style.display = 'none');
+            document.querySelectorAll('.admin-nav a').forEach(a => a.classList.remove('active'));
+            document.getElementById('admin-tab-' + tabId).style.display = 'block';
+            el.classList.add('active');
+        }
 
-    function closeEditMatchModal() {
-      document.getElementById('editMatchModal').classList.remove('active');
-      editingMatchId = null;
-    }
+        function initAdminUsers() {
+            const users = [
+                { id: "U001", username: "admin_master", email: "admin@cyberbite.vn", role: "Super Admin", status: "Active" },
+                { id: "U002", username: "dev_ops_1", email: "dev1@cyberbite.vn", role: "Developer", status: "Active" },
+                { id: "U003", username: "user_neon_99", email: "neon99@gmail.com", role: "Customer", status: "Banned" },
+                { id: "U004", username: "cyber_punk_vn", email: "cybervn@yahoo.com", role: "Customer", status: "Active" },
+                { id: "U005", username: "staff_q1", email: "staffq1@cyberbite.vn", role: "Manager", status: "Active" }
+            ];
+            const userTable = document.getElementById('userTableBody');
+            if(!userTable) return;
+            userTable.innerHTML = '';
+            users.forEach(user => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${user.id}</td>
+                    <td><span class="neon-text">${user.username}</span></td>
+                    <td>${user.email}</td>
+                    <td><span class="role-badge ${user.role === 'Super Admin' ? 'admin' : ''}">${user.role}</span></td>
+                    <td><span class="status-badge ${user.status === 'Active' ? 'green' : 'red'}">${user.status}</span></td>
+                    <td>
+                        <button class="btn-icon" title="Chỉnh sửa"><i class="fa-solid fa-pen"></i></button>
+                        <button class="btn-icon red" title="Khóa"><i class="fa-solid fa-lock"></i></button>
+                    </td>
+                `;
+                userTable.appendChild(tr);
+            });
+        }
 
-    function saveMatchEdit() {
-      const matches = JSON.parse(localStorage.getItem('matches'));
-      const match = matches.find(m => m.id == editingMatchId);
+        function initAdminLogs() {
+            const logs = [
+                "[2026-07-24 19:10:02] [INFO] Server started on port 8080",
+                "[2026-07-24 19:12:15] [AUTH] User U001 logged in from IP 192.168.1.55",
+                "[2026-07-24 19:15:30] [DB] Successfully connected to Firebase Realtime DB",
+                "[2026-07-24 19:22:41] [WARN] High API latency detected on /api/v1/products",
+                "[2026-07-24 19:25:05] [PAYMENT] Transaction TXN-88192 completed. Amount: 150,000 VND",
+                "[2026-07-24 19:30:11] [ERROR] Failed to fetch Roblox API cookie session. Retrying...",
+                "[2026-07-24 19:40:00] [INFO] Cronjob 'Clear Temp Cache' executed successfully"
+            ];
+            const logContainer = document.getElementById('logContainer');
+            if(!logContainer) return;
+            logContainer.innerHTML = '';
+            logs.forEach((log, index) => {
+                setTimeout(() => {
+                    const p = document.createElement('p');
+                    if (log.includes("[ERROR]")) p.classList.add('log-error');
+                    else if (log.includes("[WARN]")) p.classList.add('log-warn');
+                    else p.classList.add('log-info');
+                    p.textContent = log;
+                    logContainer.appendChild(p);
+                    logContainer.scrollTop = logContainer.scrollHeight;
+                }, index * 200);
+            });
+        }
 
-      match.status = document.getElementById('editStatus').value;
-      match.score1 = parseInt(document.getElementById('editScore1').value) || 0;
-      match.score2 = parseInt(document.getElementById('editScore2').value) || 0;
+        // 6. UTILITIES
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            if(!container) return;
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            const icon = type === 'success' ? 'fa-check-circle' : 'fa-triangle-exclamation';
+            toast.innerHTML = `<i class="fa-solid ${icon} fa-xl"></i> <div>${message}</div>`;
+            container.appendChild(toast);
+            setTimeout(() => { toast.remove(); }, 3000);
+        }
 
-      localStorage.setItem('matches', JSON.stringify(matches));
-      closeEditMatchModal();
-      loadAdminMatches();
-      alert('Cập nhật thành công!');
-    }
-
-    function deleteMatch() {
-      if (confirm('Bạn chắc chắn muốn xóa trận đấu này?')) {
-        let matches = JSON.parse(localStorage.getItem('matches'));
-        matches = matches.filter(m => m.id != editingMatchId);
-        localStorage.setItem('matches', JSON.stringify(matches));
-        closeEditMatchModal();
-        loadAdminMatches();
-        alert('Xóa thành công!');
-      }
-    }
-
-    // Logo Upload
-    function openLogoUploadModal(teamNumber) {
-      uploadingLogoFor = teamNumber;
-      document.getElementById('logoPreview').classList.add('hidden');
-      document.getElementById('logoInput').value = '';
-      document.getElementById('logoModal').classList.add('active');
-    }
-
-    function closeLogoModal() {
-      document.getElementById('logoModal').classList.remove('active');
-      uploadingLogoFor = null;
-      tempLogoData = null;
-    }
-
-    // Drag & Drop for Logo
-    const dropZone = document.getElementById('dropZone');
-    const logoInput = document.getElementById('logoInput');
-
-    dropZone.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      dropZone.classList.add('dragover');
-    });
-
-    dropZone.addEventListener('dragleave', () => {
-      dropZone.classList.remove('dragover');
-    });
-
-    dropZone.addEventListener('drop', (e) => {
-      e.preventDefault();
-      dropZone.classList.remove('dragover');
-      if (e.dataTransfer.files.length > 0) {
-        logoInput.files = e.dataTransfer.files;
-        handleLogoSelect();
-      }
-    });
-
-    logoInput.addEventListener('change', handleLogoSelect);
-
-    function handleLogoSelect() {
-      const file = logoInput.files[0];
-      if (!file || !file.type.startsWith('image/')) return;
-
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        document.getElementById('logoPreviewImg').src = e.target.result;
-        document.getElementById('logoPreview').classList.remove('hidden');
-        tempLogoData = { 
-          data: e.target.result,
-          file: file
-        };
-      };
-      reader.readAsDataURL(file);
-    }
-
-    function confirmLogoUpload() {
-      const teamName = document.getElementById('logoTeamName').value;
-      if (!teamName || !tempLogoData) {
-        alert('Vui lòng chọn hình và nhập tên đội');
-        return;
-      }
-
-      if (uploadingLogoFor === 1) {
-        document.getElementById('adminLogo1Preview').src = tempLogoData.data;
-        document.getElementById('adminLogo1Preview').classList.remove('hidden');
-        document.getElementById('adminLogo1Name').textContent = teamName;
-        tempLogoData.logo1 = tempLogoData.data;
-        tempLogoData.logo1Name = teamName;
-      } else {
-        document.getElementById('adminLogo2Preview').src = tempLogoData.data;
-        document.getElementById('adminLogo2Preview').classList.remove('hidden');
-        document.getElementById('adminLogo2Name').textContent = teamName;
-        tempLogoData.logo2 = tempLogoData.data;
-        tempLogoData.logo2Name = teamName;
-      }
-
-      closeLogoModal();
-    }
-
-    // Load Predictions
-    function loadPredictions() {
-      const tournament = document.getElementById('predictionTourament').value;
-      const date = document.getElementById('predictionDate').value;
-      const matches = JSON.parse(localStorage.getItem('matches'));
-      
-      let filtered = matches;
-      if (tournament) filtered = filtered.filter(m => m.tournament === tournament);
-      if (date) filtered = filtered.filter(m => m.date === date);
-
-      const container = document.getElementById('predictionsContainer');
-      container.innerHTML = '';
-
-      if (filtered.length === 0) {
-        container.innerHTML = '<p class="text-gray-600 text-center">Chưa có trận đấu nào</p>';
-        return;
-      }
-
-      filtered.forEach(match => {
-        const predictions = JSON.parse(localStorage.getItem('predictions'));
-        const myPrediction = predictions[match.id] ? predictions[match.id][currentUser.username] : null;
-
-        const div = document.createElement('div');
-        div.className = 'match-card';
-        div.innerHTML = `
-          <div class="flex justify-between items-center flex-wrap gap-4 mb-4">
-            <div class="flex items-center gap-4">
-              <img src="${match.logo1}" alt="Logo 1" class="team-logo" onerror="this.src='https://via.placeholder.com/60?text=Team+1'">
-              <div>
-                <p class="font-bold">${match.team1}</p>
-                <p class="text-xs text-gray-600">${match.date} ${match.time}</p>
-              </div>
-            </div>
-            <div class="text-center">
-              <p class="text-3xl font-bold text-red-600">${match.score1} - ${match.score2}</p>
-            </div>
-            <div class="flex items-center gap-4">
-              <div class="text-right">
-                <p class="font-bold">${match.team2}</p>
-                <span class="tournament-badge ${match.tournament.toLowerCase()}-badge">${match.tournament}</span>
-              </div>
-              <img src="${match.logo2}" alt="Logo 2" class="team-logo" onerror="this.src='https://via.placeholder.com/60?text=Team+2'">
-            </div>
-          </div>
-
-          <h4 class="font-bold mb-3">Dự Đoán Của Bạn:</h4>
-          <div class="grid grid-cols-2 gap-3 mb-4">
-            <div class="prediction-option ${myPrediction && myPrediction.winner === match.team1 ? 'selected' : ''}" onclick="makePrediction('${match.id}', '${match.team1}')">
-              <p class="font-bold">${match.team1}</p>
-              <p class="text-xs">Thắng</p>
-            </div>
-            <div class="prediction-option ${myPrediction && myPrediction.winner === match.team2 ? 'selected' : ''}" onclick="makePrediction('${match.id}', '${match.team2}')">
-              <p class="font-bold">${match.team2}</p>
-              <p class="text-xs">Thắng</p>
-            </div>
-          </div>
-
-          <label class="block text-sm font-bold mb-2">Dự Đoán Tỉ Số:</label>
-          <div class="flex gap-2">
-            <input type="number" class="prediction-score" placeholder="Tỉ số đội 1" value="${myPrediction ? myPrediction.score1 : ''}" onchange="updatePredictionScore('${match.id}', this.value, event.target.nextElementSibling.value)">
-            <span class="px-3 flex items-center font-bold">-</span>
-            <input type="number" class="prediction-score" placeholder="Tỉ số đội 2" value="${myPrediction ? myPrediction.score2 : ''}" onchange="updatePredictionScore('${match.id}', event.target.previousElementSibling.previousElementSibling.value, this.value)">
-          </div>
-          ${myPrediction ? '<p class="text-sm text-green-600 mt-2"><i class="fas fa-check-circle"></i> Dự đoán của bạn đã được lưu</p>' : ''}
-        `;
-        container.appendChild(div);
-      });
-
-      // Style prediction scores
-      document.querySelectorAll('.prediction-score').forEach(el => {
-        el.className = 'w-20 px-3 py-2 border-2 border-gray-300 rounded-lg text-center font-bold focus:border-red-600 focus:outline-none';
-      });
-    }
-
-    function makePrediction(matchId, winner) {
-      const predictions = JSON.parse(localStorage.getItem('predictions'));
-      if (!predictions[matchId]) predictions[matchId] = {};
-      
-      if (!predictions[matchId][currentUser.username]) {
-        predictions[matchId][currentUser.username] = { winner, score1: '', score2: '' };
-      } else {
-        predictions[matchId][currentUser.username].winner = winner;
-      }
-
-      localStorage.setItem('predictions', JSON.stringify(predictions));
-      loadPredictions();
-    }
-
-    function updatePredictionScore(matchId, score1, score2) {
-      const predictions = JSON.parse(localStorage.getItem('predictions'));
-      if (!predictions[matchId]) predictions[matchId] = {};
-      if (!predictions[matchId][currentUser.username]) {
-        predictions[matchId][currentUser.username] = { winner: '', score1: '', score2: '' };
-      }
-
-      predictions[matchId][currentUser.username].score1 = score1;
-      predictions[matchId][currentUser.username].score2 = score2;
-
-      localStorage.setItem('predictions', JSON.stringify(predictions));
-    }
-
-    // Load Scores
-    function loadScores() {
-      const tournament = document.getElementById('scoresTourament').value;
-      const date = document.getElementById('scoresDate').value;
-      const matches = JSON.parse(localStorage.getItem('matches'));
-      
-      let filtered = matches;
-      if (tournament) filtered = filtered.filter(m => m.tournament === tournament);
-      if (date) filtered = filtered.filter(m => m.date === date);
-
-      const container = document.getElementById('scoresContainer');
-      container.innerHTML = '';
-
-      if (filtered.length === 0) {
-        container.innerHTML = '<p class="text-gray-600 text-center">Chưa có trận đấu nào</p>';
-        return;
-      }
-
-      filtered.forEach(match => {
-        const div = document.createElement('div');
-        div.className = 'match-card';
-        div.innerHTML = `
-          <div class="flex justify-between items-center flex-wrap gap-4">
-            <div class="flex items-center gap-4 flex-1">
-              <img src="${match.logo1}" alt="Logo 1" class="team-logo" onerror="this.src='https://via.placeholder.com/60?text=Team+1'">
-              <div>
-                <p class="font-bold">${match.team1}</p>
-                <p class="text-xs text-gray-600">${match.logo1Name}</p>
-              </div>
-            </div>
-            <div class="text-center">
-              <p class="text-3xl font-bold text-red-600">${match.score1} - ${match.score2}</p>
-              <span class="status-badge ${match.status === 'Diễn Ra' ? 'status-ongoing' : 'status-finished'}">${match.status}</span>
-              <p class="text-xs text-gray-600 mt-2">${match.date} ${match.time}</p>
-            </div>
-            <div class="flex items-center gap-4 flex-1 justify-end">
-              <div class="text-right">
-                <p class="font-bold">${match.team2}</p>
-                <p class="text-xs text-gray-600">${match.logo2Name}</p>
-              </div>
-              <img src="${match.logo2}" alt="Logo 2" class="team-logo" onerror="this.src='https://via.placeholder.com/60?text=Team+2'">
-            </div>
-          </div>
-          <div class="mt-4">
-            <span class="tournament-badge ${match.tournament.toLowerCase()}-badge">${match.tournament}</span>
-          </div>
-        `;
-        container.appendChild(div);
-      });
-    }
-
-    // Load Tournament Matches
-    function loadTournamentMatches() {
-      const date = document.getElementById('tournamentDate').value;
-      const matches = JSON.parse(localStorage.getItem('matches'));
-      
-      let filtered = matches.filter(m => m.tournament === window.currentTournament);
-      if (date) filtered = filtered.filter(m => m.date === date);
-
-      const container = document.getElementById('tournamentContainer');
-      container.innerHTML = '';
-
-      if (filtered.length === 0) {
-        container.innerHTML = '<p class="text-gray-600 text-center">Chưa có trận đấu nào</p>';
-        return;
-      }
-
-      filtered.forEach(match => {
-        const div = document.createElement('div');
-        div.className = 'match-card';
-        div.innerHTML = `
-          <div class="flex justify-between items-center flex-wrap gap-4">
-            <div class="flex items-center gap-4 flex-1">
-              <img src="${match.logo1}" alt="Logo 1" class="team-logo" onerror="this.src='https://via.placeholder.com/60?text=Team+1'">
-              <div>
-                <p class="font-bold text-lg">${match.team1}</p>
-                <p class="text-xs text-gray-600">${match.logo1Name}</p>
-              </div>
-            </div>
-            <div class="text-center">
-              <p class="text-4xl font-bold text-red-600">${match.score1} - ${match.score2}</p>
-              <span class="status-badge ${match.status === 'Diễn Ra' ? 'status-ongoing' : 'status-finished'}">${match.status}</span>
-            </div>
-            <div class="flex items-center gap-4 flex-1 justify-end">
-              <div class="text-right">
-                <p class="font-bold text-lg">${match.team2}</p>
-                <p class="text-xs text-gray-600">${match.logo2Name}</p>
-              </div>
-              <img src="${match.logo2}" alt="Logo 2" class="team-logo" onerror="this.src='https://via.placeholder.com/60?text=Team+2'">
-            </div>
-          </div>
-          <div class="mt-4 flex justify-between items-center">
-            <p class="text-sm text-gray-600">
-              <i class="fas fa-clock mr-1"></i>${match.date} ${match.time}
-            </p>
-            <button onclick="switchPage('predictions')" class="garena-btn text-sm">
-              <i class="fas fa-star mr-1"></i> Dự Đoán Tỉ Số
-            </button>
-          </div>
-        `;
-        container.appendChild(div);
-      });
-    }
-
-    initData();
-
-    // Check if user is already logged in
-    try {
-      const savedUser = localStorage.getItem('currentUser');
-      if (savedUser) {
-        currentUser = JSON.parse(savedUser);
-        console.log('Restored user:', currentUser);
-        showAppContent();
-      }
-    } catch (e) {
-      console.error('Error restoring user:', e);
-    }
-  </script>
+        function startFlashSaleTimer() {
+            const timerEl = document.getElementById('countdownTimer');
+            if(!timerEl) return;
+            let time = 2 * 3600 + 45 * 60 + 30;
+            setInterval(() => {
+                time--;
+                if(time < 0) time = 0;
+                let h = Math.floor(time / 3600).toString().padStart(2, '0');
+                let m = Math.floor((time % 3600) / 60).toString().padStart(2, '0');
+                let s = (time % 60).toString().padStart(2, '0');
+                timerEl.innerText = `${h}:${m}:${s}`;
+            }, 1000);
+        }
+    </script>
 </body>
 </html>
