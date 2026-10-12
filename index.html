@@ -1,1864 +1,1795 @@
 <!DOCTYPE html>
-<html lang="vi" class="dark">
+<html lang="vi" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>APEX MOTORS - Showroom Ô Tô Cao Cấp & Premium</title>
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-    
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0A0A0B" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<title>Sign Apk Flurite</title>
 
-    <style>
-        /* ========================================================================== */
-        /* HỆ THỐNG BIẾN MÀU SẮC & GIAO DIỆN CYBERPUNK PURPLE / NEON PREMIUM             */
-        /* ========================================================================== */
-        :root {
-            --bg-base: #090014;
-            --bg-surface: #130325;
-            --bg-elevated: #1f083d;
-            --border-color: #7e22ce44;
-            --border-active: #d946ef;
-            --primary: #9333ea;
-            --primary-hover: #c084fc;
-            --accent-neon: #ec4899;
-            --text-main: #f3f4f6;
-            --text-muted: #a78bfa;
-            --text-dim: #7c3aed;
-            --danger: #ef4444;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --glass-bg: rgba(19, 3, 37, 0.75);
-            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
 
-        html.light {
-            --bg-base: #f8fafc;
-            --bg-surface: #ffffff;
-            --bg-elevated: #f1f5f9;
-            --border-color: #cbd5e1;
-            --border-active: #9333ea;
-            --primary: #7e22ce;
-            --primary-hover: #9333ea;
-            --accent-neon: #db2777;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --text-dim: #94a3b8;
-            --glass-bg: rgba(255, 255, 255, 0.85);
-        }
+<style>
+/* =====================================================================
+   1. BIẾN MÀU — CHỦ ĐẠO CAM / ĐEN / TRẮNG + DARK MODE
+   ===================================================================== */
+:root{
+  --orange:#FF6B1A;
+  --orange-2:#FF8C42;
+  --orange-glow:rgba(255,107,26,.28);
+  --orange-soft:rgba(255,107,26,.12);
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', sans-serif;
-        }
+  --bg:#0A0A0B;
+  --surface:#141417;
+  --surface-2:#1C1C21;
+  --surface-3:#26262D;
+  --border:#2A2A31;
 
-        html {
-            scroll-behavior: smooth;
-        }
+  --text:#FFFFFF;
+  --text-dim:#8E8E99;
+  --text-mute:#5C5C66;
 
-        body {
-            background-color: var(--bg-base);
-            color: var(--text-main);
-            overflow-x: hidden;
-            line-height: 1.5;
-        }
+  --green:#2ECC71;
+  --red:#FF4D4D;
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--bg-base);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--primary-hover);
-        }
+  --r-sm:10px;
+  --r:16px;
+  --r-lg:22px;
 
-        /* Utility Classes */
-        .glass-panel {
-            background: var(--glass-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--border-color);
-        }
+  --safe-b:env(safe-area-inset-bottom,0px);
+  --safe-t:env(safe-area-inset-top,0px);
+}
+html[data-theme="light"]{
+  --bg:#FFFFFF;
+  --surface:#F7F7F9;
+  --surface-2:#EFEFF2;
+  --surface-3:#E5E5EA;
+  --border:#E3E3E8;
+  --text:#0A0A0B;
+  --text-dim:#6E6E78;
+  --text-mute:#9A9AA3;
+  --orange-soft:rgba(255,107,26,.10);
+}
 
-        .gradient-text {
-            background: linear-gradient(135deg, #c084fc 0%, #ec4899 50%, #f43f5e 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+/* =====================================================================
+   2. RESET & BASE
+   ===================================================================== */
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;margin:0;padding:0;}
+body{
+  font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  font-size:15px;
+  line-height:1.5;
+  overflow:hidden;
+  transition:background .25s ease,color .25s ease;
+  -webkit-font-smoothing:antialiased;
+}
+button,input{font-family:inherit;font-size:inherit;color:inherit;}
+button{border:0;background:none;cursor:pointer;}
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
 
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--accent-neon));
-            color: #ffffff;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition-smooth);
-            box-shadow: 0 4px 20px rgba(147, 51, 234, 0.4);
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace;}
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(236, 72, 153, 0.6);
-        }
+/* =====================================================================
+   3. MÀN HÌNH (SCREEN) & CHUYỂN TRANG
+   ===================================================================== */
+.screen{
+  position:fixed;inset:0;
+  display:flex;flex-direction:column;
+  opacity:0;visibility:hidden;transform:translateY(10px) scale(.995);
+  transition:opacity .32s ease,transform .32s cubic-bezier(.22,1,.36,1),visibility .32s;
+  pointer-events:none;
+}
+.screen.active{opacity:1;visibility:visible;transform:none;pointer-events:auto;}
 
-        .btn-outline {
-            background: transparent;
-            color: var(--text-main);
-            border: 1px solid var(--border-active);
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition-smooth);
-        }
+/* =====================================================================
+   4. MÀN HÌNH NHẬP KEY
+   ===================================================================== */
+#screenKey{
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255,107,26,.16), transparent 60%),
+    var(--bg);
+  align-items:center;justify-content:center;
+  padding:32px 24px calc(32px + var(--safe-b));
+}
+.gate-logo{
+  width:88px;height:88px;border-radius:26px;
+  background:linear-gradient(145deg,var(--orange),#D94E00);
+  display:grid;place-items:center;
+  box-shadow:0 16px 40px -10px var(--orange-glow);
+  margin-bottom:22px;
+  animation:pop .6s cubic-bezier(.22,1.4,.36,1);
+}
+@keyframes pop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+.gate-logo svg{width:46px;height:46px;fill:#fff;}
+.gate-title{
+  font-size:26px;font-weight:800;letter-spacing:-.6px;margin:0 0 6px;
+  text-align:center;
+}
+.gate-title span{color:var(--orange);}
+.gate-sub{
+  color:var(--text-dim);font-size:13.5px;text-align:center;
+  margin:0 0 30px;max-width:300px;
+}
+.gate-box{width:100%;max-width:340px;}
+.key-field{
+  position:relative;margin-bottom:14px;
+}
+.key-field input{
+  width:100%;height:58px;border-radius:var(--r);
+  background:var(--surface);border:1.5px solid var(--border);
+  padding:0 52px 0 18px;
+  font-size:17px;font-weight:600;letter-spacing:2px;
+  text-transform:uppercase;
+  outline:none;transition:border-color .2s,box-shadow .2s;
+}
+.key-field input::placeholder{letter-spacing:1px;font-weight:500;color:var(--text-mute);text-transform:none;font-size:14px;}
+.key-field input:focus{border-color:var(--orange);box-shadow:0 0 0 4px var(--orange-soft);}
+.key-field input.err{border-color:var(--red);box-shadow:0 0 0 4px rgba(255,77,77,.14);animation:shake .4s;}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+.key-eye{
+  position:absolute;right:6px;top:50%;transform:translateY(-50%);
+  width:42px;height:42px;border-radius:12px;display:grid;place-items:center;
+  color:var(--text-dim);
+}
+.key-hint{
+  font-size:12px;color:var(--text-mute);text-align:center;margin-top:18px;
+  line-height:1.6;
+}
+.key-hint b{color:var(--orange);font-weight:600;}
 
-        .btn-outline:hover {
-            background: var(--primary);
-            border-color: var(--primary);
-            color: #ffffff;
-        }
+/* =====================================================================
+   5. NÚT BẤM
+   ===================================================================== */
+.btn{
+  width:100%;height:56px;border-radius:var(--r);
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  font-weight:700;font-size:15.5px;letter-spacing:.2px;
+  transition:transform .14s ease,opacity .2s,box-shadow .2s,background .2s;
+  user-select:none;
+}
+.btn:active{transform:scale(.975);}
+.btn:disabled{opacity:.42;pointer-events:none;}
+.btn-primary{
+  background:linear-gradient(135deg,var(--orange),#E85A00);
+  color:#fff;
+  box-shadow:0 10px 26px -10px var(--orange-glow);
+}
+.btn-primary:active{box-shadow:0 4px 14px -6px var(--orange-glow);}
+.btn-ghost{
+  background:var(--surface);border:1.5px solid var(--border);color:var(--text);
+}
+.btn-ghost:active{background:var(--surface-2);}
+.btn svg{width:20px;height:20px;flex:none;}
 
-        /* Loading Screen */
-        #loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: var(--bg-base);
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.5s ease;
-        }
-        .loader-ring {
-            width: 64px;
-            height: 64px;
-            border: 4px solid var(--border-color);
-            border-top-color: var(--accent-neon);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+/* =====================================================================
+   6. HEADER APP
+   ===================================================================== */
+.app-header{
+  flex:none;
+  display:flex;align-items:center;gap:12px;
+  padding:calc(12px + var(--safe-t)) 16px 12px;
+  background:var(--bg);
+  border-bottom:1px solid var(--border);
+  position:relative;z-index:5;
+}
+.ver-badge{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11.5px;font-weight:600;
+  color:var(--orange);
+  background:var(--orange-soft);
+  border:1px solid rgba(255,107,26,.28);
+  padding:5px 9px;border-radius:8px;
+  letter-spacing:.4px;flex:none;
+}
+.brand{
+  font-size:15.5px;font-weight:800;letter-spacing:-.3px;
+  margin:0;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.icon-btn{
+  width:40px;height:40px;border-radius:12px;flex:none;
+  display:grid;place-items:center;
+  background:var(--surface);border:1px solid var(--border);
+  color:var(--text-dim);
+  transition:transform .15s,color .2s,background .2s;
+}
+.icon-btn:active{transform:scale(.9);}
+.icon-btn svg{width:19px;height:19px;}
 
-        /* Toast Notification */
-        #toast-container {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            z-index: 9998;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .toast {
-            background: var(--bg-elevated);
-            border: 1px solid var(--border-active);
-            color: var(--text-main);
-            padding: 14px 20px;
-            border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            animation: slideInRight 0.3s ease forwards;
-            font-size: 14px;
-        }
-        @keyframes slideInRight {
-            from { opacity: 0; transform: translateX(50px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
+/* =====================================================================
+   7. NỘI DUNG CHÍNH
+   ===================================================================== */
+.app-main{
+  flex:1;overflow-y:auto;overscroll-behavior:contain;
+  padding:18px 16px calc(120px + var(--safe-b));
+  -webkit-overflow-scrolling:touch;
+}
+.block{margin-bottom:22px;animation:fadeUp .4s cubic-bezier(.22,1,.36,1) both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.block-title{
+  display:flex;align-items:center;gap:8px;
+  font-size:12px;font-weight:700;letter-spacing:1.1px;text-transform:uppercase;
+  color:var(--text-dim);margin:0 0 10px;
+}
+.block-title .num{
+  width:20px;height:20px;border-radius:50%;
+  background:var(--orange);color:#fff;
+  display:grid;place-items:center;
+  font-size:11px;font-weight:800;letter-spacing:0;
+  flex:none;
+}
 
-        /* Header & Navigation */
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            transition: var(--transition-smooth);
-        }
-        .navbar {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 18px 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .logo {
-            font-size: 24px;
-            font-weight: 800;
-            letter-spacing: 1px;
-            color: var(--text-main);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .logo span {
-            color: var(--accent-neon);
-        }
-        .nav-menu {
-            display: flex;
-            gap: 24px;
-            list-style: none;
-            align-items: center;
-        }
-        .nav-link {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 14px;
-            transition: var(--transition-smooth);
-            cursor: pointer;
-        }
-        .nav-link:hover, .nav-link.active {
-            color: var(--accent-neon);
-        }
-        .nav-actions {
-            display: flex;
-            gap: 16px;
-            align-items: center;
-        }
-        .icon-btn {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: var(--transition-smooth);
-            position: relative;
-        }
-        .icon-btn:hover {
-            border-color: var(--border-active);
-            background: var(--primary);
-            color: #fff;
-        }
-        .badge-count {
-            position: absolute;
-            top: -4px;
-            right: -4px;
-            background: var(--accent-neon);
-            color: #fff;
-            font-size: 10px;
-            font-weight: 700;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+/* --- Nút add APK lớn --- */
+.drop-zone{
+  width:100%;border-radius:var(--r-lg);
+  border:2px dashed var(--border);
+  background:var(--surface);
+  padding:34px 20px;
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+  transition:border-color .22s,background .22s,transform .15s;
+  text-align:center;
+}
+.drop-zone:active{transform:scale(.985);}
+.drop-zone:hover{border-color:var(--orange);background:var(--orange-soft);}
+.dz-icon{
+  width:64px;height:64px;border-radius:20px;
+  background:linear-gradient(145deg,var(--orange),#D94E00);
+  display:grid;place-items:center;
+  box-shadow:0 12px 30px -12px var(--orange-glow);
+}
+.dz-icon svg{width:32px;height:32px;fill:#fff;}
+.dz-title{font-size:16.5px;font-weight:700;letter-spacing:-.2px;}
+.dz-sub{font-size:12.5px;color:var(--text-dim);}
+.dz-tag{
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  background:var(--surface-3);color:var(--text-dim);
+  padding:4px 10px;border-radius:99px;margin-top:2px;
+}
 
-        /* Views (SPA System) */
-        .view-section {
-            display: none;
-            min-height: 100vh;
-            padding-top: 90px;
-            animation: fadeIn 0.4s ease;
-        }
-        .view-section.active {
-            display: block;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+/* --- APK hero --- */
+.apk-hero{
+  display:flex;flex-direction:column;align-items:center;
+  padding:26px 16px 22px;
+  background:linear-gradient(180deg,var(--orange-soft),transparent);
+  border:1px solid var(--border);
+  border-radius:var(--r-lg);
+  position:relative;overflow:hidden;
+}
+.apk-hero::after{
+  content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);
+  width:200px;height:200px;border-radius:50%;
+  background:var(--orange);filter:blur(70px);opacity:.16;pointer-events:none;
+}
+.apk-logo{
+  width:82px;height:82px;border-radius:22px;
+  background:linear-gradient(145deg,var(--orange),#C94400);
+  display:grid;place-items:center;
+  box-shadow:0 18px 40px -14px var(--orange-glow);
+  position:relative;z-index:1;
+  animation:pop .45s cubic-bezier(.22,1.4,.36,1);
+}
+.apk-logo svg{width:42px;height:42px;fill:#fff;}
+.apk-name{
+  font-size:16px;font-weight:700;margin:14px 0 4px;text-align:center;
+  word-break:break-all;max-width:100%;position:relative;z-index:1;
+  line-height:1.35;
+}
+.apk-meta{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11.5px;color:var(--text-dim);
+  display:flex;gap:8px;align-items:center;position:relative;z-index:1;
+}
+.apk-meta .dot{width:3px;height:3px;border-radius:50%;background:var(--text-mute);}
+.apk-badge{
+  margin-top:12px;
+  font-size:11px;font-weight:700;color:var(--green);
+  background:rgba(46,204,113,.13);
+  border:1px solid rgba(46,204,113,.3);
+  padding:5px 12px;border-radius:99px;
+  display:flex;align-items:center;gap:6px;
+  position:relative;z-index:1;
+}
+.apk-badge svg{width:13px;height:13px;fill:var(--green);}
 
-        /* Hero Banner */
-        .hero-banner {
-            position: relative;
-            height: 90vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            overflow: hidden;
-        }
-        .hero-video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -2;
-            filter: brightness(0.4);
-        }
-        .hero-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, transparent 30%, var(--bg-base) 90%);
-            z-index: -1;
-        }
-        .hero-content {
-            max-width: 900px;
-            padding: 0 20px;
-        }
-        .hero-title {
-            font-size: clamp(36px, 6vw, 64px);
-            font-weight: 800;
-            margin-bottom: 20px;
-            letter-spacing: -1px;
-        }
-        .hero-subtitle {
-            font-size: clamp(16px, 2vw, 20px);
-            color: var(--text-muted);
-            margin-bottom: 30px;
-        }
+/* --- Chọn định dạng --- */
+.fmt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.fmt-card{
+  background:var(--surface);
+  border:1.5px solid var(--border);
+  border-radius:var(--r);
+  padding:16px 8px 13px;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  transition:all .2s cubic-bezier(.22,1,.36,1);
+  position:relative;overflow:hidden;
+}
+.fmt-card:active{transform:scale(.96);}
+.fmt-card .fi{
+  width:38px;height:38px;border-radius:12px;
+  background:var(--surface-3);
+  display:grid;place-items:center;
+  transition:all .2s;
+}
+.fmt-card .fi svg{width:19px;height:19px;fill:var(--text-dim);transition:fill .2s;}
+.fmt-card .fn{
+  font-family:'JetBrains Mono',monospace;
+  font-size:12.5px;font-weight:600;color:var(--text-dim);
+  transition:color .2s;
+}
+.fmt-card.sel{
+  border-color:var(--orange);
+  background:var(--orange-soft);
+  box-shadow:0 8px 22px -12px var(--orange-glow);
+}
+.fmt-card.sel .fi{background:var(--orange);}
+.fmt-card.sel .fi svg{fill:#fff;}
+.fmt-card.sel .fn{color:var(--orange);}
+.fmt-card .tick{
+  position:absolute;top:7px;right:7px;
+  width:16px;height:16px;border-radius:50%;
+  background:var(--orange);display:grid;place-items:center;
+  opacity:0;transform:scale(.4);transition:all .2s;
+}
+.fmt-card.sel .tick{opacity:1;transform:scale(1);}
+.fmt-card .tick svg{width:10px;height:10px;fill:#fff;}
 
-        /* Search Bar Box */
-        .search-box-large {
-            background: var(--glass-bg);
-            border: 1px solid var(--border-active);
-            border-radius: 16px;
-            padding: 16px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) auto;
-            gap: 12px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-            margin-top: 30px;
-        }
-        .search-input-group {
-            display: flex;
-            flex-direction: column;
-            text-align: left;
-        }
-        .search-input-group label {
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--text-muted);
-            margin-bottom: 4px;
-            text-transform: uppercase;
-        }
-        .search-input-group input, .search-input-group select {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            padding: 10px 14px;
-            border-radius: 8px;
-            font-size: 14px;
-            outline: none;
-        }
-        .search-input-group input:focus, .search-input-group select:focus {
-            border-color: var(--border-active);
-        }
+/* --- Trình duyệt file --- */
+.browser{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r-lg);
+  overflow:hidden;
+}
+.browser-path{
+  padding:12px 14px;
+  border-bottom:1px solid var(--border);
+  background:var(--surface-2);
+}
+.browser-path .p{
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;color:var(--text-dim);
+  display:flex;align-items:center;gap:6px;
+}
+.browser-path .p b{color:var(--orange);font-weight:600;}
+.browser-path .p svg{width:13px;height:13px;fill:var(--text-mute);}
+.browser-stat{
+  display:flex;gap:14px;margin-top:8px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;color:var(--text-mute);
+}
+.browser-stat b{color:var(--text-dim);font-weight:600;}
 
-        /* Section Titles */
-        .section-header {
-            max-width: 1400px;
-            margin: 60px auto 30px auto;
-            padding: 0 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-        }
-        .section-title {
-            font-size: 32px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-        }
-        .section-subtitle {
-            color: var(--text-muted);
-            font-size: 14px;
-            margin-top: 6px;
-        }
+.file-list{padding:6px;max-height:340px;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.file-row{
+  display:flex;align-items:center;gap:11px;
+  padding:10px 10px;border-radius:12px;
+  position:relative;cursor:pointer;
+  transition:background .15s;
+}
+.file-row:active{background:var(--surface-2);}
+.file-row input{position:absolute;opacity:0;width:0;height:0;pointer-events:none;}
+.cb{
+  width:21px;height:21px;border-radius:7px;flex:none;
+  border:2px solid var(--border);
+  display:grid;place-items:center;
+  transition:all .18s cubic-bezier(.22,1.4,.36,1);
+}
+.cb svg{width:12px;height:12px;fill:#fff;opacity:0;transform:scale(.4);transition:all .18s;}
+.file-row input:checked ~ .cb{background:var(--orange);border-color:var(--orange);}
+.file-row input:checked ~ .cb svg{opacity:1;transform:scale(1);}
+.f-icon{
+  width:34px;height:34px;border-radius:10px;flex:none;
+  background:var(--surface-3);display:grid;place-items:center;
+}
+.f-icon svg{width:17px;height:17px;}
+.f-icon.folder svg{fill:var(--orange);}
+.f-icon.file svg{fill:var(--text-dim);}
+.f-main{flex:1;min-width:0;}
+.f-name{
+  font-size:13.5px;font-weight:600;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  font-family:'JetBrains Mono',monospace;
+}
+.f-sub{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10.5px;color:var(--text-mute);margin-top:1px;
+}
+.f-size{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11.5px;color:var(--text-dim);flex:none;font-weight:600;
+}
+.file-row input:checked ~ .f-size{color:var(--orange);}
 
-        /* Car Grid & Cards */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-        .car-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 24px;
-            margin-bottom: 60px;
-        }
-        .car-card {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            overflow: hidden;
-            transition: var(--transition-smooth);
-            display: flex;
-            flex-direction: column;
-            position: relative;
-        }
-        .car-card:hover {
-            transform: translateY(-6px);
-            border-color: var(--border-active);
-            box-shadow: 0 15px 40px rgba(147, 51, 234, 0.2);
-        }
-        .car-image-wrap {
-            position: relative;
-            height: 220px;
-            overflow: hidden;
-        }
-        .car-image-wrap img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-        .car-card:hover .car-image-wrap img {
-            transform: scale(1.08);
-        }
-        .car-tag {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            background: var(--primary);
-            color: #fff;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-        .car-favorite-btn {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: rgba(0,0,0,0.5);
-            border: none;
-            color: #fff;
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: var(--transition-smooth);
-        }
-        .car-favorite-btn:hover, .car-favorite-btn.active {
-            background: var(--accent-neon);
-            color: #fff;
-        }
-        .car-body {
-            padding: 20px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-        .car-name {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-        .car-specs-row {
-            display: flex;
-            gap: 16px;
-            margin-bottom: 16px;
-            color: var(--text-muted);
-            font-size: 13px;
-        }
-        .car-specs-row span {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .car-price-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: auto;
-            padding-top: 16px;
-            border-top: 1px solid var(--border-color);
-        }
-        .car-price {
-            font-size: 20px;
-            font-weight: 800;
-            color: var(--accent-neon);
-        }
-        .car-actions {
-            display: flex;
-            gap: 8px;
-        }
-        .car-action-btn {
-            background: var(--bg-elevated);
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition-smooth);
-        }
-        .car-action-btn:hover {
-            background: var(--primary);
-            border-color: var(--primary);
-            color: #fff;
-        }
+.browser-actions{
+  display:flex;gap:10px;padding:12px;
+  border-top:1px solid var(--border);
+  background:var(--surface-2);
+}
+.browser-actions .btn{height:48px;font-size:14px;border-radius:13px;}
 
-        /* Brand Categories */
-        .brands-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 16px;
-            margin-bottom: 60px;
-        }
-        .brand-card {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: var(--transition-smooth);
-        }
-        .brand-card:hover {
-            border-color: var(--border-active);
-            transform: translateY(-4px);
-            background: var(--bg-elevated);
-        }
-        .brand-card i {
-            font-size: 32px;
-            color: var(--accent-neon);
-            margin-bottom: 10px;
-        }
-        .brand-card h4 {
-            font-size: 14px;
-            font-weight: 600;
-        }
+/* --- Empty state --- */
+.empty{
+  padding:44px 20px;text-align:center;
+  color:var(--text-mute);
+}
+.empty svg{width:48px;height:48px;fill:var(--text-mute);opacity:.5;margin-bottom:12px;}
+.empty p{margin:0;font-size:13.5px;}
 
-        /* Forms & Interactive Modals */
-        .form-card {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 700px;
-            margin: 0 auto 60px auto;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-        }
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-bottom: 20px;
-        }
-        .form-group.full {
-            grid-column: span 2;
-        }
-        .form-group label {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-muted);
-        }
-        .form-group input, .form-group select, .form-group textarea {
-            background: var(--bg-base);
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            padding: 12px 16px;
-            border-radius: 8px;
-            font-size: 14px;
-            outline: none;
-            transition: var(--transition-smooth);
-        }
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-            border-color: var(--border-active);
-        }
+/* --- Skeleton --- */
+.sk{border-radius:12px;background:linear-gradient(90deg,var(--surface) 25%,var(--surface-3) 50%,var(--surface) 75%);background-size:200% 100%;animation:shim 1.3s infinite;}
+@keyframes shim{0%{background-position:200% 0}100%{background-position:-200% 0}}
 
-        /* Cart & Checkout Layout */
-        .cart-layout {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 30px;
-            margin-bottom: 60px;
-        }
-        .cart-items-list {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-        .cart-item {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-        .cart-item img {
-            width: 120px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-        .cart-summary-box {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 24px;
-            height: fit-content;
-        }
+/* =====================================================================
+   8. CTA CỐ ĐỊNH DƯỚI CÙNG
+   ===================================================================== */
+.sticky-cta{
+  position:fixed;left:0;right:0;bottom:0;z-index:20;
+  padding:14px 16px calc(14px + var(--safe-b));
+  background:linear-gradient(180deg,transparent,var(--bg) 26%);
+  pointer-events:none;
+}
+.sticky-cta .btn{pointer-events:auto;}
 
-        /* Admin Dashboard Layout */
-        .admin-layout {
-            display: grid;
-            grid-template-columns: 260px 1fr;
-            min-height: calc(100vh - 90px);
-        }
-        .admin-sidebar {
-            background: var(--bg-surface);
-            border-right: 1px solid var(--border-color);
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .admin-nav-item {
-            padding: 12px 16px;
-            border-radius: 8px;
-            color: var(--text-muted);
-            text-decoration: none;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            cursor: pointer;
-            transition: var(--transition-smooth);
-        }
-        .admin-nav-item:hover, .admin-nav-item.active {
-            background: var(--primary);
-            color: #fff;
-        }
-        .admin-content {
-            padding: 30px;
-            overflow-y: auto;
-        }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        .stat-card {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 20px;
-        }
-        .table-container {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 30px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-            font-size: 14px;
-        }
-        th, td {
-            padding: 14px 20px;
-            border-bottom: 1px solid var(--border-color);
-        }
-        th {
-            background: var(--bg-elevated);
-            font-weight: 600;
-            color: var(--text-muted);
-        }
+/* =====================================================================
+   9. MODAL / BOTTOM SHEET
+   ===================================================================== */
+.modal{
+  position:fixed;inset:0;z-index:200;
+  display:flex;align-items:flex-end;justify-content:center;
+  visibility:hidden;
+}
+.modal.open{visibility:visible;}
+.modal-bd{
+  position:absolute;inset:0;
+  background:rgba(0,0,0,.62);
+  backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);
+  opacity:0;transition:opacity .28s;
+}
+.modal.open .modal-bd{opacity:1;}
+.sheet{
+  position:relative;width:100%;max-width:540px;
+  max-height:93vh;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  background:var(--surface);
+  border-radius:26px 26px 0 0;
+  border-top:1px solid var(--border);
+  padding:10px 18px calc(22px + var(--safe-b));
+  transform:translateY(102%);
+  transition:transform .38s cubic-bezier(.22,1,.36,1);
+}
+.modal.open .sheet{transform:translateY(0);}
+.grabber{
+  width:42px;height:4px;border-radius:99px;
+  background:var(--border);margin:4px auto 16px;
+}
+.sheet-title{
+  font-size:19px;font-weight:800;letter-spacing:-.4px;
+  margin:0 0 4px;
+}
+.sheet-desc{font-size:13px;color:var(--text-dim);margin:0 0 18px;}
 
-        /* Chatbot Floating Widget */
-        .chatbot-widget {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 997;
-        }
-        .chatbot-toggle-btn {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--accent-neon));
-            color: #fff;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            box-shadow: 0 10px 30px rgba(147, 51, 234, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: var(--transition-smooth);
-        }
-        .chatbot-toggle-btn:hover {
-            transform: scale(1.1);
-        }
-        .chatbot-window {
-            position: absolute;
-            bottom: 80px;
-            right: 0;
-            width: 360px;
-            height: 500px;
-            background: var(--bg-surface);
-            border: 1px solid var(--border-active);
-            border-radius: 16px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-            display: none;
-            flex-direction: column;
-            overflow: hidden;
-        }
-        .chatbot-window.active {
-            display: flex;
-        }
-        .chatbot-header {
-            background: var(--bg-elevated);
-            padding: 16px;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 600;
-        }
-        .chatbot-body {
-            flex: 1;
-            padding: 16px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        .chat-message {
-            padding: 10px 14px;
-            border-radius: 10px;
-            font-size: 13px;
-            max-width: 80%;
-        }
-        .chat-message.bot {
-            background: var(--bg-elevated);
-            align-self: flex-start;
-            border: 1px solid var(--border-color);
-        }
-        .chat-message.user {
-            background: var(--primary);
-            color: #fff;
-            align-self: flex-end;
-        }
-        .chatbot-footer {
-            padding: 12px;
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            gap: 8px;
-        }
-        .chatbot-footer input {
-            flex: 1;
-            background: var(--bg-base);
-            border: 1px solid var(--border-color);
-            padding: 8px 12px;
-            border-radius: 6px;
-            color: var(--text-main);
-            font-size: 13px;
-            outline: none;
-        }
+/* --- Checkbox hàng ngang (V1..V5) --- */
+.chip-row{display:flex;flex-wrap:wrap;gap:9px;}
+.chip{
+  flex:1;min-width:72px;
+  height:52px;border-radius:14px;
+  background:var(--surface-2);
+  border:1.5px solid var(--border);
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:14px;font-weight:600;color:var(--text-dim);
+  position:relative;cursor:pointer;
+  transition:all .18s cubic-bezier(.22,1,.36,1);
+  user-select:none;
+}
+.chip:active{transform:scale(.95);}
+.chip input{position:absolute;opacity:0;width:0;height:0;pointer-events:none;}
+.chip .cdot{
+  width:16px;height:16px;border-radius:5px;
+  border:2px solid var(--border);
+  display:grid;place-items:center;flex:none;
+  transition:all .18s;
+}
+.chip .cdot svg{width:9px;height:9px;fill:#fff;opacity:0;transform:scale(.4);transition:all .18s;}
+.chip input:checked ~ .cdot{background:var(--orange);border-color:var(--orange);}
+.chip input:checked ~ .cdot svg{opacity:1;transform:scale(1);}
+.chip:has(input:checked){
+  border-color:var(--orange);
+  background:var(--orange-soft);
+  color:var(--orange);
+}
+.select-all{
+  display:flex;align-items:center;gap:8px;
+  font-size:12.5px;font-weight:600;color:var(--orange);
+  padding:9px 2px;margin-top:6px;
+  background:none;
+}
+.select-all svg{width:16px;height:16px;fill:var(--orange);}
 
-        /* Footer */
-        footer {
-            background: var(--bg-surface);
-            border-top: 1px solid var(--border-color);
-            padding: 60px 24px 30px 24px;
-            margin-top: 80px;
-        }
-        .footer-grid {
-            max-width: 1400px;
-            margin: 0 auto 40px auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-        }
-        .footer-col h4 {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-        .footer-links {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .footer-links a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 14px;
-            transition: var(--transition-smooth);
-        }
-        .footer-links a:hover {
-            color: var(--accent-neon);
-        }
-        .footer-bottom {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding-top: 20px;
-            border-top: 1px solid var(--border-color);
-            text-align: center;
-            font-size: 13px;
-            color: var(--text-muted);
-        }
+/* --- Field --- */
+.field{margin-top:16px;}
+.field label{
+  display:block;font-size:12.5px;font-weight:700;
+  color:var(--text-dim);margin-bottom:7px;letter-spacing:.2px;
+}
+.field input{
+  width:100%;height:54px;border-radius:14px;
+  background:var(--surface-2);
+  border:1.5px solid var(--border);
+  padding:0 15px;outline:none;
+  font-size:15px;font-weight:600;
+  transition:border-color .2s,box-shadow .2s;
+}
+.field input::placeholder{font-weight:400;color:var(--text-mute);font-size:13.5px;}
+.field input:focus{border-color:var(--orange);box-shadow:0 0 0 4px var(--orange-soft);}
+.field input.err{border-color:var(--red);box-shadow:0 0 0 4px rgba(255,77,77,.13);}
+.field .msg{
+  font-size:11.5px;margin-top:6px;display:flex;align-items:center;gap:5px;
+  min-height:16px;
+}
+.field .msg.err{color:var(--red);}
+.field .msg.ok{color:var(--green);}
+.field .msg svg{width:12px;height:12px;flex:none;}
+.field .msg.err svg{fill:var(--red);}
+.field .msg.ok svg{fill:var(--green);}
+.field-hint{font-size:11.5px;color:var(--text-mute);margin-top:6px;font-family:'JetBrains Mono',monospace;}
 
-        @media (max-width: 768px) {
-            .nav-menu { display: none; }
-            .form-grid { grid-template-columns: 1fr; }
-            .cart-layout { grid-template-columns: 1fr; }
-            .admin-layout { grid-template-columns: 1fr; }
-            .admin-sidebar { display: none; }
-        }
-    </style>
+/* =====================================================================
+   10. MODAL TIẾN TRÌNH
+   ===================================================================== */
+.progress-wrap{text-align:center;padding:6px 0 4px;}
+.pct{
+  font-family:'JetBrains Mono',monospace;
+  font-size:54px;font-weight:600;letter-spacing:-3px;
+  line-height:1;color:var(--orange);
+  transition:color .3s;
+}
+.pct small{font-size:22px;letter-spacing:0;opacity:.55;font-weight:400;}
+.pct-label{
+  font-size:12px;color:var(--text-dim);margin-top:6px;
+  letter-spacing:.4px;
+}
+.bar{
+  height:9px;border-radius:99px;background:var(--surface-2);
+  margin:20px 0 8px;overflow:hidden;
+  border:1px solid var(--border);
+}
+.bar > i{
+  display:block;height:100%;width:0%;
+  background:linear-gradient(90deg,var(--orange),var(--orange-2));
+  border-radius:99px;
+  transition:width .18s linear;
+  box-shadow:0 0 14px var(--orange-glow);
+}
+.bar-sub{
+  display:flex;justify-content:space-between;
+  font-family:'JetBrains Mono',monospace;
+  font-size:10.5px;color:var(--text-mute);
+}
+.current-stage{
+  margin-top:18px;padding:14px;
+  border-radius:14px;background:var(--surface-2);
+  border:1px solid var(--border);
+  display:flex;align-items:center;gap:11px;
+  text-align:left;
+}
+.spinner{
+  width:20px;height:20px;flex:none;border-radius:50%;
+  border:2.5px solid var(--border);
+  border-top-color:var(--orange);
+  animation:spin .75s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.current-stage p{
+  margin:0;font-size:13.5px;font-weight:600;
+  animation:fadeIn .35s ease;
+}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+.log{
+  margin-top:14px;max-height:190px;overflow-y:auto;
+  text-align:left;
+  border-top:1px solid var(--border);
+  padding-top:12px;
+}
+.log-item{
+  display:flex;align-items:center;gap:9px;
+  padding:6px 0;
+  font-family:'JetBrains Mono',monospace;
+  font-size:11.5px;
+  color:var(--text-mute);
+  animation:fadeUp .3s ease both;
+}
+.log-item .li{
+  width:16px;height:16px;border-radius:50%;flex:none;
+  display:grid;place-items:center;
+  border:1.5px solid var(--border);
+}
+.log-item .li svg{width:9px;height:9px;fill:#fff;opacity:0;}
+.log-item.done{color:var(--text-dim);}
+.log-item.done .li{background:var(--green);border-color:var(--green);}
+.log-item.done .li svg{opacity:1;}
+.log-item.active{color:var(--orange);font-weight:600;}
+.log-item.active .li{border-color:var(--orange);border-top-color:transparent;animation:spin .8s linear infinite;}
+
+/* --- Trạng thái hoàn tất --- */
+.done-box{text-align:center;padding:18px 0 6px;}
+.done-check{
+  width:96px;height:96px;border-radius:50%;margin:0 auto 20px;
+  background:rgba(46,204,113,.12);
+  border:2px solid rgba(46,204,113,.35);
+  display:grid;place-items:center;
+  animation:pop .55s cubic-bezier(.22,1.5,.36,1);
+}
+.done-check svg{width:48px;height:48px;fill:var(--green);}
+.done-title{
+  font-size:24px;font-weight:800;letter-spacing:-.6px;margin:0 0 8px;
+}
+.done-sub{
+  font-size:14.5px;color:var(--orange);font-weight:700;margin:0 0 6px;
+}
+.done-note{font-size:12.5px;color:var(--text-dim);margin:0 0 22px;}
+
+/* =====================================================================
+   11. TOAST
+   ===================================================================== */
+#toastBox{
+  position:fixed;left:0;right:0;top:calc(14px + var(--safe-t));
+  z-index:500;display:flex;flex-direction:column;align-items:center;gap:8px;
+  pointer-events:none;padding:0 16px;
+}
+.toast{
+  max-width:440px;width:100%;
+  display:flex;align-items:center;gap:11px;
+  padding:13px 15px;border-radius:14px;
+  background:var(--surface-2);
+  border:1px solid var(--border);
+  box-shadow:0 14px 34px -12px rgba(0,0,0,.6);
+  font-size:13.5px;font-weight:600;
+  animation:toastIn .34s cubic-bezier(.22,1.3,.36,1);
+}
+.toast.out{animation:toastOut .26s ease forwards;}
+@keyframes toastIn{from{opacity:0;transform:translateY(-18px) scale(.94)}to{opacity:1;transform:none}}
+@keyframes toastOut{to{opacity:0;transform:translateY(-14px) scale(.95)}}
+.toast .ti{
+  width:26px;height:26px;border-radius:9px;flex:none;
+  display:grid;place-items:center;
+}
+.toast .ti svg{width:14px;height:14px;fill:#fff;}
+.toast.success .ti{background:var(--green);}
+.toast.error .ti{background:var(--red);}
+.toast.info .ti{background:var(--orange);}
+
+/* =====================================================================
+   12. RESPONSIVE — TABLET / DESKTOP
+   ===================================================================== */
+@media (min-width:640px){
+  .app-main{padding-left:24px;padding-right:24px;max-width:640px;margin:0 auto;width:100%;}
+  .app-header{padding-left:24px;padding-right:24px;}
+  .modal{align-items:center;}
+  .sheet{border-radius:24px;max-height:88vh;transform:translateY(24px) scale(.96);opacity:0;transition:transform .34s cubic-bezier(.22,1,.36,1),opacity .3s;}
+  .modal.open .sheet{transform:none;opacity:1;}
+  .grabber{display:none;}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms !important;transition-duration:.01ms !important;}
+}
+</style>
 </head>
+
 <body>
 
-    <!-- Loading Screen -->
-    <div id="loading-screen">
-        <div class="loader-ring"></div>
-        <h2 style="margin-top: 20px; font-weight: 700;" class="gradient-text">APEX MOTORS PREMIUM</h2>
-        <p style="color: var(--text-muted); font-size: 14px; margin-top: 6px;">Đang khởi tạo hệ thống showroom đỉnh cao...</p>
+<!-- =====================================================================
+     TOAST CONTAINER
+     ===================================================================== -->
+<div id="toastBox"></div>
+
+
+<!-- =====================================================================
+     MÀN HÌNH 1 — NHẬP KEY
+     ===================================================================== -->
+<section id="screenKey" class="screen active">
+  <div class="gate-logo">
+    <svg viewBox="0 0 24 24"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85a.637.637 0 0 0-.83.22l-1.88 3.24a11.463 11.463 0 0 0-8.94 0L5.65 5.67a.643.643 0 0 0-.87-.2c-.28.18-.37.54-.22.83L6.4 9.48A10.78 10.78 0 0 0 1 18h22a10.78 10.78 0 0 0-5.4-8.52zM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/></svg>
+  </div>
+
+  <h1 class="gate-title">Sign Apk <span>Flurite</span></h1>
+  <p class="gate-sub">Nhập key kích hoạt để truy cập công cụ ký &amp; crack APK</p>
+
+  <div class="gate-box">
+    <div class="key-field">
+      <input id="keyInput" type="password" inputmode="text" autocomplete="off"
+             spellcheck="false" placeholder="Nhập key kích hoạt..." maxlength="32" />
+      <button class="key-eye" id="keyEye" aria-label="Hiện/ẩn key">
+        <svg viewBox="0 0 24 24" width="19" height="19" fill="currentColor"><path d="M12 4.5C7 4.5 2.7 7.6 1 12c1.7 4.4 6 7.5 11 7.5s9.3-3.1 11-7.5c-1.7-4.4-6-7.5-11-7.5zm0 12.5a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg>
+      </button>
     </div>
 
-    <!-- Toast Container -->
-    <div id="toast-container"></div>
+    <button class="btn btn-primary" id="btnUnlock">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-1V6a5 5 0 0 0-5-5zm-3 8V6a3 3 0 1 1 6 0v3H9z"/></svg>
+      Mở khóa
+    </button>
 
-    <!-- Header & Navbar -->
-    <header class="glass-panel" id="main-header">
-        <nav class="navbar">
-            <a href="#" class="logo" onclick="switchView('home')">
-                <i class="fa-solid fa-car-side"></i> APEX<span>MOTORS</span>
-            </a>
-            <ul class="nav-menu">
-                <li><a class="nav-link active" onclick="switchView('home')">Trang chủ</a></li>
-                <li><a class="nav-link" onclick="switchView('cars')">Danh sách xe</a></li>
-                <li><a class="nav-link" onclick="switchView('news')">Tin tức</a></li>
-                <li><a class="nav-link" onclick="switchView('contact')">Đại lý</a></li>
-                <li><a class="nav-link" onclick="switchView('booking')">Đặt xe</a></li>
-                <li><a class="nav-link" onclick="switchView('testdrive')">Lái thử</a></li>
-                <li><a class="nav-link" onclick="switchView('admin')">Admin</a></li>
-            </ul>
-            <div class="nav-actions">
-                <button class="icon-btn" onclick="toggleTheme()" title="Đổi giao diện"><i class="fa-solid fa-moon" id="theme-icon"></i></button>
-                <button class="icon-btn" onclick="switchView('cart')" title="Giỏ hàng"><i class="fa-solid fa-cart-shopping"></i><span class="badge-count" id="cart-badge">0</span></button>
-                <button class="icon-btn" onclick="switchView('account')" title="Tài khoản"><i class="fa-solid fa-user"></i></button>
-            </div>
-        </nav>
-    </header>
+    <p class="key-hint">Key demo: <b>FLUKEY</b></p>
+  </div>
+</section>
 
-    <!-- ========================================================================== -->
-    <!-- VIEW 1: TRANG CHỦ (HOME) -->
-    <!-- ========================================================================== -->
-    <div id="view-home" class="view-section active">
-        <!-- Hero Banner Video 4K -->
-        <section class="hero-banner">
-            <video class="hero-video" autoplay muted loop playsinline>
-                <source src="https://assets.mixkit.co/videos/preview/mixkit-luxury-car-driving-on-the-road-at-night-41553-large.mp4" type="video/mp4">
-            </video>
-            <div class="hero-overlay"></div>
-            <div class="hero-content">
-                <h1 class="hero-title gradient-text">Đỉnh Cao Nghệ Thuật Chế Tác Ô Tô</h1>
-                <p class="hero-subtitle">Trải nghiệm bộ sưu tập xe sang trọng, siêu xe thể thao và xe điện tương lai đẳng cấp thế giới.</p>
-                <button class="btn-primary" onclick="switchView('cars')">Khám phá ngay <i class="fa-solid fa-arrow-right"></i></button>
 
-                <!-- Search Bar Large -->
-                <div class="search-box-large">
-                    <div class="search-input-group">
-                        <label>Hãng xe</label>
-                        <select id="home-search-brand">
-                            <option value="">Tất cả hãng</option>
-                            <option value="Tesla">Tesla</option>
-                            <option value="BMW">BMW</option>
-                            <option value="Mercedes-Benz">Mercedes-Benz</option>
-                            <option value="Porsche">Porsche</option>
-                            <option value="VinFast">VinFast</option>
-                            <option value="Toyota">Toyota</option>
-                        </select>
-                    </div>
-                    <div class="search-input-group">
-                        <label>Tầm giá</label>
-                        <select id="home-search-price">
-                            <option value="">Tất cả mức giá</option>
-                            <option value="0-500">Dưới 500 triệu</option>
-                            <option value="500-1000">500 triệu - 1 tỷ</option>
-                            <option value="1000-2000">1 tỷ - 2 tỷ</option>
-                            <option value="2000-99999">Trên 2 tỷ</option>
-                        </select>
-                    </div>
-                    <div class="search-input-group">
-                        <label>Loại nhiên liệu</label>
-                        <select id="home-search-fuel">
-                            <option value="">Tất cả</option>
-                            <option value="Điện">Xe Điện</option>
-                            <option value="Hybrid">Hybrid</option>
-                            <option value="Xăng">Xăng</option>
-                        </select>
-                    </div>
-                    <div style="display: flex; align-items: flex-end;">
-                        <button class="btn-primary" style="width: 100%; height: 46px;" onclick="performSearch()">Tìm kiếm</button>
-                    </div>
-                </div>
-            </div>
-        </section>
+<!-- =====================================================================
+     MÀN HÌNH 2 — APP CHÍNH
+     ===================================================================== -->
+<section id="screenMain" class="screen">
 
-        <!-- Danh mục hãng xe -->
-        <div class="container" style="margin-top: 60px;">
-            <div class="section-header" style="margin: 0 0 20px 0;">
-                <div>
-                    <h2 class="section-title">Thương Hiệu Hàng Đầu</h2>
-                    <p class="section-subtitle">Lựa chọn từ các nhà sản xuất ô tô uy tín nhất hành tinh</p>
-                </div>
-            </div>
-            <div class="brands-grid">
-                <div class="brand-card" onclick="filterByBrand('Tesla')"><i class="fa-solid fa-bolt"></i><h4>Tesla</h4></div>
-                <div class="brand-card" onclick="filterByBrand('BMW')"><i class="fa-solid fa-car"></i><h4>BMW</h4></div>
-                <div class="brand-card" onclick="filterByBrand('Mercedes')"><i class="fa-solid fa-gem"></i><h4>Mercedes</h4></div>
-                <div class="brand-card" onclick="filterByBrand('Porsche')"><i class="fa-solid fa-flag-checkered"></i><h4>Porsche</h4></div>
-                <div class="brand-card" onclick="filterByBrand('VinFast')"><i class="fa-solid fa-star"></i><h4>VinFast</h4></div>
-                <div class="brand-card" onclick="filterByBrand('Toyota')"><i class="fa-solid fa-shield-halved"></i><h4>Toyota</h4></div>
-            </div>
+  <!-- Header -->
+  <header class="app-header">
+    <span class="ver-badge">v1.2</span>
+    <h1 class="brand">Sign Apk Flurite</h1>
+    <button class="icon-btn" id="themeToggle" aria-label="Đổi giao diện">
+      <svg id="themeIcon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.39 5.39 0 0 1-4.4 2.26 5.4 5.4 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg>
+    </button>
+  </header>
+
+  <main class="app-main" id="appMain">
+
+    <!-- BƯỚC 1 — THÊM APK -->
+    <div class="block" id="blockUpload">
+      <p class="block-title"><span class="num">1</span> Chọn APK nguồn</p>
+      <input type="file" id="apkInput" accept=".apk,application/vnd.android.package-archive" hidden />
+      <div class="drop-zone" id="dropZone" role="button" tabindex="0">
+        <div class="dz-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2 4 6v6c0 5.05 3.41 9.76 8 11 4.59-1.24 8-5.95 8-11V6l-8-4zm1 14h-2v-3H8l4-4 4 4h-3v3z"/></svg>
         </div>
-
-        <!-- Xe Nổi Bật & Bán Chạy -->
-        <div class="container">
-            <div class="section-header">
-                <div>
-                    <h2 class="section-title">Xe Nổi Bật & Bán Chạy</h2>
-                    <p class="section-subtitle">Những mẫu xe được săn đón nhiều nhất tại showroom</p>
-                </div>
-                <button class="btn-outline" onclick="switchView('cars')">Xem tất cả (100+ xe)</button>
-            </div>
-            <div class="car-grid" id="home-featured-grid">
-                <!-- Rendered dynamically by JS -->
-            </div>
-        </div>
+        <div class="dz-title">Thêm file APK</div>
+        <div class="dz-sub">Nhấn để chọn file từ thiết bị</div>
+        <div class="dz-tag">.apk</div>
+      </div>
     </div>
 
-    <!-- ========================================================================== -->
-    <!-- VIEW 2: DANH SÁCH XE (CARS LIST) -->
-    <!-- ========================================================================== -->
-    <div id="view-cars" class="view-section">
-        <div class="container">
-            <div class="section-header">
-                <div>
-                    <h2 class="section-title">Bộ Sưu Tập 100+ Xe Cao Cấp</h2>
-                    <p class="section-subtitle">Tìm kiếm, lọc và so sánh các siêu xe đỉnh cao</p>
-                </div>
-                <div style="display: flex; gap: 12px;">
-                    <select id="car-sort-select" class="search-input-group select" onchange="sortCars()" style="background:var(--bg-surface); color:var(--text-main); border:1px solid var(--border-color); padding:10px; border-radius:8px;">
-                        <option value="newest">Mới nhất</option>
-                        <option value="price-asc">Giá thấp đến cao</option>
-                        <option value="price-desc">Giá cao đến thấp</option>
-                        <option value="rating">Đánh giá cao nhất</option>
-                    </select>
-                </div>
-            </div>
-            
-            <div style="display: grid; grid-template-columns: 280px 1fr; gap: 30px; align-items: start;">
-                <!-- Filter Sidebar -->
-                <div class="glass-panel" style="padding: 24px; border-radius: 16px;">
-                    <h3 style="font-size: 18px; margin-bottom: 20px; font-weight: 700;">Bộ Lọc Nâng Cao</h3>
-                    <div class="form-group">
-                        <label>Tên xe / Từ khóa</label>
-                        <input type="text" id="filter-keyword" placeholder="Nhập tên xe..." oninput="applyFilters()">
-                    </div>
-                    <div class="form-group">
-                        <label>Hãng xe</label>
-                        <select id="filter-brand" onchange="applyFilters()">
-                            <option value="">Tất cả hãng</option>
-                            <option value="Tesla">Tesla</option>
-                            <option value="BMW">BMW</option>
-                            <option value="Mercedes-Benz">Mercedes-Benz</option>
-                            <option value="Porsche">Porsche</option>
-                            <option value="VinFast">VinFast</option>
-                            <option value="Toyota">Toyota</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Khoảng giá</label>
-                        <select id="filter-price" onchange="applyFilters()">
-                            <option value="">Tất cả mức giá</option>
-                            <option value="300">Dưới 300 triệu</option>
-                            <option value="300-500">300 – 500 triệu</option>
-                            <option value="500-800">500 – 800 triệu</option>
-                            <option value="800-1000">800 triệu – 1 tỷ</option>
-                            <option value="1000">Trên 1 tỷ</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Loại nhiên liệu</label>
-                        <select id="filter-fuel" onchange="applyFilters()">
-                            <option value="">Tất cả</option>
-                            <option value="Điện">Xe Điện</option>
-                            <option value="Hybrid">Hybrid</option>
-                            <option value="Xăng">Xăng</option>
-                        </select>
-                    </div>
-                    <button class="btn-outline" style="width: 100%; margin-top: 10px;" onclick="resetFilters()">Đặt lại bộ lọc</button>
-                </div>
-
-                <!-- Cars Grid -->
-                <div class="car-grid" id="full-car-grid" style="margin-bottom: 0;">
-                    <!-- Rendered dynamically by JS -->
-                </div>
-            </div>
+    <!-- BƯỚC 2 — THÔNG TIN APK -->
+    <div class="block" id="blockApk" hidden>
+      <div class="apk-hero">
+        <div class="apk-logo">
+          <svg viewBox="0 0 24 24"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85a.637.637 0 0 0-.83.22l-1.88 3.24a11.463 11.463 0 0 0-8.94 0L5.65 5.67a.643.643 0 0 0-.87-.2c-.28.18-.37.54-.22.83L6.4 9.48A10.78 10.78 0 0 0 1 18h22a10.78 10.78 0 0 0-5.4-8.52zM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/></svg>
         </div>
+        <div class="apk-name" id="apkName">—</div>
+        <div class="apk-meta">
+          <span id="apkSize">0 MB</span>
+          <span class="dot"></span>
+          <span id="apkTime">--:--</span>
+        </div>
+        <div class="apk-badge">
+          <svg viewBox="0 0 24 24"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+          Đã nạp thành công
+        </div>
+      </div>
     </div>
 
-    <!-- ========================================================================== -->
-    <!-- VIEW 3: CHI TIẾT XE (CAR DETAIL) -->
-    <!-- ========================================================================== -->
-    <div id="view-detail" class="view-section">
-        <div class="container" id="car-detail-container">
-            <!-- Dynamically populated detail view -->
+    <!-- BƯỚC 3 — CHỌN ĐỊNH DẠNG -->
+    <div class="block" id="blockFormat" hidden>
+      <p class="block-title"><span class="num">2</span> Chọn định dạng</p>
+      <div class="fmt-grid" id="fmtGrid">
+        <div class="fmt-card" data-fmt=".so">
+          <span class="tick"><svg viewBox="0 0 24 24"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span>
+          <div class="fi"><svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2z"/></svg></div>
+          <div class="fn">.so</div>
         </div>
+        <div class="fmt-card" data-fmt=".dex">
+          <span class="tick"><svg viewBox="0 0 24 24"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span>
+          <div class="fi"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 7V3.5L18.5 9H13z"/></svg></div>
+          <div class="fn">.dex</div>
+        </div>
+        <div class="fmt-card" data-fmt=".plugin">
+          <span class="tick"><svg viewBox="0 0 24 24"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span>
+          <div class="fi"><svg viewBox="0 0 24 24"><path d="M20.5 11H19V7a2 2 0 0 0-2-2h-4V3.5a2.5 2.5 0 0 0-5 0V5H4a2 2 0 0 0-2 2v3.8h1.5a2.7 2.7 0 0 1 0 5.4H2V20a2 2 0 0 0 2 2h3.8v-1.5a2.7 2.7 0 0 1 5.4 0V22H17a2 2 0 0 0 2-2v-4h1.5a2.5 2.5 0 0 0 0-5z"/></svg></div>
+          <div class="fn">.plugin</div>
+        </div>
+      </div>
     </div>
 
-    <!-- ========================================================================== -->
-    <!-- VIEW 4: GIỎ HÀNG (CART) -->
-    <!-- ========================================================================== -->
-    <div id="view-cart" class="view-section">
-        <div class="container">
-            <h2 class="section-title" style="margin-bottom: 30px;">Giỏ Hàng Của Bạn</h2>
-            <div class="cart-layout" id="cart-layout-content">
-                <!-- Rendered dynamically by JS -->
-            </div>
+    <!-- BƯỚC 4 — TRÌNH DUYỆT FILE -->
+    <div class="block" id="blockFiles" hidden>
+      <p class="block-title"><span class="num">3</span> Chọn file</p>
+      <div class="browser">
+        <div class="browser-path">
+          <div class="p">
+            <svg viewBox="0 0 24 24"><path d="M10 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-8l-2-2z"/></svg>
+            assets <b>/</b> storage
+          </div>
+          <div class="browser-stat">
+            <span>Folders: <b id="statFolders">3</b></span>
+            <span>Files: <b id="statFiles">0</b></span>
+            <span>Disk: <b>0B/2.77G</b></span>
+          </div>
         </div>
+
+        <div class="file-list" id="fileList"><!-- render bằng JS --></div>
+
+        <div class="browser-actions">
+          <button class="btn btn-ghost" id="btnSelectAll">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-9 14-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            <span id="selAllTxt">Chọn tất cả</span>
+          </button>
+          <button class="btn btn-primary" id="btnConfirmFiles" disabled>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            Xác nhận file
+          </button>
+        </div>
+      </div>
     </div>
 
-    <!-- ========================================================================== -->
-    <!-- VIEW 5: THANH TOÁN (CHECKOUT) -->
-    <!-- ========================================================================== -->
-    <div id="view-checkout" class="view-section">
-        <div class="container">
-            <h2 class="section-title" style="margin-bottom: 30px;">Thanh Toán Đơn Hàng & Đặt Cọc</h2>
-            <div class="form-card">
-                <form id="checkout-form" onsubmit="processCheckout(event)">
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label>Họ và tên</label>
-                            <input type="text" id="chk-name" required placeholder="Nguyễn Văn A">
-                        </div>
-                        <div class="form-group">
-                            <label>Số điện thoại</label>
-                            <input type="tel" id="chk-phone" required placeholder="0901234567">
-                        </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" id="chk-email" required placeholder="email@domain.com">
-                        </div>
-                        <div class="form-group">
-                            <label>CCCD / CMND</label>
-                            <input type="text" id="chk-id" required placeholder="001099000123">
-                        </div>
-                        <div class="form-group full">
-                            <label>Địa chỉ nhận xe / giao hàng</label>
-                            <textarea id="chk-address" rows="3" required placeholder="Số nhà, đường, phường/xã, quận/huyện, tỉnh/thành phố"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Hình thức thanh toán</label>
-                            <select id="chk-payment-method" required>
-                                <option value="QR">Mã QR Code (VNPay / Momo)</option>
-                                <option value="Visa">Thẻ Visa / MasterCard</option>
-                                <option value="ATM">Thẻ ATM Nội Địa</option>
-                                <option value="Bank">Chuyển khoản ngân hàng trực tiếp</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Hình thức mua hàng</label>
-                            <select id="chk-buying-type" required>
-                                <option value="Thẳng">Trả thẳng 100%</option>
-                                <option value="Trà góp">Mua trả góp tài chính</option>
-                            </select>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn-primary" style="width: 100%; margin-top: 20px; justify-content: center;">Xác nhận đặt hàng & Thanh toán</button>
-                </form>
-            </div>
-        </div>
+  </main>
+
+  <!-- CTA CỐ ĐỊNH -->
+  <div class="sticky-cta" id="ctaWrap" hidden>
+    <button class="btn btn-primary" id="btnCrackSign">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6a5 5 0 0 0-10 0v2H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2zM9 6a3 3 0 1 1 6 0v2H9V6zm3 11a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg>
+      Crack sign
+    </button>
+  </div>
+
+</section>
+
+
+<!-- =====================================================================
+     MODAL — TUỲ CHỌN KÍ APK
+     ===================================================================== -->
+<div class="modal" id="modalSign">
+  <div class="modal-bd" data-close="modalSign"></div>
+  <div class="sheet">
+    <div class="grabber"></div>
+
+    <h2 class="sheet-title">Kí apk:</h2>
+    <p class="sheet-desc">Chọn phiên bản chữ ký cần áp dụng cho APK</p>
+
+    <!-- V1 → V5 -->
+    <div class="chip-row" id="verRow">
+      <label class="chip"><input type="checkbox" value="V1" checked><span class="cdot"><svg viewBox="0 0 24 24"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span>V1</label>
+      <label class="chip"><input type="checkbox" value="V2" checked><span class="cdot"><svg viewBox="0 0 24 24"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span>V2</label>
+      <label class="chip"><input type="checkbox" value="V3" checked><span class="cdot"><svg viewBox="0 0 24 24"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span>V3</label>
+      <label class="chip"><input type="checkbox" value="V4"><span class="cdot"><svg viewBox="0 0 24 24"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span>V4</label>
+      <label class="chip"><input type="checkbox" value="V5"><span class="cdot"><svg viewBox="0 0 24 24"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span>V5</label>
     </div>
 
-    <!-- ========================================================================== -->
-    <!-- VIEW 6: ĐẶT LỊCH LÁI THỬ (TEST DRIVE) -->
-    <!-- ========================================================================== -->
-    <div id="view-testdrive" class="view-section">
-        <div class="container">
-            <h2 class="section-title" style="text-align: center; margin-bottom: 10px;">Đăng Ký Lái Thử Xe Miễn Phí</h2>
-            <p class="section-subtitle" style="text-align: center; margin-bottom: 40px;">Trải nghiệm cảm giác lái tuyệt đỉnh cùng các chuyên gia hàng đầu</p>
-            <div class="form-card">
-                <form id="testdrive-form" onsubmit="submitTestDrive(event)">
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label>Họ và tên</label>
-                            <input type="text" id="td-name" required placeholder="Nguyễn Văn B">
-                        </div>
-                        <div class="form-group">
-                            <label>Số điện thoại</label>
-                            <input type="tel" id="td-phone" required placeholder="0901234567">
-                        </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" id="td-email" required placeholder="email@domain.com">
-                        </div>
-                        <div class="form-group">
-                            <label>Tỉnh / Thành phố</label>
-                            <select id="td-city" required>
-                                <option value="Hồ Chí Minh">TP. Hồ Chí Minh</option>
-                                <option value="Hà Nội">Hà Nội</option>
-                                <option value="Đà Nẵng">Đà Nẵng</option>
-                                <option value="Hải Phòng">Hải Phòng</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Chọn xe muốn lái thử</label>
-                            <select id="td-car" required>
-                                <!-- Populated by JS -->
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Ngày lái thử</label>
-                            <input type="date" id="td-date" required>
-                        </div>
-                        <div class="form-group full">
-                            <label>Ghi chú thêm</label>
-                            <textarea id="td-note" rows="3" placeholder="Yêu cầu cụ thể về màu sắc hoặc thời gian..."></textarea>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn-primary" style="width: 100%; margin-top: 20px; justify-content: center;">Gửi Đăng Ký Lái Thử</button>
-                </form>
-            </div>
-        </div>
+    <button class="select-all" id="btnSelectAllVer">
+      <svg viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-9 14-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+      <span id="verAllTxt">Chọn tất cả</span>
+    </button>
+
+    <!-- Mật khẩu kí -->
+    <div class="field">
+      <label for="signPass">Đặt mật khẩu kí</label>
+      <input id="signPass" type="password" placeholder="Nhập mật khẩu kí..." autocomplete="new-password" />
+      <div class="msg" id="passMsg"></div>
     </div>
 
-    <!-- ========================================================================== -->
-    <!-- VIEW 7: ĐẶT XE (BOOKING / ORDER FORM) -->
-    <!-- ========================================================================== -->
-    <div id="view-booking" class="view-section">
-        <div class="container">
-            <h2 class="section-title" style="text-align: center; margin-bottom: 10px;">Đặt Xe Theo Yêu Cầu Riêng</h2>
-            <p class="section-subtitle" style="text-align: center; margin-bottom: 40px;">Cấu hình chiếc xe mơ ước của bạn và nhận xe tận nhà</p>
-            <div class="form-card">
-                <form id="booking-form" onsubmit="submitBooking(event)">
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label>Họ và tên</label>
-                            <input type="text" id="bk-name" required placeholder="Họ tên khách hàng">
-                        </div>
-                        <div class="form-group">
-                            <label>Số CCCD</label>
-                            <input type="text" id="bk-cccd" required placeholder="Số căn cước công dân">
-                        </div>
-                        <div class="form-group">
-                            <label>Điện thoại</label>
-                            <input type="tel" id="bk-phone" required placeholder="Số điện thoại liên hệ">
-                        </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" id="bk-email" required placeholder="Địa chỉ email">
-                        </div>
-                        <div class="form-group">
-                            <label>Chọn mẫu xe</label>
-                            <select id="bk-car-select" required>
-                                <!-- Populated by JS -->
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Màu sắc ngoại thất</label>
-                            <select id="bk-color" required>
-                                <option value="Đen Bóng (Midnight Black)">Đen Bóng (Midnight Black)</option>
-                                <option value="Trắng Ngọc Trai (Pearl White)">Trắng Ngọc Trai (Pearl White)</option>
-                                <option value="Đỏ Thể Thao (Ruby Red)">Đỏ Thể Thao (Ruby Red)</option>
-                                <option value="Xám Xi Măng (Cyber Grey)">Xám Xi Măng (Cyber Grey)</option>
-                                <option value="Xanh Đậm (Deep Blue)">Xanh Đậm (Deep Blue)</option>
-                            </select>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn-primary" style="width: 100%; margin-top: 20px; justify-content: center;">Xác Nhận Đặt Xe</button>
-                </form>
-            </div>
-        </div>
+    <!-- Chữ kí -->
+    <div class="field">
+      <label for="signName">Chữ kí</label>
+      <input id="signName" type="text" placeholder="com.Crack.123" autocomplete="off" spellcheck="false" />
+      <div class="msg" id="nameMsg"></div>
+      <div class="field-hint">Định dạng bắt buộc: com.(Tên).(Số)</div>
     </div>
 
-    <!-- ========================================================================== -->
-    <!-- VIEW 8: TIN TỨC (NEWS) -->
-    <!-- ========================================================================== -->
-    <div id="view-news" class="view-section">
-        <div class="container">
-            <h2 class="section-title" style="margin-bottom: 30px;">Tin Tức & Review Ô Tô Hàng Đầu</h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 24px;" id="news-grid-container">
-                <!-- Rendered by JS -->
-            </div>
+    <div style="height:20px"></div>
+
+    <button class="btn btn-primary" id="btnStartSign">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 4 6v6c0 5.05 3.41 9.76 8 11 4.59-1.24 8-5.95 8-11V6l-8-4z"/></svg>
+      Crack and Signing
+    </button>
+
+    <div style="height:6px"></div>
+    <button class="btn btn-ghost" data-close="modalSign">Huỷ</button>
+  </div>
+</div>
+
+
+<!-- =====================================================================
+     MODAL — TIẾN TRÌNH 10 PHÚT
+     ===================================================================== -->
+<div class="modal" id="modalProgress">
+  <div class="modal-bd"></div>
+  <div class="sheet" id="progressSheet">
+
+    <!-- === GIAI ĐOẠN CHẠY === -->
+    <div id="progressRun">
+      <div class="grabber"></div>
+      <div class="progress-wrap">
+        <div class="pct" id="pctText">0<small>%</small></div>
+        <div class="pct-label">ĐANG XỬ LÝ APK — VUI LÒNG KHÔNG THOÁT APP</div>
+
+        <div class="bar"><i id="barFill"></i></div>
+        <div class="bar-sub">
+          <span id="barLeft">0%</span>
+          <span id="barEta">ETA 10:00</span>
         </div>
+
+        <div class="current-stage">
+          <div class="spinner"></div>
+          <p id="stageText">Đang khởi tạo tiến trình...</p>
+        </div>
+
+        <div class="log" id="stageLog"></div>
+      </div>
     </div>
 
-    <!-- ========================================================================== -->
-    <!-- VIEW 9: ĐẠI LÝ & LIÊN HỆ (CONTACT & DEALERS) -->
-    <!-- ========================================================================== -->
-    <div id="view-contact" class="view-section">
-        <div class="container">
-            <h2 class="section-title" style="margin-bottom: 30px;">Hệ Thống Đại Lý APEX MOTORS Toàn Quốc</h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-bottom: 40px;">
-                <div class="glass-panel" style="padding: 24px; border-radius: 16px;">
-                    <h3>APEX Sài Gòn Center</h3>
-                    <p style="color: var(--text-muted); margin: 10px 0;">123 Đại lộ Nguyễn Văn Linh, Quận 7, TP.HCM</p>
-                    <p style="font-size: 14px; font-weight: 600;"><i class="fa-solid fa-phone"></i> Hotline: 1900 8888</p>
-                </div>
-                <div class="glass-panel" style="padding: 24px; border-radius: 16px;">
-                    <h3>APEX Hà Nội Luxury</h3>
-                    <p style="color: var(--text-muted); margin: 10px 0;">456 Đường Phạm Hùng, Nam Từ Liêm, Hà Nội</p>
-                    <p style="font-size: 14px; font-weight: 600;"><i class="fa-solid fa-phone"></i> Hotline: 1900 9999</p>
-                </div>
-                <div class="glass-panel" style="padding: 24px; border-radius: 16px;">
-                    <h3>APEX Đà Nẵng Premium</h3>
-                    <p style="color: var(--text-muted); margin: 10px 0;">789 Đường 2 Tháng 9, Hải Châu, Đà Nẵng</p>
-                    <p style="font-size: 14px; font-weight: 600;"><i class="fa-solid fa-phone"></i> Hotline: 1900 7777</p>
-                </div>
-            </div>
+    <!-- === GIAI ĐOẠN HOÀN TẤT === -->
+    <div id="progressDone" hidden>
+      <div class="done-box">
+        <div class="done-check">
+          <svg viewBox="0 0 24 24"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
         </div>
+        <h2 class="done-title">Xong!!</h2>
+        <p class="done-sub">Hãy khởi động lại máy</p>
+        <p class="done-note" id="doneSummary">APK đã được crack &amp; kí thành công.</p>
+        <button class="btn btn-primary" id="btnFinish">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.65 6.35A8 8 0 1 0 19.73 14h-2.08A6 6 0 1 1 12 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+          Hoàn tất &amp; Đóng
+        </button>
+      </div>
     </div>
 
-    <!-- ========================================================================== -->
-    <!-- VIEW 10: TÀI KHOẢN (ACCOUNT) -->
-    <!-- ========================================================================== -->
-    <div id="view-account" class="view-section">
-        <div class="container">
-            <div class="form-card" style="max-width: 500px;">
-                <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 20px; text-align: center;">Tài khoản khách hàng</h2>
-                <div id="account-auth-box">
-                    <div class="form-group">
-                        <label>Email đăng nhập</label>
-                        <input type="email" id="acc-email" placeholder="client@apexmotors.vn">
-                    </div>
-                    <div class="form-group">
-                        <label>Mật khẩu</label>
-                        <input type="password" id="acc-password" placeholder="••••••••">
-                    </div>
-                    <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="simulateLogin()">Đăng Nhập / Đăng Ký</button>
-                </div>
-                <div id="account-profile-box" style="display: none;">
-                    <div style="text-align: center; margin-bottom: 20px;">
-                        <i class="fa-solid fa-user-circle" style="font-size: 64px; color: var(--accent-neon);"></i>
-                        <h3 id="profile-name-display" style="margin-top: 10px;">Khách hàng VIP</h3>
-                        <p id="profile-email-display" style="color: var(--text-muted); font-size: 13px;">client@apexmotors.vn</p>
-                    </div>
-                    <button class="btn-outline" style="width: 100%; border-color: var(--danger); color: var(--danger);" onclick="simulateLogout()">Đăng Xuất</button>
-                </div>
-            </div>
-        </div>
-    </div>
+  </div>
+</div>
 
-    <!-- ========================================================================== -->
-    <!-- VIEW 11: ADMIN DASHBOARD -->
-    <!-- ========================================================================== -->
-    <div id="view-admin" class="view-section">
-        <div class="admin-layout">
-            <div class="admin-sidebar">
-                <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 20px; color: var(--accent-neon);">APEX ADMIN</h3>
-                <div class="admin-nav-item active" onclick="switchAdminTab('overview')"><i class="fa-solid fa-chart-pie"></i> Tổng quan</div>
-                <div class="admin-nav-item" onclick="switchAdminTab('cars')"><i class="fa-solid fa-car"></i> Quản lý xe</div>
-                <div class="admin-nav-item" onclick="switchAdminTab('orders')"><i class="fa-solid fa-file-invoice-dollar"></i> Đơn hàng</div>
-                <div class="admin-nav-item" onclick="switchAdminTab('testdrives')"><i class="fa-solid id-card"></i> Lịch lái thử</div>
-            </div>
-            <div class="admin-content" id="admin-content-area">
-                <!-- Admin dynamic content -->
-            </div>
-        </div>
-    </div>
 
-    <!-- Chatbot Floating Widget -->
-    <div class="chatbot-widget">
-        <button class="chatbot-toggle-btn" onclick="toggleChatbot()"><i class="fa-solid fa-comments"></i></button>
-        <div class="chatbot-window" id="chatbot-window">
-            <div class="chatbot-header">
-                <span>Trợ lý ảo APEX AI</span>
-                <button onclick="toggleChatbot()" style="background:transparent; border:none; color:var(--text-main); cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div class="chatbot-body" id="chatbot-messages">
-                <div class="chat-message bot">Xin chào! Tôi có thể hỗ trợ gì cho bạn về các dòng xe tại APEX MOTORS?</div>
-            </div>
-            <div class="chatbot-footer">
-                <input type="text" id="chatbot-input" placeholder="Nhập câu hỏi..." onkeypress="handleChatKey(event)">
-                <button class="btn-primary" style="padding: 8px 14px;" onclick="sendChatMsg()">Gửi</button>
-            </div>
-        </div>
-    </div>
+<script>
+/* =====================================================================
+   PHẦN JS — SIGN APK FLURITE
+   Cấu trúc:
+     1. Hằng số & cấu hình
+     2. Tiện ích chung (storage, toast, dom, haptic)
+     3. Quản lý theme (dark/light)
+     4. Cổng nhập key
+     5. Thêm file APK
+     6. Chọn định dạng
+     7. Trình duyệt file + chọn file
+     8. Modal tuỳ chọn kí
+     9. Tiến trình 10 phút
+    10. Khởi tạo ứng dụng
+   ===================================================================== */
+(function () {
+'use strict';
 
-    <!-- Footer -->
-    <footer>
-        <div class="footer-grid">
-            <div class="footer-col">
-                <a href="#" class="logo" style="margin-bottom: 16px; display: inline-flex;">
-                    <i class="fa-solid fa-car-side"></i> APEX<span>MOTORS</span>
-                </a>
-                <p style="color: var(--text-muted); font-size: 14px;">Showroom ô tô cao cấp hàng đầu Việt Nam, mang đến trải nghiệm đỉnh cao và dịch vụ chuẩn quốc tế.</p>
-            </div>
-            <div class="footer-col">
-                <h4>Khám Phá</h4>
-                <ul class="footer-links">
-                    <li><a onclick="switchView('cars')">Danh sách xe</a></li>
-                    <li><a onclick="switchView('testdrive')">Đăng ký lái thử</a></li>
-                    <li><a onclick="switchView('booking')">Đặt xe cao cấp</a></li>
-                    <li><a onclick="switchView('news')">Tin tức & Review</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Hỗ Trợ Khách Hàng</h4>
-                <ul class="footer-links">
-                    <li><a onclick="switchView('contact')">Hệ thống đại lý</a></li>
-                    <li><a href="#">Chính sách bảo hành</a></li>
-                    <li><a href="#">Tư vấn tài chính trả góp</a></li>
-                    <li><a href="#">Điều khoản sử dụng</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Đăng Ký Nhận Tin</h4>
-                <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 12px;">Nhận thông tin siêu xe và ưu đãi độc quyền.</p>
-                <div style="display: flex; gap: 8px;">
-                    <input type="email" placeholder="Email của bạn..." style="background:var(--bg-base); border:1px solid var(--border-color); padding:10px; border-radius:6px; color:#fff; font-size:13px; flex:1; outline:none;">
-                    <button class="btn-primary" style="padding: 10px 14px;">Gửi</button>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 APEX MOTORS. Tất cả quyền được bảo lưu.</p>
-        </div>
-    </footer>
+/* =====================================================================
+   1. HẰNG SỐ & CẤU HÌNH
+   ===================================================================== */
 
-    <!-- ========================================================================== -->
-    <!-- JAVASCRIPT LOGIC TRUNG TÂM -->
-    <!-- ========================================================================== -->
-    <script>
-        // --- DỮ LIỆU 100+ XE MẪU HOÀN CHỈNH ---
-        const carBrands = ['Tesla', 'BMW', 'Mercedes-Benz', 'Porsche', 'VinFast', 'Toyota'];
-        const carColors = ['Đen Bóng', 'Trắng Ngọc Trai', 'Đỏ Thể Thao', 'Xám Xi Măng', 'Xanh Đậm'];
-        const carFuels = ['Điện', 'Hybrid', 'Xăng'];
-        const carImages = [
-            'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80',
-            'https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=800&q=80',
-            'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=800&q=80',
-            'https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?auto=format&fit=crop&w=800&q=80',
-            'https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=800&q=80',
-            'https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=800&q=80',
-            'https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=800&q=80'
-        ];
+const VALID_KEY = 'FLUKEY';
+const APP_VERSION = '1.2';
 
-        let carsData = [];
-        let cartItems = [];
-        let favoritesList = [];
-        let ordersList = JSON.parse(localStorage.getItem('apex_orders')) || [];
-        let testDrivesList = JSON.parse(localStorage.getItem('apex_testdrives')) || [];
+/** Tổng thời gian chạy tiến trình: 10 phút (đổi thành 20000 để test nhanh) */
+const TOTAL_MS = 10 * 60 * 1000;
 
-        // Khởi tạo 100+ xe mẫu
-        function generateCarsData() {
-            const models = ['Model S Plaid', 'M8 Competition', 'AMG GT 63', '911 Turbo S', 'VF 9 President', 'Camry Ultra', 'X7 M-Sport', 'Taycan Cross', 'EQS Sedan', 'CyberTruck'];
-            let idCounter = 1;
-            carBrands.forEach(brand => {
-                models.forEach(modelName => {
-                    for(let i = 1; i <= 3; i++) {
-                        const priceVal = Math.floor(Math.random() * 2000) + 300; // từ 300 triệu đến 2.3 tỷ+
-                        carsData.push({
-                            id: idCounter++,
-                            name: `${brand} ${modelName} V${i}`,
-                            brand: brand,
-                            price: priceVal,
-                            formattedPrice: priceVal > 1000 ? `${(priceVal/1000).toFixed(1)} Tỷ VNĐ` : `${priceVal} Triệu VNĐ`,
-                            year: 2024 + (i % 3),
-                            fuel: carFuels[i % carFuels.length],
-                            color: carColors[i % carColors.length],
-                            seats: [4, 5, 7][i % 3],
-                            hp: 300 + (i * 80),
-                            rating: (4.5 + (i * 0.1)).toFixed(1),
-                            views: Math.floor(Math.random() * 5000) + 100,
-                            image: carImages[(idCounter + i) % carImages.length],
-                            description: `Siêu phẩm ${brand} ${modelName} mang lại hiệu suất vượt trội, thiết kế sang trọng hàng đầu và công nghệ an toàn tối tân nhất.`
-                        });
-                    }
-                });
-            });
-        }
+/** Danh sách file giả lập trong APK (đúng theo cấu trúc APK thực tế) */
+const FILES = [
+  { name: 'lib',                 type: 'folder', date: '81-01-01 01:01', size: '5.14M'   },
+  { name: 'META-INF',            type: 'folder', date: '24-07-02 08:37', size: '23.97M'  },
+  { name: 'AndroidManifest.xml', type: 'file',   date: '81-01-01 01:01', size: '169.39K' },
+  { name: 'classes.dex',         type: 'file',   date: '81-01-01 01:01', size: '15.01M'  },
+  { name: 'classes2.dex',        type: 'file',   date: '24-07-02 03:37', size: '145.48K' },
+  { name: 'classes3.dex',        type: 'file',   date: '24-07-02 03:06', size: '8.35M'   },
+  { name: 'classes4.dex',        type: 'file',   date: '24-07-02 03:06', size: '7.02M'   },
+  { name: 'classes5.dex',        type: 'file',   date: '24-07-02 03:49', size: '8.42M'   },
+  { name: 'res',                 type: 'folder', date: '24-07-02 03:06', size: '7.26M'   },
+  { name: 'resources.arsc',      type: 'file',   date: '81-01-01 01:01', size: '4.57M'   }
+];
 
-        // --- SPA ROUTER & VIEW SWITCHER ---
-        function switchView(viewId) {
-            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
-            
-            const target = document.getElementById(`view-${viewId}`);
-            if(target) {
-                target.classList.add('active');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
+/** 12 dòng trạng thái — chia đều thời gian trong 10 phút */
+const STAGES = [
+  'Đang Thay đổi cấu trúc',
+  'Đang Thử nghiệm',
+  'Đang Xét cấu trúc',
+  'Đang tìm file',
+  'Đang Áp dụng',
+  'Đang kí file',
+  'Đang kí v1',
+  'Đang kí v2',
+  'Đang kí v3',
+  'Đang kí v4',
+  'Đang kí v5',
+  'Đang đóng gói'
+];
 
-            if(viewId === 'home') renderHomeCars();
-            if(viewId === 'cars') renderFullCarsGrid(carsData);
-            if(viewId === 'cart') renderCartView();
-            if(viewId === 'admin') renderAdminDashboard('overview');
-            if(viewId === 'news') renderNewsView();
-            if(viewId === 'testdrive') populateTestDriveCars();
-            if(viewId === 'booking') populateBookingCars();
-        }
+/** Regex bắt buộc cho chữ kí: com.(Tên).(Số) */
+const SIG_REGEX = /^com\.[A-Za-z][A-Za-z0-9_]*\.\d+$/;
 
-        // --- THEME TOGGLE ---
-        function toggleTheme() {
-            const htmlEl = document.documentElement;
-            const iconEl = document.getElementById('theme-icon');
-            if(htmlEl.classList.contains('dark')) {
-                htmlEl.classList.remove('dark');
-                htmlEl.classList.add('light');
-                iconEl.className = 'fa-solid fa-sun';
-            } else {
-                htmlEl.classList.remove('light');
-                htmlEl.classList.add('dark');
-                iconEl.className = 'fa-solid fa-moon';
-            }
-        }
+const LS_KEY   = 'flu_key_ok';
+const LS_THEME = 'flu_theme';
 
-        // --- TOAST NOTIFICATION ---
-        function showToast(message) {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = 'toast';
-            toast.innerHTML = `<i class="fa-solid fa-circle-check" style="color:var(--success);"></i> <span>${message}</span>`;
-            container.appendChild(toast);
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
-        }
 
-        // --- RENDER HOME CARS ---
-        function renderHomeCars() {
-            const grid = document.getElementById('home-featured-grid');
-            if(!grid) return;
-            const featured = carsData.slice(0, 8);
-            grid.innerHTML = featured.map(car => createCarCardHTML(car)).join('');
-        }
+/* =====================================================================
+   2. TIỆN ÍCH CHUNG
+   ===================================================================== */
 
-        // --- RENDER FULL CARS GRID ---
-        function renderFullCarsGrid(data) {
-            const grid = document.getElementById('full-car-grid');
-            if(!grid) return;
-            if(data.length === 0) {
-                grid.innerHTML = `<p style="grid-column: 1/-1; text-align:center; color:var(--text-muted); padding:40px;">Không tìm thấy mẫu xe phù hợp.</p>`;
-                return;
-            }
-            grid.innerHTML = data.map(car => createCarCardHTML(car)).join('');
-        }
+/** DOM helpers */
+const $  = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
 
-        function createCarCardHTML(car) {
-            return `
-                <div class="car-card">
-                    <div class="car-image-wrap">
-                        <span class="car-tag">${car.brand}</span>
-                        <button class="car-favorite-btn" onclick="toggleFavorite(${car.id})"><i class="fa-solid fa-heart"></i></button>
-                        <img src="${car.image}" alt="${car.name}" loading="lazy">
-                    </div>
-                    <div class="car-body">
-                        <h3 class="car-name">${car.name}</h3>
-                        <div class="car-specs-row">
-                            <span><i class="fa-solid fa-calendar"></i> ${car.year}</span>
-                            <span><i class="fa-solid fa-gauge"></i> ${car.hp} HP</span>
-                            <span><i class="fa-solid fa-gas-pump"></i> ${car.fuel}</span>
-                        </div>
-                        <div class="car-price-row">
-                            <span class="car-price">${car.formattedPrice}</span>
-                            <div class="car-actions">
-                                <button class="car-action-btn" onclick="viewCarDetail(${car.id})">Xem</button>
-                                <button class="car-action-btn" onclick="addToCart(${car.id})"><i class="fa-solid fa-cart-plus"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
+/** localStorage an toàn (tránh lỗi chế độ private) */
+const store = {
+  get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* bỏ qua */ } },
+  del(k) { try { localStorage.removeItem(k); } catch (e) { /* bỏ qua */ } }
+};
 
-        // --- CAR FILTERS & SEARCH ---
-        function applyFilters() {
-            const keyword = document.getElementById('filter-keyword').value.toLowerCase();
-            const brand = document.getElementById('filter-brand').value;
-            const priceRange = document.getElementById('filter-price').value;
-            const fuel = document.getElementById('filter-fuel').value;
+/** Rung nhẹ trên thiết bị hỗ trợ */
+function haptic(ms = 12) {
+  try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) {}
+}
 
-            let filtered = carsData.filter(car => {
-                const matchKeyword = car.name.toLowerCase().includes(keyword) || car.brand.toLowerCase().includes(keyword);
-                const matchBrand = brand === '' || car.brand === brand;
-                const matchFuel = fuel === '' || car.fuel === fuel;
-                
-                let matchPrice = true;
-                if(priceRange === '300') matchPrice = car.price < 300;
-                else if(priceRange === '300-500') matchPrice = car.price >= 300 && car.price <= 500;
-                else if(priceRange === '500-800') matchPrice = car.price > 500 && car.price <= 800;
-                else if(priceRange === '800-1000') matchPrice = car.price > 800 && car.price <= 1000;
-                else if(priceRange === '1000') matchPrice = car.price > 1000;
+/** Icon SVG cho toast */
+const TOAST_ICON = {
+  success: '<svg viewBox="0 0 24 24"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>',
+  error:   '<svg viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>',
+  info:    '<svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>'
+};
 
-                return matchKeyword && matchBrand && matchFuel && matchPrice;
-            });
+/** Hiển thị toast thông báo */
+function toast(message, type = 'info', duration = 2600) {
+  const box = $('#toastBox');
+  if (!box) return;
 
-            renderFullCarsGrid(filtered);
-        }
+  const el = document.createElement('div');
+  el.className = 'toast ' + type;
+  el.innerHTML = '<span class="ti">' + (TOAST_ICON[type] || TOAST_ICON.info) + '</span><span>' + message + '</span>';
+  box.appendChild(el);
 
-        function filterByBrand(brandName) {
-            switchView('cars');
-            document.getElementById('filter-brand').value = brandName;
-            applyFilters();
-        }
+  setTimeout(() => {
+    el.classList.add('out');
+    setTimeout(() => el.remove(), 280);
+  }, duration);
+}
 
-        function performSearch() {
-            const brand = document.getElementById('home-search-brand').value;
-            switchView('cars');
-            document.getElementById('filter-brand').value = brand;
-            applyFilters();
-        }
+/** Định dạng dung lượng hiển thị */
+function formatSize(bytes) {
+  if (!bytes || bytes <= 0) return '0 B';
+  const units = ['B', 'KB', 'MB', 'GB'];
+  const i = Math.min(units.length - 1, Math.floor(Math.log(bytes) / Math.log(1024)));
+  return (bytes / Math.pow(1024, i)).toFixed(i === 0 ? 0 : 2) + ' ' + units[i];
+}
 
-        function resetFilters() {
-            document.getElementById('filter-keyword').value = '';
-            document.getElementById('filter-brand').value = '';
-            document.getElementById('filter-price').value = '';
-            document.getElementById('filter-fuel').value = '';
-            renderFullCarsGrid(carsData);
-        }
+/** Định dạng mm:ss */
+function mmss(ms) {
+  const total = Math.max(0, Math.round(ms / 1000));
+  const m = Math.floor(total / 60);
+  const s = total % 60;
+  return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+}
 
-        function sortCars() {
-            const val = document.getElementById('car-sort-select').value;
-            if(val === 'price-asc') carsData.sort((a,b) => a.price - b.price);
-            else if(val === 'price-desc') carsData.sort((a,b) => b.price - a.price);
-            else if(val === 'rating') carsData.sort((a,b) => b.rating - a.rating);
-            renderFullCarsGrid(carsData);
-        }
+/** Chuyển màn hình */
+function showScreen(id) {
+  $$('.screen').forEach(s => s.classList.toggle('active', s.id === id));
+}
 
-        // --- CAR DETAIL VIEW ---
-        function viewCarDetail(carId) {
-            const car = carsData.find(c => c.id === carId);
-            if(!car) return;
-            switchView('detail');
-            const container = document.getElementById('car-detail-container');
-            container.innerHTML = `
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 50px;">
-                    <div>
-                        <img src="${car.image}" alt="${car.name}" style="width: 100%; height: 420px; object-fit: cover; border-radius: 16px; border: 1px solid var(--border-color);">
-                    </div>
-                    <div>
-                        <span class="car-tag" style="position:static; display:inline-block; margin-bottom:12px;">${car.brand}</span>
-                        <h1 style="font-size: 32px; font-weight: 800; margin-bottom: 12px;">${car.name}</h1>
-                        <p style="font-size: 28px; font-weight: 800; color: var(--accent-neon); margin-bottom: 20px;">${car.formattedPrice}</p>
-                        <p style="color: var(--text-muted); margin-bottom: 24px; line-height: 1.6;">${car.description}</p>
-                        
-                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 30px;">
-                            <div class="glass-panel" style="padding: 16px; border-radius: 10px;">
-                                <span style="font-size: 12px; color: var(--text-muted);">Công suất động cơ</span>
-                                <p style="font-size: 18px; font-weight: 700; margin-top: 4px;">${car.hp} Mã lực</p>
-                            </div>
-                            <div class="glass-panel" style="padding: 16px; border-radius: 10px;">
-                                <span style="font-size: 12px; color: var(--text-muted);">Số chỗ ngồi</span>
-                                <p style="font-size: 18px; font-weight: 700; margin-top: 4px;">${car.seats} Ghế</p>
-                            </div>
-                        </div>
+/** Mở / đóng modal */
+function openModal(id)  { const m = $('#' + id); if (m) m.classList.add('open'); }
+function closeModal(id) { const m = $('#' + id); if (m) m.classList.remove('open'); }
 
-                        <div style="display: flex; gap: 16px;">
-                            <button class="btn-primary" onclick="addToCart(${car.id})"><i class="fa-solid fa-cart-plus"></i> Thêm vào giỏ</button>
-                            <button class="btn-outline" onclick="switchView('testdrive')"><i class="fa-solid fa-key"></i> Đăng ký lái thử</button>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
 
-        // --- CART & CHECKOUT LOGIC ---
-        function addToCart(carId) {
-            const car = carsData.find(c => c.id === carId);
-            if(!car) return;
-            cartItems.push(car);
-            updateCartBadge();
-            showToast(`Đã thêm ${car.name} vào giỏ hàng!`);
-        }
+/* =====================================================================
+   3. QUẢN LÝ THEME (DARK / LIGHT)
+   ===================================================================== */
+const ICON_SUN  = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0-5 2.39 3.42L18 4.5l-.42 3.9L21.5 10 19 12l2.5 2-3.92 1.6.42 3.9-3.61-.92L12 22l-2.39-3.42L6 19.5l.42-3.9L2.5 14 5 12 2.5 10l3.92-1.6L6 4.5l3.61.92L12 2z"/></svg>';
+const ICON_MOON = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.39 5.39 0 0 1-4.4 2.26 5.4 5.4 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg>';
 
-        function updateCartBadge() {
-            document.getElementById('cart-badge').textContent = cartItems.length;
-        }
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  const icon = $('#themeIcon');
+  if (icon) icon.outerHTML = (theme === 'dark' ? ICON_MOON : ICON_SUN).replace('<svg', '<svg id="themeIcon"');
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute('content', theme === 'dark' ? '#0A0A0B' : '#FFFFFF');
+  store.set(LS_THEME, theme);
+}
 
-        function renderCartView() {
-            const content = document.getElementById('cart-layout-content');
-            if(cartItems.length === 0) {
-                content.innerHTML = `<p style="grid-column: 1/-1; text-align:center; color:var(--text-muted); padding:40px;">Giỏ hàng của bạn đang trống.</p>`;
-                return;
-            }
+function initTheme() {
+  const saved = store.get(LS_THEME);
+  const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+  applyTheme(saved || (prefersLight ? 'light' : 'dark'));
+}
 
-            let totalPrice = cartItems.reduce((sum, item) => sum + item.price, 0);
+function toggleTheme() {
+  const cur = document.documentElement.getAttribute('data-theme');
+  applyTheme(cur === 'dark' ? 'light' : 'dark');
+  haptic(10);
+}
 
-            content.innerHTML = `
-                <div class="cart-items-list">
-                    ${cartItems.map((item, index) => `
-                        <div class="cart-item">
-                            <img src="${item.image}" alt="${item.name}">
-                            <div style="flex:1;">
-                                <h4 style="font-size: 16px; font-weight: 700;">${item.name}</h4>
-                                <p style="color: var(--accent-neon); font-weight: 600; margin-top: 4px;">${item.formattedPrice}</p>
-                            </div>
-                            <button class="icon-btn" style="border-color: var(--danger); color: var(--danger);" onclick="removeFromCart(${index})"><i class="fa-solid fa-trash"></i></button>
-                        </div>
-                    `).join('')}
-                </div>
-                <div class="cart-summary-box">
-                    <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 20px;">Tóm Tắt Đơn Hàng</h3>
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 12px; color: var(--text-muted);">
-                        <span>Tạm tính</span>
-                        <span>${totalPrice} Triệu VNĐ</span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 20px; color: var(--text-muted);">
-                        <span>VAT (10%)</span>
-                        <span>${(totalPrice * 0.1).toFixed(1)} Triệu VNĐ</span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 24px; font-size: 18px; font-weight: 800; border-top: 1px solid var(--border-color); padding-top: 16px;">
-                        <span>Tổng cộng</span>
-                        <span style="color: var(--accent-neon);">${(totalPrice * 1.1).toFixed(1)} Triệu VNĐ</span>
-                    </div>
-                    <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="switchView('checkout')">Tiến hành thanh toán</button>
-                </div>
-            `;
-        }
 
-        function removeFromCart(index) {
-            cartItems.splice(index, 1);
-            updateCartBadge();
-            renderCartView();
-            showToast('Đã xóa xe khỏi giỏ hàng.');
-        }
+/* =====================================================================
+   4. CỔNG NHẬP KEY
+   ===================================================================== */
+const keyInput   = $('#keyInput');
+const btnUnlock  = $('#btnUnlock');
+const keyEye     = $('#keyEye');
 
-        function processCheckout(e) {
-            e.preventDefault();
-            const newOrder = {
-                id: 'ORDER-2026-' + Math.floor(100000 + Math.random() * 900000),
-                name: document.getElementById('chk-name').value,
-                phone: document.getElementById('chk-phone').value,
-                method: document.getElementById('chk-payment-method').value,
-                itemsCount: cartItems.length,
-                status: 'Chờ xác nhận',
-                date: new Date().toLocaleDateString()
-            };
-            ordersList.push(newOrder);
-            localStorage.setItem('apex_orders', JSON.stringify(ordersList));
-            cartItems = [];
-            updateCartBadge();
-            showToast(`Đặt hàng thành công! Mã đơn: ${newOrder.id}`);
-            switchView('home');
-        }
+let keyBusy = false;
 
-        // --- TEST DRIVE & BOOKING ---
-        function populateTestDriveCars() {
-            const select = document.getElementById('td-car');
-            select.innerHTML = carsData.map(c => `<option value="${c.name}">${c.name}</option>`).join('');
-        }
+/** Kiểm tra key có hợp lệ không (không phân biệt hoa thường, bỏ khoảng trắng) */
+function validateKey(raw) {
+  return String(raw || '').trim().toUpperCase() === VALID_KEY;
+}
 
-        function submitTestDrive(e) {
-            e.preventDefault();
-            const code = 'TEST-2026-' + Math.floor(100000 + Math.random() * 900000);
-            testDrivesList.push({
-                code: code,
-                name: document.getElementById('td-name').value,
-                car: document.getElementById('td-car').value,
-                date: document.getElementById('td-date').value,
-                status: 'Đã xác nhận'
-            });
-            localStorage.setItem('apex_testdrives', JSON.stringify(testDrivesList));
-            showToast(`Đăng ký thành công! Mã lịch lái thử: ${code}`);
-            switchView('home');
-        }
+/** Xử lý mở khoá */
+function handleUnlock() {
+  if (keyBusy) return;
 
-        function populateBookingCars() {
-            const select = document.getElementById('bk-car-select');
-            select.innerHTML = carsData.map(c => `<option value="${c.name}">${c.name} (${c.formattedPrice})</option>`).join('');
-        }
+  const val = keyInput.value;
 
-        function submitBooking(e) {
-            e.preventDefault();
-            showToast('Đặt xe thành công! Chuyên viên tư vấn sẽ liên hệ lại trong vòng 15 phút.');
-            switchView('home');
-        }
+  if (!val.trim()) {
+    keyInput.classList.add('err');
+    setTimeout(() => keyInput.classList.remove('err'), 450);
+    toast('Vui lòng nhập key kích hoạt', 'error');
+    haptic(40);
+    return;
+  }
 
-        // --- NEWS VIEW ---
-        function renderNewsView() {
-            const container = document.getElementById('news-grid-container');
-            const articles = [
-                { title: 'Đánh giá chi tiết siêu xe điện Tesla Model S Plaid tại Việt Nam', date: '24/07/2026', image: 'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=600&q=80' },
-                { title: 'Top 5 mẫu SUV hạng sang đáng mua nhất năm 2026', date: '22/07/2026', image: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=600&q=80' },
-                { title: 'Xu hướng xe Hybrid và tương lai của ngành công nghiệp ô tô', date: '20/07/2026', image: 'https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=600&q=80' }
-            ];
-            container.innerHTML = articles.map(art => `
-                <div class="glass-panel" style="border-radius: 16px; overflow: hidden;">
-                    <img src="${art.image}" style="width: 100%; height: 200px; object-fit: cover;">
-                    <div style="padding: 20px;">
-                        <span style="font-size: 11px; color: var(--accent-neon); font-weight: 700;">${art.date}</span>
-                        <h3 style="font-size: 16px; font-weight: 700; margin: 8px 0 12px 0;">${art.title}</h3>
-                        <button class="car-action-btn" onclick="showToast('Đang tải chi tiết bài viết...')">Đọc thêm</button>
-                    </div>
-                </div>
-            `).join('');
-        }
+  // Trạng thái loading trên nút
+  keyBusy = true;
+  const originalHTML = btnUnlock.innerHTML;
+  btnUnlock.innerHTML = '<span class="spinner" style="border-top-color:#fff;border-color:rgba(255,255,255,.35);border-top-color:#fff"></span> Đang xác thực...';
+  btnUnlock.disabled = true;
 
-        // --- ACCOUNT AUTH SIMULATION ---
-        function simulateLogin() {
-            const email = document.getElementById('acc-email').value;
-            if(!email) { showToast('Vui lòng nhập email.'); return; }
-            document.getElementById('account-auth-box').style.display = 'none';
-            document.getElementById('account-profile-box').style.display = 'block';
-            document.getElementById('profile-email-display').textContent = email;
-            showToast('Đăng nhập thành công!');
-        }
+  // Giả lập độ trễ xác thực
+  setTimeout(() => {
+    keyBusy = false;
+    btnUnlock.innerHTML = originalHTML;
+    btnUnlock.disabled = false;
 
-        function simulateLogout() {
-            document.getElementById('account-auth-box').style.display = 'block';
-            document.getElementById('account-profile-box').style.display = 'none';
-            showToast('Đã đăng xuất.');
-        }
+    if (validateKey(val)) {
+      store.set(LS_KEY, '1');
+      toast('Kích hoạt thành công! Chào mừng bạn 👋', 'success');
+      haptic([15, 40, 15]);
+      keyInput.value = '';
+      setTimeout(() => {
+        showScreen('screenMain');
+        resetApp();
+      }, 220);
+    } else {
+      keyInput.classList.add('err');
+      setTimeout(() => keyInput.classList.remove('err'), 450);
+      toast('Key không đúng. Vui lòng thử lại.', 'error');
+      haptic(60);
+    }
+  }, 780);
+}
 
-        // --- ADMIN DASHBOARD LOGIC ---
-        function switchAdminTab(tab) {
-            document.querySelectorAll('.admin-nav-item').forEach(el => el.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-            renderAdminDashboard(tab);
-        }
+/** Hiện / ẩn key */
+function toggleKeyEye() {
+  keyInput.type = keyInput.type === 'password' ? 'text' : 'password';
+  haptic(8);
+}
 
-        function renderAdminDashboard(tab) {
-            const area = document.getElementById('admin-content-area');
-            if(tab === 'overview') {
-                area.innerHTML = `
-                    <h2 style="font-size: 22px; font-weight: 700; margin-bottom: 20px;">Tổng Quan Doanh Thu & Hệ Thống</h2>
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <span style="color: var(--text-muted); font-size: 13px;">Tổng Doanh Thu</span>
-                            <h3 style="font-size: 24px; font-weight: 800; margin-top: 6px; color: var(--accent-neon);">48.5 Tỷ VNĐ</h3>
-                        </div>
-                        <div class="stat-card">
-                            <span style="color: var(--text-muted); font-size: 13px;">Đơn Hàng Mới</span>
-                            <h3 style="font-size: 24px; font-weight: 800; margin-top: 6px;">${ordersList.length}</h3>
-                        </div>
-                        <div class="stat-card">
-                            <span style="color: var(--text-muted); font-size: 13px;">Lịch Lái Thử</span>
-                            <h3 style="font-size: 24px; font-weight: 800; margin-top: 6px;">${testDrivesList.length}</h3>
-                        </div>
-                    </div>
-                `;
-            } else if(tab === 'orders') {
-                area.innerHTML = `
-                    <h2 style="font-size: 22px; font-weight: 700; margin-bottom: 20px;">Quản Lý Đơn Hàng</h2>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr><th>Mã Đơn</th><th>Khách Hàng</th><th>Điện Thoại</th><th>Thanh Toán</th><th>Trạng Thái</th></tr>
-                            </thead>
-                            <tbody>
-                                ${ordersList.length === 0 ? `<tr><td colspan="5" style="text-align:center; color:var(--text-muted);">Chưa có đơn hàng nào.</td></tr>` : 
-                                    ordersList.map(o => `<tr><td>${o.id}</td><td>${o.name}</td><td>${o.phone}</td><td>${o.method}</td><td><span style="color:var(--success); font-weight:600;">${o.status}</span></td></tr>`).join('')}
-                            </tbody>
-                        </table>
-                    </div>
-                `;
-            } else if(tab === 'testdrives') {
-                area.innerHTML = `
-                    <h2 style="font-size: 22px; font-weight: 700; margin-bottom: 20px;">Quản Lý Lịch Lái Thử</h2>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr><th>Mã Lái Thử</th><th>Khách Hàng</th><th>Mẫu Xe</th><th>Ngày</th><th>Trạng Thái</th></tr>
-                            </thead>
-                            <tbody>
-                                ${testDrivesList.length === 0 ? `<tr><td colspan="5" style="text-align:center; color:var(--text-muted);">Chưa có lịch lái thử nào.</td></tr>` : 
-                                    testDrivesList.map(t => `<tr><td>${t.code}</td><td>${t.name}</td><td>${t.car}</td><td>${t.date}</td><td><span style="color:var(--success); font-weight:600;">${t.status}</span></td></tr>`).join('')}
-                            </tbody>
-                        </table>
-                    </div>
-                `;
-            } else if(tab === 'cars') {
-                area.innerHTML = `
-                    <h2 style="font-size: 22px; font-weight: 700; margin-bottom: 20px;">Quản Lý Kho Xe (${carsData.length} xe)</h2>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr><th>Tên Xe</th><th>Hãng</th><th>Giá</th><th>Năm</th><th>Nhiên liệu</th></tr>
-                            </thead>
-                            <tbody>
-                                ${carsData.slice(0, 10).map(c => `<tr><td>${c.name}</td><td>${c.brand}</td><td>${c.formattedPrice}</td><td>${c.year}</td><td>${c.fuel}</td></tr>`).join('')}
-                            </tbody>
-                        </table>
-                    </div>
-                `;
-            }
-        }
 
-        // --- CHATBOT WIDGET ---
-        function toggleChatbot() {
-            const win = document.getElementById('chatbot-window');
-            win.classList.toggle('active');
-        }
+/* =====================================================================
+   5. THÊM FILE APK
+   ===================================================================== */
+const apkInput   = $('#apkInput');
+const dropZone   = $('#dropZone');
+const blockApk   = $('#blockApk');
+const blockFormat= $('#blockFormat');
+const blockFiles = $('#blockFiles');
+const ctaWrap    = $('#ctaWrap');
 
-        function sendChatMsg() {
-            const input = document.getElementById('chatbot-input');
-            const txt = input.value.trim();
-            if(!txt) return;
+/** Trạng thái toàn cục của app */
+const state = {
+  apkFile: null,
+  apkSize: 0,
+  format: null,
+  selected: new Set(),   // index các file được chọn
+  versions: new Set(['V1', 'V2', 'V3']),
+  password: '',
+  signature: ''
+};
 
-            const body = document.getElementById('chatbot-messages');
-            body.innerHTML += `<div class="chat-message user">${txt}</div>`;
-            input.value = '';
+/** Reset toàn bộ trạng thái về ban đầu (khi mở app / đóng tiến trình) */
+function resetApp() {
+  state.apkFile = null;
+  state.apkSize = 0;
+  state.format = null;
+  state.selected = new Set();
+  state.versions = new Set(['V1', 'V2', 'V3']);
+  state.password = '';
+  state.signature = '';
 
-            setTimeout(() => {
-                let reply = "Cảm ơn bạn đã quan tâm. APEX MOTORS cung cấp các dòng xe sang trọng với chính sách bảo hành 5 năm hàng đầu!";
-                if(txt.toLowerCase().includes('giá') || txt.toLowerCase().includes('mua')) {
-                    reply = "Các dòng xe tại showroom có giá dao động từ 300 triệu đến hơn 2 tỷ VNĐ. Bạn có thể xem trực tiếp tại mục Danh Sách Xe.";
-                } else if(txt.toLowerCase().includes('lái thử')) {
-                    reply = "Bạn có thể đăng ký lịch lái thử miễn phí tại menu 'Lái thử' trên thanh điều hướng.";
-                }
-                body.innerHTML += `<div class="chat-message bot">${reply}</div>`;
-                body.scrollTop = body.scrollHeight;
-            }, 600);
-        }
+  apkInput.value = '';
+  blockApk.hidden = true;
+  blockFormat.hidden = true;
+  blockFiles.hidden = true;
+  ctaWrap.hidden = true;
+  $('#dropZone').parentElement.hidden = false;
 
-        function handleChatKey(e) {
-            if(e.key === 'Enter') sendChatMsg();
-        }
+  $$('.fmt-card').forEach(c => c.classList.remove('sel'));
+  $('#signPass').value = '';
+  $('#signName').value = '';
+  $('#passMsg').textContent = '';
+  $('#nameMsg').textContent = '';
+  $('#signName').classList.remove('err');
+  $('#signPass').classList.remove('err');
 
-        // --- INITIALIZATION ---
-        window.addEventListener('DOMContentLoaded', () => {
-            generateCarsData();
-            renderHomeCars();
-            setTimeout(() => {
-                const loader = document.getElementById('loading-screen');
-                loader.style.opacity = '0';
-                setTimeout(() => loader.remove(), 500);
-            }, 600);
-        });
-    </script>
+  // Reset checkbox phiên bản
+  $$('#verRow input').forEach((cb, i) => { cb.checked = i < 3; });
+  updateVerAllLabel();
+}
+
+/** Mở hộp chọn file */
+function pickApk() {
+  apkInput.click();
+  haptic(10);
+}
+
+/** Hiển thị skeleton khi đang đọc file */
+function showSkeleton() {
+  blockApk.hidden = false;
+  blockApk.innerHTML =
+    '<div class="apk-hero">' +
+      '<div class="sk" style="width:82px;height:82px;border-radius:22px"></div>' +
+      '<div class="sk" style="width:70%;height:16px;margin-top:16px"></div>' +
+      '<div class="sk" style="width:45%;height:12px;margin-top:10px"></div>' +
+      '<div class="sk" style="width:120px;height:26px;border-radius:99px;margin-top:14px"></div>' +
+    '</div>';
+}
+
+/** Khôi phục markup gốc của khối APK hero */
+const APK_HERO_HTML =
+  '<div class="apk-hero">' +
+    '<div class="apk-logo">' +
+      '<svg viewBox="0 0 24 24"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85a.637.637 0 0 0-.83.22l-1.88 3.24a11.463 11.463 0 0 0-8.94 0L5.65 5.67a.643.643 0 0 0-.87-.2c-.28.18-.37.54-.22.83L6.4 9.48A10.78 10.78 0 0 0 1 18h22a10.78 10.78 0 0 0-5.4-8.52zM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/></svg>' +
+    '</div>' +
+    '<div class="apk-name" id="apkName">—</div>' +
+    '<div class="apk-meta"><span id="apkSize">0 MB</span><span class="dot"></span><span id="apkTime">--:--</span></div>' +
+    '<div class="apk-badge"><svg viewBox="0 0 24 24"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Đã nạp thành công</div>' +
+  '</div>';
+
+/** Xử lý khi người dùng chọn file */
+function handleApkChange(e) {
+  const file = e.target.files && e.target.files[0];
+  if (!file) return;
+
+  // Chỉ nhận .apk
+  if (!/\.apk$/i.test(file.name)) {
+    toast('Chỉ chấp nhận file .apk', 'error');
+    apkInput.value = '';
+    haptic(50);
+    return;
+  }
+
+  state.apkFile = file;
+
+  // Hiện skeleton rồi mới render dữ liệu thật
+  showSkeleton();
+  blockFormat.hidden = true;
+  blockFiles.hidden = true;
+  ctaWrap.hidden = true;
+
+  setTimeout(() => {
+    try {
+      blockApk.innerHTML = APK_HERO_HTML;
+
+      const nameEl = $('#apkName');
+      const sizeEl = $('#apkSize');
+      const timeEl = $('#apkTime');
+
+      nameEl.textContent = file.name;
+      sizeEl.textContent = formatSize(file.size);
+      timeEl.textContent = new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+
+      state.apkSize = file.size;
+
+      // Hiện các bước tiếp theo
+      blockFormat.hidden = false;
+      blockFiles.hidden = false;
+      renderFileList();
+      updateStats();
+
+      toast('Đã nạp: ' + file.name, 'success');
+      haptic(15);
+
+      // Cuộn xuống phần định dạng
+      setTimeout(() => {
+        blockFormat.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 180);
+
+    } catch (err) {
+      console.error(err);
+      blockApk.hidden = true;
+      toast('Không đọc được file. Vui lòng thử lại.', 'error');
+    }
+  }, 620);
+}
+
+
+/* =====================================================================
+   6. CHỌN ĐỊNH DẠNG
+   ===================================================================== */
+function handleFormatClick(e) {
+  const card = e.target.closest('.fmt-card');
+  if (!card) return;
+
+  const fmt = card.dataset.fmt;
+  state.format = fmt;
+
+  $$('.fmt-card').forEach(c => c.classList.toggle('sel', c === card));
+
+  // Reset lựa chọn file khi đổi định dạng
+  state.selected.clear();
+  renderFileList();
+  updateStats();
+  updateConfirmState();
+
+  toast('Đã chọn định dạng ' + fmt, 'info', 1600);
+  haptic(12);
+
+  // Cuộn xuống trình duyệt file
+  setTimeout(() => {
+    blockFiles.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 160);
+}
+
+
+/* =====================================================================
+   7. TRÌNH DUYỆT FILE
+   ===================================================================== */
+const fileList = $('#fileList');
+
+const SVG_CHECK = '<svg viewBox="0 0 24 24"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>';
+const SVG_FOLDER = '<svg viewBox="0 0 24 24"><path d="M10 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-8l-2-2z"/></svg>';
+const SVG_FILE = '<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 7V3.5L18.5 9H13z"/></svg>';
+
+/** Render danh sách file trong APK */
+function renderFileList() {
+  if (!fileList) return;
+
+  if (!FILES.length) {
+    fileList.innerHTML =
+      '<div class="empty">' +
+        '<svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2z"/></svg>' +
+        '<p>Không có file nào trong APK</p>' +
+      '</div>';
+    return;
+  }
+
+  fileList.innerHTML = FILES.map((f, i) => {
+    const checked = state.selected.has(i) ? ' checked' : '';
+    return (
+      '<label class="file-row">' +
+        '<input type="checkbox" data-i="' + i + '"' + checked + '>' +
+        '<span class="cb">' + SVG_CHECK + '</span>' +
+        '<span class="f-icon ' + f.type + '">' + (f.type === 'folder' ? SVG_FOLDER : SVG_FILE) + '</span>' +
+        '<span class="f-main">' +
+          '<span class="f-name">' + f.name + '</span>' +
+          '<span class="f-sub">' + f.date + '</span>' +
+        '</span>' +
+        '<span class="f-size">' + f.size + '</span>' +
+      '</label>'
+    );
+  }).join('');
+
+  // Gắn sự kiện thay đổi cho từng checkbox
+  $$('#fileList input[type="checkbox"]').forEach(cb => {
+    cb.addEventListener('change', onFileToggle);
+  });
+}
+
+/** Khi tick / bỏ tick 1 file */
+function onFileToggle(e) {
+  const i = Number(e.target.dataset.i);
+  if (e.target.checked) state.selected.add(i);
+  else state.selected.delete(i);
+
+  updateStats();
+  updateConfirmState();
+  updateSelectAllLabel();
+  haptic(7);
+}
+
+/** Cập nhật dòng thống kê Folders / Files / Disk */
+function updateStats() {
+  const folders = FILES.filter(f => f.type === 'folder').length;
+  $('#statFolders').textContent = folders;
+  $('#statFiles').textContent = state.selected.size;
+}
+
+/** Bật / tắt nút "Xác nhận file" */
+function updateConfirmState() {
+  const btn = $('#btnConfirmFiles');
+  if (!btn) return;
+  btn.disabled = state.selected.size === 0 || !state.format;
+}
+
+/** Cập nhật nhãn nút "Chọn tất cả" */
+function updateSelectAllLabel() {
+  const total = FILES.length;
+  const allSelected = state.selected.size === total && total > 0;
+  $('#selAllTxt').textContent = allSelected ? 'Bỏ chọn tất cả' : 'Chọn tất cả';
+}
+
+/** Nút chọn tất cả */
+function toggleSelectAll() {
+  const total = FILES.length;
+  if (state.selected.size === total) {
+    state.selected.clear();
+  } else {
+    for (let i = 0; i < total; i++) state.selected.add(i);
+  }
+  renderFileList();
+  updateStats();
+  updateConfirmState();
+  updateSelectAllLabel();
+  haptic(12);
+}
+
+/** Nút xác nhận file */
+function confirmFiles() {
+  if (state.selected.size === 0) {
+    toast('Vui lòng chọn ít nhất 1 file', 'error');
+    return;
+  }
+  if (!state.format) {
+    toast('Vui lòng chọn định dạng trước', 'error');
+    return;
+  }
+
+  ctaWrap.hidden = false;
+  toast('Đã xác nhận ' + state.selected.size + ' file', 'success');
+  haptic([12, 30, 12]);
+
+  setTimeout(() => {
+    ctaWrap.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  }, 120);
+}
+
+
+/* =====================================================================
+   8. MODAL TUỲ CHỌN KÍ APK
+   ===================================================================== */
+const verRow    = $('#verRow');
+const signPass  = $('#signPass');
+const signName  = $('#signName');
+const passMsg   = $('#passMsg');
+const nameMsg   = $('#nameMsg');
+
+/** Đồng bộ state.versions với các checkbox */
+function syncVersions() {
+  state.versions.clear();
+  $$('#verRow input:checked').forEach(cb => state.versions.add(cb.value));
+  updateVerAllLabel();
+}
+
+/** Cập nhật nhãn "Chọn tất cả" của V1..V5 */
+function updateVerAllLabel() {
+  const all = $$('#verRow input');
+  const checked = all.filter(cb => cb.checked).length;
+  $('#verAllTxt').textContent = (checked === all.length) ? 'Bỏ chọn tất cả' : 'Chọn tất cả';
+}
+
+/** Nút chọn tất cả phiên bản kí */
+function toggleAllVersions() {
+  const all = $$('#verRow input');
+  const checked = all.filter(cb => cb.checked).length;
+  const shouldCheck = checked !== all.length;
+  all.forEach(cb => { cb.checked = shouldCheck; });
+  syncVersions();
+  haptic(10);
+}
+
+/** Hiển thị thông báo lỗi / hợp lệ dưới ô input */
+function setMsg(el, text, type) {
+  el.className = 'msg' + (type ? ' ' + type : '');
+  if (!text) { el.innerHTML = ''; return; }
+  const icon = type === 'ok'
+    ? '<svg viewBox="0 0 24 24"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>'
+    : '<svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>';
+  el.innerHTML = icon + '<span>' + text + '</span>';
+}
+
+/** Kiểm tra hợp lệ chữ kí realtime */
+function validateSignatureField() {
+  const v = signName.value.trim();
+  if (!v) {
+    signName.classList.remove('err');
+    setMsg(nameMsg, '', '');
+    return false;
+  }
+  if (SIG_REGEX.test(v)) {
+    signName.classList.remove('err');
+    setMsg(nameMsg, 'Chữ kí hợp lệ', 'ok');
+    return true;
+  }
+  signName.classList.add('err');
+  setMsg(nameMsg, 'Sai định dạng. Phải là com.(Tên).(Số)', 'err');
+  return false;
+}
+
+/** Mở modal kí apk */
+function openSignModal() {
+  if (!state.apkFile) {
+    toast('Chưa có file APK', 'error');
+    return;
+  }
+  if (!state.format) {
+    toast('Chưa chọn định dạng', 'error');
+    return;
+  }
+  if (state.selected.size === 0) {
+    toast('Chưa chọn file nào', 'error');
+    return;
+  }
+
+  syncVersions();
+  openModal('modalSign');
+  haptic(14);
+}
+
+/** Bắt đầu quá trình kí */
+function startSigning() {
+  const pass = signPass.value.trim();
+  const sig  = signName.value.trim();
+
+  // --- Validate mật khẩu ---
+  if (!pass) {
+    signPass.classList.add('err');
+    setMsg(passMsg, 'Vui lòng đặt mật khẩu kí', 'err');
+    toast('Chưa nhập mật khẩu kí', 'error');
+    haptic(50);
+    return;
+  }
+  if (pass.length < 4) {
+    signPass.classList.add('err');
+    setMsg(passMsg, 'Mật khẩu tối thiểu 4 ký tự', 'err');
+    toast('Mật khẩu quá ngắn', 'error');
+    haptic(50);
+    return;
+  }
+  signPass.classList.remove('err');
+  setMsg(passMsg, '', '');
+
+  // --- Validate chữ kí ---
+  if (!SIG_REGEX.test(sig)) {
+    signName.classList.add('err');
+    setMsg(nameMsg, 'Sai định dạng. Phải là com.(Tên).(Số)', 'err');
+    toast('Chữ kí không hợp lệ', 'error');
+    haptic(50);
+    return;
+  }
+  signName.classList.remove('err');
+  setMsg(nameMsg, 'Chữ kí hợp lệ', 'ok');
+
+  // --- Validate phiên bản kí ---
+  syncVersions();
+  if (state.versions.size === 0) {
+    toast('Chọn ít nhất 1 phiên bản kí (V1..V5)', 'error');
+    haptic(50);
+    return;
+  }
+
+  state.password = pass;
+  state.signature = sig;
+
+  // Đóng modal tuỳ chọn → mở modal tiến trình
+  closeModal('modalSign');
+  setTimeout(() => {
+    openModal('modalProgress');
+    runProgress();
+  }, 300);
+}
+
+
+/* =====================================================================
+   9. TIẾN TRÌNH 10 PHÚT
+   ===================================================================== */
+const pctText   = $('#pctText');
+const barFill   = $('#barFill');
+const barLeft   = $('#barLeft');
+const barEta    = $('#barEta');
+const stageText = $('#stageText');
+const stageLog  = $('#stageLog');
+
+let progressTimer = null;
+let progressStart = 0;
+let currentStageIdx = -1;
+
+/** Vẽ danh sách log 12 dòng ban đầu */
+function renderLogSkeleton() {
+  stageLog.innerHTML = STAGES.map((s, i) =>
+    '<div class="log-item" data-i="' + i + '">' +
+      '<span class="li"><svg viewBox="0 0 24 24"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span>' +
+      '<span>' + s + '</span>' +
+    '</div>'
+  ).join('');
+}
+
+/** Cập nhật trạng thái 1 dòng log: active / done */
+function setLogState(idx, stateName) {
+  const row = stageLog.querySelector('.log-item[data-i="' + idx + '"]');
+  if (!row) return;
+  row.classList.remove('active', 'done');
+  if (stateName) row.classList.add(stateName);
+  if (stateName === 'active') {
+    row.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+}
+
+/** Chạy tiến trình */
+function runProgress() {
+  // Reset UI về trạng thái ban đầu
+  $('#progressRun').hidden = false;
+  $('#progressDone').hidden = true;
+  pctText.innerHTML = '0<small>%</small>';
+  barFill.style.width = '0%';
+  barLeft.textContent = '0%';
+  barEta.textContent = 'ETA ' + mmss(TOTAL_MS);
+  stageText.textContent = STAGES[0];
+  renderLogSkeleton();
+
+  currentStageIdx = -1;
+  progressStart = Date.now();
+
+  if (progressTimer) clearInterval(progressTimer);
+
+  // Tick mỗi 100ms để thanh chạy mượt
+  progressTimer = setInterval(() => {
+    const elapsed = Date.now() - progressStart;
+    const pct = Math.min(100, (elapsed / TOTAL_MS) * 100);
+
+    // Cập nhật phần trăm & thanh bar
+    pctText.innerHTML = Math.floor(pct) + '<small>%</small>';
+    barFill.style.width = pct.toFixed(2) + '%';
+    barLeft.textContent = Math.floor(pct) + '%';
+    barEta.textContent = 'ETA ' + mmss(Math.max(0, TOTAL_MS - elapsed));
+
+    // Xác định dòng trạng thái hiện tại (chia đều 12 dòng)
+    const stageMs = TOTAL_MS / STAGES.length;
+    const idx = Math.min(STAGES.length - 1, Math.floor(elapsed / stageMs));
+
+    if (idx !== currentStageIdx) {
+      // Đánh dấu dòng cũ là hoàn thành
+      if (currentStageIdx >= 0) setLogState(currentStageIdx, 'done');
+      // Kích hoạt dòng mới
+      setLogState(idx, 'active');
+      stageText.textContent = STAGES[idx];
+      currentStageIdx = idx;
+      haptic(6);
+    }
+
+    // Hoàn tất
+    if (pct >= 100) {
+      clearInterval(progressTimer);
+      progressTimer = null;
+      finishProgress();
+    }
+  }, 100);
+}
+
+/** Kết thúc tiến trình — hiển thị màn hình hoàn tất */
+function finishProgress() {
+  // Đánh dấu tất cả các dòng đã xong
+  STAGES.forEach((_, i) => setLogState(i, 'done'));
+  setLogState(STAGES.length - 1, 'done');
+
+  pctText.innerHTML = '100<small>%</small>';
+  barFill.style.width = '100%';
+  barLeft.textContent = '100%';
+  barEta.textContent = 'ETA 00:00';
+  stageText.textContent = 'Hoàn tất!';
+
+  haptic([25, 60, 25, 60, 25]);
+
+  // Tóm tắt kết quả
+  const verList = Array.from(state.versions).sort().join(', ') || '—';
+  $('#doneSummary').innerHTML =
+    'APK <b>' + (state.apkFile ? state.apkFile.name : '') + '</b> đã được crack &amp; kí thành công.<br>' +
+    'Phiên bản: <b>' + verList + '</b> · Chữ kí: <b>' + state.signature + '</b>';
+
+  // Chuyển sang màn hình hoàn tất sau 900ms
+  setTimeout(() => {
+    $('#progressRun').hidden = true;
+    $('#progressDone').hidden = false;
+    toast('Xong!! Hãy khởi động lại máy', 'success', 4000);
+  }, 900);
+}
+
+/** Đóng modal tiến trình & reset app */
+function finishAndClose() {
+  closeModal('modalProgress');
+  setTimeout(() => {
+    resetApp();
+    $('#appMain').scrollTo({ top: 0, behavior: 'smooth' });
+    toast('Sẵn sàng cho APK tiếp theo', 'info', 2000);
+  }, 320);
+}
+
+
+/* =====================================================================
+   10. KHỞI TẠO ỨNG DỤNG & GẮN SỰ KIỆN
+   ===================================================================== */
+function bindEvents() {
+  /* --- Key gate --- */
+  btnUnlock.addEventListener('click', handleUnlock);
+  keyEye.addEventListener('click', toggleKeyEye);
+  keyInput.addEventListener('keydown', e => { if (e.key === 'Enter') handleUnlock(); });
+  keyInput.addEventListener('input', () => keyInput.classList.remove('err'));
+
+  /* --- Theme --- */
+  $('#themeToggle').addEventListener('click', toggleTheme);
+
+  /* --- APK --- */
+  dropZone.addEventListener('click', pickApk);
+  dropZone.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pickApk(); }
+  });
+  apkInput.addEventListener('change', handleApkChange);
+
+  /* --- Định dạng --- */
+  $('#fmtGrid').addEventListener('click', handleFormatClick);
+
+  /* --- Trình duyệt file --- */
+  $('#btnSelectAll').addEventListener('click', toggleSelectAll);
+  $('#btnConfirmFiles').addEventListener('click', confirmFiles);
+
+  /* --- Modal kí --- */
+  $('#btnCrackSign').addEventListener('click', openSignModal);
+  $('#btnSelectAllVer').addEventListener('click', toggleAllVersions);
+  verRow.addEventListener('change', () => { syncVersions(); haptic(7); });
+  signName.addEventListener('input', validateSignatureField);
+  signPass.addEventListener('input', () => {
+    signPass.classList.remove('err');
+    if (signPass.value.trim().length >= 4) setMsg(passMsg, '', '');
+  });
+  $('#btnStartSign').addEventListener('click', startSigning);
+
+  /* --- Nút đóng modal (data-close) --- */
+  $$('[data-close]').forEach(el => {
+    el.addEventListener('click', () => closeModal(el.dataset.close));
+  });
+
+  /* --- Hoàn tất tiến trình --- */
+  $('#btnFinish').addEventListener('click', finishAndClose);
+
+  /* --- Chặn đóng modal tiến trình bằng nút back / click nền --- */
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      // Chỉ cho đóng modal kí, không cho đóng modal tiến trình
+      if ($('#modalSign').classList.contains('open')) closeModal('modalSign');
+    }
+  });
+
+  /* --- Cảnh báo khi rời trang lúc đang chạy --- */
+  window.addEventListener('beforeunload', e => {
+    if (progressTimer) {
+      e.preventDefault();
+      e.returnValue = '';
+      return '';
+    }
+  });
+}
+
+/** Khởi động app */
+function init() {
+  initTheme();
+  bindEvents();
+
+  // Nếu đã kích hoạt trước đó → vào thẳng app
+  if (store.get(LS_KEY) === '1') {
+    showScreen('screenMain');
+    resetApp();
+  } else {
+    showScreen('screenKey');
+    setTimeout(() => keyInput.focus(), 420);
+  }
+
+  console.log('%c Sign Apk Flurite v' + APP_VERSION + ' ', 'background:#FF6B1A;color:#fff;font-weight:bold;padding:2px 6px;border-radius:4px;');
+}
+
+// Chạy khi DOM sẵn sàng
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
+
+})();
+</script>
 </body>
 </html>
